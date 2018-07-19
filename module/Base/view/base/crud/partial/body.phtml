@@ -1,0 +1,5 @@
+<tbody>
+    <?php foreach($this->data as $k => $entity): ?>
+        <?php echo $this->partial('partial/row', array('key'=>$k,'entity'=>$entity));?>
+    <?php endforeach;?>
+</tbody>

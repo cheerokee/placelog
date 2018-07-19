@@ -1,0 +1,72 @@
+<html>
+	<head>
+	</head>
+	<body >
+		<div style="width:100%;background-color: #444;" align="center">
+			<p>&nbsp;</p>
+    		<table   style="background-color: #fff" width="600">
+    			<thead>
+    				<tr>
+        				<th>
+        					<div style="width: 94%; padding: 3%; background-color:#132f3b;border-bottom: 3px solid #f87902;">
+        						<h1 style="text-align:center;color:#fff;font-weight:bold">
+                                    <?=$this->getConfiguration('LOGO')?>
+                                </h1>
+        					</div>        					
+        				</th>
+    				</tr>
+    			</thead>
+    			<tbody >
+    				<tr >
+    					<td>
+    						<div style="padding: 5px">
+    							<h4>
+    								<strong>E-mail de contato</strong>
+    							</h4>  
+                                <p> 
+                                	Confira abaixo as informações enviados pelo(a) <?=$this->nome;?> através do site.
+                                </p>
+                                <div align="center">
+                                	<table>
+                                		<tr>
+                                			<td>Nome:</td>
+                                			<td><?=$this->nome;?></td>
+                                		</tr>
+                                		<tr>
+                                			<td>E-mail:</td>
+                                			<td><?=$this->email;?></td>
+                                		</tr>
+                                		<tr>
+                                			<td>Telefone:</td>
+                                			<td><?=$this->telefone;?></td>
+                                		</tr>
+                                		<tr>
+                                			<td>Mensagem:</td>
+                                			<td><?=$this->mensagem;?></td>
+                                		</tr>
+                                	</table>
+                                </div>
+                                <br/>
+    						</div>    						
+    					</td>
+    				</tr>
+    			</tbody>  
+    			<tfoot>
+    				<tr>
+    					<td>
+    						<div style="width: 94%; padding: 3%; background-color:#132f3b;border-top: 3px solid #f87902;color: #fff">
+        						<h4>
+        							Informa&ccedil;&otilde;es para contato
+        						</h4>
+        						<strong>Tel: </strong> <?=$this->getConfiguration('TELEFONEEMPRESA')?> ou <?=$this->getConfiguration('CELULAREMPRESA')?>&nbsp;&nbsp;&nbsp;
+        						<strong>Skype: </strong> <?=$this->getConfiguration('SKYPE')?><br/>
+                             	<strong>Email: </strong> <?=$this->getConfiguration('EMAILEMPRESA')?><br/>
+        					</div>
+    					</td>
+    				</tr>
+    			</tfoot>  			
+    		</table>
+    		<p>&nbsp;</p>
+		</div>
+	</body>
+</html>

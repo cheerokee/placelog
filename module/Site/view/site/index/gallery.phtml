@@ -1,0 +1,20 @@
+<?php
+$em = $this->em;
+$text = $this->getText('GALERIA');
+?>
+<header id="fh5co-header" class="fh5co-cover fh5co-cover-sm" role="banner" style="background-image:url('/img/img_bg_2.jpg');" data-stellar-background-ratio="0.5">
+    <div class="overlay"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2 text-center">
+                <div class="display-t">
+                    <div class="display-tc animate-box" data-animate-effect="fadeIn">
+                        <h1><?=$text->getTitle()?></h1>
+                        <h2><?=$text->getText()?></h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+<?=$this->partial('partial/gymgallery.phtml',array('em' => $em,'page' => true));?>

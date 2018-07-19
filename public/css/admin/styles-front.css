@@ -1,0 +1,115 @@
+.wrapper{
+	/*margin-top: -20px;*/
+}
+
+.fbranco{
+	background-color: #f5f5f5;
+}
+
+.no-margin{
+	margin: 0px;
+}
+.no-style{
+	list-style: none;
+}
+
+.font-20{
+	font-size: 20px
+}
+.font-25{
+	font-size: 25px
+}
+.font-30{
+	font-size: 30px
+}
+.font-35{
+	font-size: 35px
+}
+.font-40{
+	font-size: 40px
+}
+
+.d-table{
+	float: none;
+	display: table;
+}
+
+.d-table-c{
+	vertical-align: middle;
+	float: none;
+}
+
+.traco{
+	border-bottom: 1px dashed #fff;
+}
+
+
+#list_models{
+	padding: 0px;
+}
+
+#list_models ul{
+	margin: 0px 0px 0px 0px;
+	padding: 0px 0px 0px 0px;
+	list-style: none;
+}
+
+#list_models ul li{
+	cursor: pointer;
+	margin: 0px 0px 10px 0px;
+	padding: 5px 10px 0px 10px;
+-webkit-transition: all 0.3s ease-in-out;
+    -moz-transition: all 0.3s ease-in-out;
+    -ms-transition: all 0.3s ease-in-out;
+    -o-transition: all 0.3s ease-in-out;
+    transition: all 0.3s ease-in-out;
+}
+
+#list_models ul li:hover{
+	background-color: #eee;
+-webkit-transition: all 0.3s ease-in-out;
+    -moz-transition: all 0.3s ease-in-out;
+    -ms-transition: all 0.3s ease-in-out;
+    -o-transition: all 0.3s ease-in-out;
+    transition: all 0.3s ease-in-out;
+}
+
+#list_models ul li input{
+	margin: 0px 10px 0px 0px;
+	padding: 0px 0px 0px 0px;
+
+}
+
+.black{
+	color: #444;
+}
+
+.modal-body{
+	/*padding: 20px;*/
+}
+
+.modal-body .form-horizontal .form-group{
+	margin-left: 0px !important;
+	margin-right: 0px !important;
+}
+
+.list-model{
+	list-style: none;
+	margin: 0px;
+	padding: 0px;
+}
+
+.list-model li{
+	width: 100%;
+	margin: 0px;
+	padding: 0px;
+}
+
+.selectable{
+	cursor: pointer;
+}
+
+.selectable.active{
+	border: 1px solid #0d6aad;
+}
+

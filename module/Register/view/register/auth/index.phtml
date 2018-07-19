@@ -1,0 +1,184 @@
+<?php
+$form = $this->form;
+$form->setAttribute('action', $this->url('person-auth'));
+$form->prepare();
+?>
+<div role="main" class="main">
+    <section class="page-top">
+    	<div class="container">
+    		<div class="row">
+    			<div class="col-md-12">
+        			<div class="row">
+            			<div class="col-md-12">
+            				<ul class="breadcrumb">
+            					<li><a target="_parent" href="/home">Home</a></li>
+            					<li class="active">Login</li>
+            				</ul>
+            			</div>
+            		</div>
+            		<div class="row">
+            			<div class="col-md-12">
+            				<h1>Login</h1>
+            			</div>
+            		</div>
+    			</div>
+    			<div class="col-md-4">
+				</div>
+    		</div>
+    	</div>
+    </section>
+    <div class="container">
+    	<div class="row">
+            <div class="col-md-12 flashMessages">
+                <?php 
+                 $flash  =  $this->flashMessenger (); 
+                 echo  $flash -> render ( 'error' ,    array ( 'alert' ,  'alert-dismissible' ,  'alert-danger' )); 
+                 echo  $flash -> render ( 'info' ,     array ( 'alert' ,  'alert-dismissible' ,  'alert-info' )); 
+                 echo  $flash -> render ( 'default' ,  array ( 'alert' ,  'alert-dismissible' ,  'alert-warning' )); 
+                 echo  $flash -> render ( 'success' ,  array ( 'alert' ,  'alert-dismissible' ,  'alert-success' ));
+                 ?>
+            </div>
+    	</div>
+    </div>
+    <br />
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="row featured-boxes login">
+					<div class="col-sm-6">
+						<div class="featured-box featured-box-secundary default info-content">
+							<div class="box-content">							
+								<?php 									
+								if(isset($this->login) && is_object($this->login)){								
+								?>
+									<h4>
+										<?=$this->translate('Bem vindo <strong>'.$this->login->getName().'</strong>');?>
+									</h4>
+									<h5>
+										<?=$this->translate("Acesse a área restrita ou faça o logout");?>
+									</h5>
+									<div class="row">
+										<div class="col-md-4 col-md-offset-4">
+											<div align="center">
+												<a href="/admin">
+    												<button class="btn-lg btn btn-success">
+    													<i class="fa fa-lock"></i> <?=$this->translate("Área Restrita");?>
+    												</button>
+												</a>
+											</div>
+										</div>
+									</div>
+									<br />
+									<div class="row">
+										<div class="col-md-4 col-md-offset-4">
+											<div align="center">
+												<a href="/auth/logout">
+    												<button class="btn-lg btn btn-warning">
+    													<i class="fa fa-sign-out"></i> Logout
+    												</button>
+												</a>
+											</div>
+										</div>
+									</div>
+								<?php 
+								}else{								    
+    								?>
+    								<h4><?=$this->translate("Já possuo uma conta");?></h4>
+    								<?php 
+    								
+    								if($this->error){?>
+                                    	<p style="color: #E36159"><?=$this->translate("Usuário ou senha inválidos");?></p>
+                                    <?php 
+    								}
+    								echo $this->form()->openTag($form);
+
+    								?>
+    								<form id="loginForm" method="post" action="">
+    									<div class="row">
+    										<div class="form-group">
+    											<div class="col-md-12">
+    												<label><?=$this->translate("Usuário / E-mail");?></label>
+    												<input name="email" type="email" value="" class="form-control input-lg" required>
+    											</div>
+    										</div>
+    									</div>
+    									<div class="row">
+    										<div class="form-group">
+    											<div class="col-md-12">
+    												<a class="pull-right" href="/auth/lostpassword"><?=$this->translate("(Perdeu a senha?)");?></a>
+    												<label>Senha</label>
+    												<input name="password" type="password" value="" class="form-control input-lg" required>
+    											</div>
+    										</div>
+    									</div>
+    									<div class="row">
+    										<div class="col-md-12">
+                                                <br/>
+    											<input type="submit" value="<?=$this->translate("Autenticar");?>" class="btn btn-primary pull-right push-bottom" data-loading-text="Loading...">
+    										</div>
+    									</div>
+    								</form>
+    								<?php 									
+    								echo $this->form()->closeTag();
+								}
+								?>
+							</div>
+						</div>						
+					</div>
+					<div class="col-sm-6">
+						<div class="featured-box featured-box-secundary default info-content">
+							<div class="box-content">
+								<h4><?=$this->translate("Registrar uma nova conta");?></h4>
+								<form autocomplete="off" id="registerForm" method="post">
+									<input type="hidden" name="type" value="register">
+									<div class="row">
+										<div class="form-group">
+											<div class="col-md-12">
+												<label><?=$this->translate("Nome Completo");?></label>
+												<input name="name" type="text" value="" class="form-control input-lg" required>
+											</div>
+										</div>
+									</div>
+									<div class="row">
+										<div class="form-group">
+											<div class="col-md-12">
+												<label><?=$this->translate("E-mail");?></label>
+												<input name="email" type="email" value="" class="form-control input-lg" required>
+											</div>
+										</div>
+									</div>
+									<div class="row">
+										<div class="form-group">
+											<div class="col-md-6">
+												<label><?=$this->translate("Senha");?></label>
+												<input id="password-cad" autocomplete="off" onfocus="$(this).val('')" name="password" type="password" value="" class="form-control input-lg authPass" required>
+											</div>
+											<div class="col-md-6">
+												<label><?=$this->translate("Repetir a Senha");?></label>
+												<input  name="confirmation" type="password" value="" class="form-control input-lg" required>
+												<div style="display:none" class='alert alert-danger confirmation-alert' role='alert'>
+											  		<span class='glyphicon glyphicon-exclamation-sign' aria-hidden='true'></span>
+													<?=$this->translate("As senhas não conferem");?>
+                            					</div>
+											</div>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-md-12">
+                                            <br/>
+											<input form="registerForm" type="submit" value="<?=$this->translate("Registrar");?>" class="btn btn-primary pull-right push-bottom" data-loading-text="Loading...">
+										</div>
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<br/>
+<br/>
+
+

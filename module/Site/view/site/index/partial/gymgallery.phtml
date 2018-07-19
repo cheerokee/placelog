@@ -1,0 +1,103 @@
+<?php
+$em = $this->em;
+$txt = $this->getText('GALERIA');
+$db_person = $this->person;
+
+if(isset($this->chave)) {
+    $chave = $this->chave;
+}
+
+$db_reference = $em->getRepository('Register\Entity\ReferenceImage')->findOneByChave(($chave != null)?$chave:'image');
+
+if($db_person instanceof \Register\Entity\Person)
+{
+    $db_photos = $em->getRepository('Register\Entity\Image')->getLastImages($db_reference->getChave(),null,null,$db_person);
+}else{
+    $db_photos = $em->getRepository('Register\Entity\Image')->getLastImages($db_reference->getChave());
+}
+
+$page = $this->page;
+
+if(!empty($db_photos)){
+
+    ?>
+<div id="fh5co-gallery">
+    <?php
+    if($page === false){
+        ?>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8 col-md-offset-2 text-center fh5co-heading animate-box">
+                    <h2><?=$txt->getTitle()?></h2>
+                    <p>
+                        <?=$txt->getText()?>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <?php
+    }
+    ?>
+    <div class="container-fluid">
+        <div class="row row-bottom-padded-md">
+            <div class="col-md-12">
+                <ul id="fh5co-portfolio-list">
+                    <?php
+                    /**
+                     * @var \Register\Entity\Image[] $db_photos
+                     */
+                    if($page === false){
+                        $limitador = 1;
+                    }else{
+                        $limitador = null;
+                    }
+
+                    $count = 6;
+                    foreach($db_photos as $db_photo)
+                    {
+                        $i = $db_photo->getId();
+                        ?>
+                        <li class="one-third animate-box" data-animate-effect="fadeIn" style="background-image: url('/img/images/<?=$db_photo->getImage()?>'); ">
+                            <a href="#" data-toggle="modal" data-target="#img_<?=$i?>">
+                                <div class="case-studies-summary">
+                                    <span><?=$db_photo->getTitle()?></span>
+                                </div>
+                            </a>
+                        </li>
+                        <div class="modal fade" id="img_<?=$i?>" tabindex="-1" role="dialog">
+                            <div class="modal-dialog modal-lg" role="document">
+                                <div class="modal-content">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                                    <div class="modal-body">
+                                        <img class="img-responsive" src="/img/images/<?=$db_photo->getImage()?>">
+                                    </div>
+                                    <?php
+                                    if($db_photo->getTitle() != '')
+                                    {
+                                        ?>
+                                        <div class="col-md-12 description">
+                                            <h4><?=$db_photo->getTitle()?></h4>
+                                        </div>
+                                        <?
+                                    }
+                                    ?>
+                                </div>
+                            </div>
+                        </div>
+                        <?php
+                        if($count == $limitador)
+                        {
+                            break;
+                        }
+
+                        $count++;
+                    }
+                    ?>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+    <?php
+}
+?>

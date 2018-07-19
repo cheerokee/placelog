@@ -1,0 +1,23 @@
+<?php 
+
+$method = $this->params['method'];
+$label_collection = $this->params['label_collection'];
+
+if($label_collection instanceof \Closure){
+    $value = call_user_func($label_collection, $this->collection);
+    ?>
+    <span class="label label-primary"><?=$value;?></span>
+    <?php 
+} else {
+?>
+<span class="label label-primary"><?=$this->collection->$method();?></span>
+<?php
+}
+//var_dump(get_class_methods($this->collection));
+/*
+foreach($this->collection as $collection):
+var_dump($collection);
+    echo $collection->$method();
+endforeach;/**/
+//var_dump(get_class_methods($this->collection),$this->collection);
+?>

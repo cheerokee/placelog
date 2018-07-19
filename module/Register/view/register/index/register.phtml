@@ -1,0 +1,17 @@
+<h3><?=$this->translate("Registro");?></h3>
+<?php
+if($this->messages)
+{
+    ?>
+    <p><?=$this->messages[0];?></p>
+    <?php
+}else{
+    $form = $this->form;
+    $form->setAttribute('action',$this->url('person-register',array('controller'=>'index','action'=>'register')));
+    $form->prepare();
+
+    echo $this->form()->openTag($form);
+    echo $this->formCollection($form);
+    echo $this->form()->closeTag();
+}
+?>

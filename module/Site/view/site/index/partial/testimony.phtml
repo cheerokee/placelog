@@ -1,0 +1,56 @@
+<?php
+/**
+ * @var \Site\Entity\Testimony[] $db_testimonies
+ */
+$em = $this->em;
+$db_testimonies = $em->getRepository('Site\Entity\Testimony')->findAll();
+?>
+<div id="fh5co-testimonial" class="fh5co-bg-section">
+    <div class="container">
+        <div class="row animate-box">
+            <div class="col-md-8 col-md-offset-2 text-center fh5co-heading">
+                <h2>Depoimentos</h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-10 col-md-offset-1">
+                <div class="row animate-box">
+                    <div class="<?=(count($db_testimonies) > 1)?'owl-carousel owl-carousel-fullwidth':''?>">
+                        <?php
+                        if(!empty($db_testimonies))
+                        {
+                            $count = 1;
+                            foreach($db_testimonies as $db_testimony)
+                            {
+                                ?>
+                                <div class="item">
+                                    <div class="testimony-slide <?=($count==1)?'active':''?> text-center">
+                                        <figure style="
+                                            width: 100px;
+                                            height: 100px;
+                                            background-position: center;
+                                            background-size: cover;
+                                            background-image: url('/img/testimony/<?=$db_testimony->getImage()?>');
+                                            border-radius: 50%;
+                                            ">
+                                        </figure>
+                                        <span>
+                                            <?=$db_testimony->getName()?><br />
+                                            <?=$db_testimony->getOccupation()?>
+                                        </span>
+                                        <blockquote>
+                                            <p>"<?=$db_testimony->getTestimony()?>"</p>
+                                        </blockquote>
+                                    </div>
+                                </div>
+                                <?php
+                                $count++;
+                            }
+                        }
+                        ?>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

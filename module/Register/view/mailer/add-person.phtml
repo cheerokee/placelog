@@ -1,0 +1,54 @@
+<html>
+	<body >
+		<div style="width:100%;background-color: #444;" align="center">
+			<p>&nbsp;</p>
+    		<table   style="background-color: #fff" width="600">
+    			<thead>
+    				<tr>
+        				<th>
+        					<div style="width: 94%; padding: 3%; background-color:#132f3b;border-bottom: 3px solid #f87902;">
+								<?=$this->getConfiguration('LOGO')?>
+        					</div>        					
+        				</th>
+    				</tr>
+    			</thead>
+    			<tbody >
+    				<tr >
+    					<td>
+    						<div style="padding: 5px">
+    							<h4>
+    								<strong><?=$this->translate("Ol&aacute; {$this->nome}, seja bem vindo a Nome Empresa");?></strong>
+    							</h4>
+    							<br />
+                                <p> 
+                                	<?=$this->translate("Esse email tem o objetivo de confirmar seu cadastro em nosso sistema.");?>
+                                	<br />
+									<?=$this->translate("Para ativar sua conta, acesse: ")?>
+                                	<a target="_blank" style="color: #132f3b;font-weight: bold" href="http://<?=$_SERVER['HTTP_HOST']?><?=$this->url('person-activate',array('key'=>$this->activeKey));?>">
+                                		http://<?=$_SERVER['HTTP_HOST']?><?=$this->url('person-activate',array('key'=>$this->activeKey));?>
+                                	</a>                                	
+                                </p>                                 
+    						</div>    						
+    					</td>
+    				</tr>
+    			</tbody>  
+    			<tfoot>
+					<tr>
+						<td>
+							<div style="width: 94%; padding: 3%; background-color:#132f3b;border-top: 3px solid #f87902;color: #fff">
+								<h4>
+									<?=$this->translate("Informa&ccedil;&otilde;es para contato");?>
+								</h4>
+								<strong>Tel: </strong> <?=$this->getConfiguration('TELEFONEEMPRESA')?> <?=$this->translate("ou");?> <?=$this->getConfiguration('CELULAREMPRESA')?>&nbsp;&nbsp;&nbsp;
+								<strong>Skype: </strong> <?=$this->getConfiguration('SKYPE')?><br/>
+								<strong>Email: </strong> <?=$this->getConfiguration('EMAILEMPRESA')?><br/>
+								<strong>Neteller: </strong> <?=$this->getConfiguration('NETELLER')?>
+							</div>
+						</td>
+					</tr>
+    			</tfoot>  			
+    		</table>
+    		<p>&nbsp;</p>
+		</div>
+	</body>
+</html>

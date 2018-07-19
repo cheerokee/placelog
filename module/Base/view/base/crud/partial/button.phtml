@@ -1,0 +1,36 @@
+<?php
+$action = $this->action;
+$entity = $this->entity;
+
+if ($action['where']) {
+    eval("\$where = " . $action['where'] . ";");
+}
+
+$icon = '';
+if ($action['icon']) {
+    $icon = "<i class='$action[icon]'></i>";
+}
+
+$options = array();
+    
+if ($action['query']) {
+    $options['query'] = $action['query'];
+}
+
+if (isset($action['controller']) || $this->rota('controller')) {
+    $url['controller'] = (isset($action['controller'])) ? $action['controller'] : $this->rota('controller');
+}
+
+if (isset($action['action'])) {
+    $url['action'] = $action['action'];
+}
+
+if ($entity->$identifyMethod() != null) {
+    $url['id'] = $entity->$identifyMethod();
+}
+
+$rota = (isset($action['rota'])) ? $action['rota'] : $this->rota();
+?>
+<a title="<?=($action['title'])?$action['title']:''?>" href="<?=$this->url($rota,$url,$options);?>"	class="btn <?=($action['class'])?$action['class']:"btn-default"?> button_custom">
+    <?=$icon?> <?=$action['label']?>
+</a>

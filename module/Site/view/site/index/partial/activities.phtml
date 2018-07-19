@@ -1,0 +1,52 @@
+<?php
+$em = $this->em;
+/**
+ * @var \Activities\Entity\Activities[] $activities
+ */
+$activities = $em->getRepository('Activities\Entity\Activities')->getFeatureds(3);
+if(!empty($activities)){
+    ?>
+    <div id="fh5co-services" class="fh5co-bg-section">
+        <div class="container">
+            <div class="row">
+                <?php
+                foreach($activities as $activity)
+                {
+                    $number = count($activities);
+                    switch ($number)
+                    {
+                        case 1:
+                            $collumn = 'col-md-4 col-md-offset-4 col-sm-4 col-sm-offset-4';
+                            break;
+                        case 2:
+                            $collumn = 'col-md-6 col-sm-6';
+                            break;
+                        case 3:
+                            $collumn = 'col-md-4 col-sm-4';
+                            break;
+                    }
+                    ?>
+                    <div class="<?=$collumn?> text-center animate-box">
+                        <div class="services">
+                            <span><img class="img-responsive" src="<?=$activity->getIcon()?>" alt=""></span>
+                            <h3><?=$activity->getName()?></h3>
+                            <p><?=$activity->getIntroduction()?></p>
+                            <p>
+                                <a href="<?=$this->url('activities-site/defaults', array(
+                                    'action' => 'activity',
+                                    'id' => $activity->getId()
+                                ))?>" class="btn btn-primary btn-outline btn-sm">
+                                    Mais <i class="icon-arrow-right"></i>
+                                </a>
+                            </p>
+                        </div>
+                    </div>
+                    <?php
+                }
+                ?>
+            </div>
+        </div>
+    </div>
+    <?php
+}
+?>

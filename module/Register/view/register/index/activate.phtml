@@ -1,0 +1,6 @@
+<h3><?=$this->translate("Registro")?></h3>
+<?php if (isset($this->user)): ?>
+    <p><?=$this->translate("Usuário ativado com sucesso!")?></p>
+<?php else: ?>
+    <p><?=$this->translate("Usuário não encontrado")?></p>
+<?php endif; ?>

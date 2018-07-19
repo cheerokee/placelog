@@ -1,0 +1,32 @@
+<thead>
+	<tr>
+        <?php
+        if ($this->_listView['selectLine']['enable'] == true) {
+            ?>
+        	<th style='width: 10px;'><input type='checkbox'
+			id='selectAllCheck' /></th>
+        <?php
+        }
+        
+        if (isset($this->_listView['fields']))
+            foreach ($this->_listView['fields'] as $k => $field) {
+                if ($field['list'] == true) {
+                    ?>
+                    <th
+			<?=($field['list_class'])? "class='".$field['list_class']."'" : "";?>
+			title='<?=($field['title'])? $field['title']:'';?>' nowrap='nowrap'>
+                        <?=$this->translate($field['label']);?>
+                    </th>
+        		<?php
+                }
+            }
+        
+        if ($this->_listView['actions']['enable'] == true) {
+            ?>
+    	<th class='col-sm-1 col-xs-1'><?=$this->translate('Ação');?></th>
+	<?php
+        }
+        ?>
+	</tr>
+</thead>
+

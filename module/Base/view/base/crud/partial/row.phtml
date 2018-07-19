@@ -1,0 +1,280 @@
+<tr>
+<?php
+use Zend\Stdlib\Hydrator\NamingStrategy\UnderscoreNamingStrategy;
+use Zend\Filter\Word\UnderscoreToCamelCase;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+
+$namingStrategy = new UnderscoreNamingStrategy();
+$filter = new UnderscoreToCamelCase();
+$entity = $this->entity;
+$form = $this   ->ViewModel()
+                ->getCurrent()
+                ->getVariable('form');
+
+// Obtém uma variavel da view pai
+if(!$this->_listView) {
+    $this->_listView = $this->ViewModel()->getCurrent()->getVariable('_listView');
+}
+
+if(! $this->_primaryKey) {
+    $this->_primaryKey = $this->ViewModel()->getCurrent()->getVariable('_primaryKey');
+}
+
+$identifyMethod = 'getId';
+
+ob_start();
+if(!empty($this->_listView['fields'])) {
+    foreach ($this->_listView['fields'] as $k => $field) {
+        if ($field['list'] == true) {
+            $value = '';
+            $naming = $namingStrategy->hydrate($k);
+            $camelCase = $filter->filter($k);
+            $fieldForm = lcfirst($camelCase);
+            $method = "get$camelCase";
+            $methodBool = "is$camelCase";
+            if(method_exists($entity, $methodBool)){
+                $method = $methodBool;
+            }
+
+            if (method_exists($entity, $method)) {
+                /**
+                 * Se o primaryKey setado no controller for igual a coluna atual
+                 * captura o método identificador
+                 */
+                if ($this->_primaryKey == $k)
+                    $identifyMethod = $method;
+
+                if (isset($field['label_generator']) && null !== ($labelGenerator = $field['label_generator'])) {
+                    $value = call_user_func($labelGenerator, $entity);
+                } else {
+
+                    if ($field['join']) {
+
+                        $jFields = explode(".", $field['join']);
+                        $jConcat = array();
+                        foreach ($jFields as $jField) {
+                            $jMethod = "get" . $filter->filter($jField);
+                            if ($entity->$method()) {
+                                $jConcat[] = $entity->$method()->$jMethod();
+                            }
+                        }
+                        $value = implode(' - ', $jConcat);
+                    } else {
+
+                        if ($field['view_helper']) {
+                            $value = $entity->$method();
+
+                            foreach ($field['view_helper'] as $k => $vh) {
+                                $nameViewHelper = $vh['name'];
+                                $paramsViewHelper = $vh['params'];
+                                array_unshift($paramsViewHelper, $value);
+                                $value = $this->__call($nameViewHelper, $paramsViewHelper);
+                            }
+                        } else {
+                            if ($entity->$method() instanceof \DateTime) {
+                                // Uso direto
+                                $object = $entity->$method();
+
+                                if ($object->getTimeStamp()) {
+                                    // $value = ($entity->$method())?$entity->$method()->format('Y-m-d H:i:s'):"";
+                                    // Usando viewhelper
+                                    $value = $this->dateFormat($entity->$method(), IntlDateFormatter::MEDIUM, 2, "pt_BR");
+                                    // Usando as configs do bootstrap
+                                    $value = $this->dateFormat($entity->$method(), \IntlDateFormatter::SHORT, 2);
+                                }
+                            } else {
+                                if ($entity->$method() instanceof Collection) {
+                                    $value = $this->templatedCollection($entity->$method(), 'partial/collection', array(
+                                        'method' => $field['method'],
+                                        'label_collection' => $field['label_collection']
+                                    ));
+
+                                } else {
+
+                                    if (is_array($entity->$method())) {
+
+                                        $collection = new ArrayCollection($entity->$method());
+
+                                        $value = $this->templatedCollection($collection, 'partial/collection', array(
+                                            'method' => $field['method']
+                                        ));
+
+
+                                    } else {
+
+                                        if ($form->has($fieldForm)) {
+                                            $element = $form->get($fieldForm);
+
+                                            if ($element instanceof DoctrineModule\Form\Element\ObjectSelect) {
+                                                $proxy = $element->getProxy();
+                                                $property = $proxy->getProperty();
+                                                $getter = 'get' . ucfirst($property);
+                                                if ($entity->$method())
+                                                    $value = $entity->$method()->{$getter}();
+                                                else
+                                                    $value = '';
+                                            } else
+                                                if ($element instanceof Zend\Form\Element\Radio) {
+                                                    $options = $element->getValueOptions();
+                                                    if ($options[$entity->$method()] !== null)
+                                                        $value = $this->translate($options[$entity->$method()]);
+                                                } else {
+                                                    if ($element instanceof Zend\Form\Element\Select) {
+                                                        $options = $element->getValueOptions();
+                                                        if ($options[$entity->$method()] !== null)
+                                                            $value = $this->translate($options[$entity->$method()]);
+                                                        else
+                                                            $value = '';
+                                                    } else {
+                                                        $value = $entity->$method();
+                                                    }
+                                                }
+
+                                        } else {
+                                            $value = $entity->$method();
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            ?>
+            <td <?= ($field['list_class']) ? "class='{$field['list_class']}'" : "" ?>><?= $value ?></td>
+            <?php
+        }
+    }
+}
+
+$cform = ob_get_contents();
+ob_end_clean();
+
+$pkRow = $entity->$identifyMethod();
+
+if($this->_listView['selectLine']['enable'] == true){
+    ?>
+    <td align="center" style="width: 10px !important;">
+        <input type="checkbox" name="ides[]" value="<?=$pkRow;?>">
+    </td>
+    <?php
+}
+
+echo $cform;
+
+if($this->_listView['actions']['enable'] == true){
+    echo '<td class="td_action" nowrap=\'nowrap\'>';
+
+    /**
+     * Listando os botões Crud defaults
+     */
+    // ACTION:DEFAULTS --- START
+    if(!empty($this->_listView['actions']['defaults'])) {
+        foreach ($this->_listView['actions']['defaults'] as $k => $action) {
+            if (!$action[enable]){
+                continue;
+            }
+
+            $link = $this->url($this->_listView['route'], array(
+                'controller' => $this->_listView['controller'],
+                'action' => $k,
+                'id' => $entity->$identifyMethod()
+            ));
+            ?>
+            <a href="<?= $link ?>" class="<?= $action['class'] ?> <?= ($action['action'] == 'delete') ? 'btnDeleteDecision' : ''; ?>"
+               rel="tooltip" title="<?= $action['label'] ?>" data-bb-example-key="confirm-button-text">
+                <i class="<?= $action['icon'] ?>"></i>
+            </a>
+            <?php
+        }
+    }
+    // ACTION:DEFAULTS --- END
+
+    // verificando se há ao menos UM botão agrupado
+    $group = false;
+    if(isset($this->_listView['actions']['customs'])){
+        foreach ($this->_listView['actions']['customs'] as $k => $action){
+            if ($action['group'] == true) {
+                $group = true;
+            }
+        }
+    }
+
+    // ACTION:CUSTOM --- START
+    if(!empty($this->_listView['actions']['customs'])){
+        if ($group){?>
+        <div class="dropdown">
+			<button class="btn btn-default dropdown-toggle" type="button"
+				id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true"
+				aria-expanded="false">
+				Ações <span class="caret"></span>
+			</button>
+
+			<ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
+            <?php
+            if(!empty($this->_listView['actions']['customs'])){
+                foreach ($this->_listView['actions']['customs'] as $k => $action) {
+                    if ($action['group'] == true) { ?>
+                        <li>
+                            <?php
+                            echo $this->partial('partial/button', array(
+                                'key' => $k,
+                                'action' => $action,
+                                'entity' => $entity,
+                                'identifyMethod' => $identifyMethod
+                            ));
+                            ?>
+                        </li>
+                        <?php
+                    }
+                }
+            }
+            ?>
+        	</ul>
+		</div>
+        <?php
+        }
+
+        // Botões soltos
+        foreach ($this->_listView['actions']['customs'] as $k => $action) {
+            if ($action['group'] == false) {
+                if (null !== ($labelGenerator = $action['label_generator'])) {
+                    $value = call_user_func($labelGenerator, $entity);
+                    $action['label'] = $action['label'] . " (" . $value . ")";
+                }
+
+                echo $this->partial('partial/button', array(
+                    'key' => $k,
+                    'action' => $action,
+                    'entity' => $entity,
+                    'identifyMethod' => $identifyMethod,
+                ));
+            }
+        }
+
+    }
+    // ACTION:CUSTOM --- END
+    // ACTION:JOINED --- START
+    if ($this->_listView['actions']['joined']) {
+        foreach ($this->_listView['actions']['joined'] as $k => $action) {
+            echo $this->partial('partial/button/joined', array(
+                'url_name' => $action['url_name'],
+                'count' => $k,
+                'entity' => $entity,
+                'url_params' => $action['url_params'],
+                'url_options' => $action['url_options'],
+                'label' => $action['label'],
+                'icon' => $action['icon'],
+                'iconOnly' => $action['iconOnly'],
+                'primary_key' => $entity->$identifyMethod()
+            )); /* */
+        }
+    }
+    // ACTION:JOINED --- END
+    echo '</td>';
+}
+
+?>
+</tr>

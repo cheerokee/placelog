@@ -1,0 +1,166 @@
+<?php 
+use Register\Entity\Profile;
+$return = $this->url('profile/defaults',array('controller'=>'profile'));
+
+$profile = $this->entity;
+$privileges = json_decode($profile->getInformation(),true);
+$cursos = $privileges['recursos']['cursos'];
+$modulos = $privileges['recursos']['modulos'];
+$labels = $privileges['recursos']['label'];
+?>
+<br />
+ <div class="container">
+	<div class="row">
+        <div class="col-md-12 flashMessages">
+            <?php 
+             $flash  =  $this->flashMessenger (); 
+             echo  $flash -> render ( 'error' ,    array ( 'alert' ,  'alert-dismissible' ,  'alert-danger' )); 
+             echo  $flash -> render ( 'info' ,     array ( 'alert' ,  'alert-dismissible' ,  'alert-info' )); 
+             echo  $flash -> render ( 'default' ,  array ( 'alert' ,  'alert-dismissible' ,  'alert-warning' )); 
+             echo  $flash -> render ( 'success' ,  array ( 'alert' ,  'alert-dismissible' ,  'alert-success' ));
+             ?>
+        </div>
+	</div>
+</div>
+<br />
+<div class="row">
+	<div class="col-md-12">
+		<div class="col-md-12">
+			<form role="form" method="POST" action="">
+			<div class="box box-warning">
+                <div class="box-header with-border">
+                  <h3 class="box-title"><?=$this->translate("Permissões");?></h3>
+                </div><!-- /.box-header -->
+                <div class="box-body">
+                  	<div class="row">
+                  		<div class="col-md-12">
+                  			<table class="table">
+                  				<thead>
+                  					<tr>
+                  						<th><?=$this->translate("Perfil");?></th>
+                  					</tr>
+                  				</thead>
+                  				<tbody>
+                  					<tr>
+                  						<td><?=$profile->getName()?></td>
+                  					</tr>
+                  				</tbody>
+                  			</table>
+                  		</div>
+                  	</div>
+					<div class="row">
+                    	<div class="col-md-12">
+                    		<table class="table">
+                    			<thead>
+                    				<tr>
+                    					<th>
+											<?=$this->translate("Recurso");?>
+                    					</th>
+                    					<th>
+											<?=$this->translate("Privilégios");?>
+                    					</th>
+                    				</tr>
+                    			</thead>
+                    			<tbody>
+                    				<?php 
+                    				foreach($modulos as $k=>$modulo){                    				
+                    				?>
+                    				<tr>
+                    					<td>
+                    						<?=$labels[$k]?>
+                    					</td>
+                    					<td>
+                    						<div class="form-group">
+                        						<?php 
+                        						$action = 'list';
+                        						if(isset($modulo[$action]))
+												{
+													?>
+													<div class="checkbox">
+														<label>
+															<input <?=($modulo[$action])?'checked':''?> name="privilege[<?=$k?>][<?=$action?>]" type="checkbox" value="1">
+															<?=$this->translate("Listar");?>
+														</label>
+													</div>
+													<?php
+                        						}
+
+                        						$action = 'listAll';
+                        						if(isset($modulo[$action]))
+												{
+													?>
+													<div class="checkbox">
+														<label>
+															<input <?=($modulo[$action])?'checked':''?> name="privilege[<?=$k?>][<?=$action?>]" type="checkbox" value="1">
+															<?=$this->translate("Listar Todos");?>
+														</label>
+													</div>
+                    						  		<?php
+                        						}
+                        						
+                        						$action = 'delete';
+                        						if(isset($modulo[$action]))
+												{
+													?>
+													<div class="checkbox">
+														<label>
+															<input <?=($modulo[$action])?'checked':''?> name="privilege[<?=$k?>][<?=$action?>]" type="checkbox" value="1">
+															<?=$this->translate("Deletar");?>
+														</label>
+													</div>
+                    						  		<?php
+                        						}
+                        						
+                        						$action = 'new';
+                        						if(isset($modulo[$action]))
+												{
+													?>
+											  		<div class="checkbox">
+														<label>
+															<input <?=($modulo[$action])?'checked':''?> name="privilege[<?=$k?>][<?=$action?>]" type="checkbox" value="1">
+															<?=$this->translate("Criar");?>
+														</label>
+											  		</div>
+                    						  		<?php
+                        						}
+                        						
+                        						$action = 'edit';
+                        						if(isset($modulo[$action]))
+												{
+													?>
+													<div class="checkbox">
+														<label>
+															<input <?=($modulo[$action])?'checked':''?> name="privilege[<?=$k?>][<?=$action?>]" type="checkbox" value="1">
+															<?=$this->translate("Editar");?>
+														</label>
+													</div>
+                    						  		<?php
+                        						}
+												?>
+                    						</div>	
+                    					</td>
+                    				</tr>
+                    				<?php 
+                    				}
+									?>
+                    			</tbody>
+                    		</table>
+                    	</div>
+                    </div>
+                  	<div class="box-footer">
+                    	<button type="submit" name="submit" class="btn btn-app" >
+                        	<i class="fa fa-save"></i> <?=$this->translate("Salvar");?>
+                        </button>
+                        <button type="reset" name="submit" class="btn btn-app" >
+                        	<i class="fa fa-eraser"></i> <?=$this->translate("Limpar");?>
+                        </button>
+                        <a class="btn btn-app"  href="<?=$return?>">
+                        	<i class="fa fa-arrow-circle-o-left"></i> <?=$this->translate("Retornar");?>
+                        </a>
+                    </div>
+                </div>
+              </div>
+          </form>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,76 @@
+<?php
+$txt = $this->getText('EXERCICE');
+$em = $this->em;
+/**
+ * @var Activities\Entity\Exercice[] $list
+ */
+$list = $em->getRepository('Activities\Entity\Exercice')->findAll();
+$reference = $em->getRepository('Register\Entity\ReferenceImage')->findOneByChave('Exercice');
+?>
+
+<div id="fh5co-blog" class="fh5co-bg-section">
+    <div class="container">
+        <div class="row animate-box">
+            <div class="col-md-8 col-md-offset-2 text-center fh5co-heading">
+                <h2><?=$txt->getTitle()?></h2>
+                <p><?=$txt->getText()?></p>
+            </div>
+        </div>
+        <?php
+        if(!empty($list)){
+            $count = 1;
+            $count_total = 1;
+            foreach($list as $exercice)
+            {
+                if($count == 1)
+                {
+                    ?>
+                    <div class="row row-bottom-padded-md">
+                    <?php
+                    $count++;
+                }
+
+                /**
+                 * @var \Register\Entity\Image[] $imgs
+                 */
+                $imgs = $em->getRepository('Register\Entity\Image')->getFeatureds('Exercice',$exercice->getId());
+
+                if(!empty($imgs))
+                {
+                    foreach($imgs as $img)
+                    {
+
+                    }
+                }
+
+                ?>
+                <div class="col-lg-4 col-md-4">
+                    <div class="fh5co-blog animate-box">
+                        <a href="#">
+                            <img class="img-responsive" src="/img/images/<?=$imgs[0]->getImage()?>" alt="">
+                        </a>
+                        <div class="blog-text">
+                            <h3>
+                                <a href="">
+                                    <?=$exercice->getName()?>
+                                </a>
+                            </h3>
+                            <a href="#" class="btn btn-primary">Detalhes</a>
+                        </div>
+                    </div>
+                </div>
+                <?php
+                if($count == 4 || $count_total == count($list))
+                {
+                    ?>
+                    </div>
+                    <?php
+                    $count = 1;
+                }
+
+                $count_total++;
+            }
+        }
+        ?>
+    </div>
+</div>

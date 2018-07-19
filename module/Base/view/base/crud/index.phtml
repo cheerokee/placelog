@@ -1,0 +1,88 @@
+<?php
+function camel2dashed($className) {
+    return strtolower(preg_replace('/([^A-Z-])([A-Z])/', '$1-$2', $className));
+}
+$controller = camel2dashed($this->_listView['controller']);
+
+$link['new'] = $this->url($this->_listView['route'], array(
+    'controller' => $controller,
+    'action' => 'new'
+));
+
+$chave = $this->_listView['controller'];
+
+//Preferencia de redirecionamento
+if(isset($goto[$chave])){
+	if(!$this->personPermission('modulos',$this->_listView['controller'],'listAll')) {
+		header('Location: '.$goto[$chave]);
+		exit();
+	}
+}else{
+	if(!$this->personPermission('modulos',$this->_listView['controller'],'listAll')) {
+		header('Location: /not-have-permission');
+		exit();
+	}
+}
+
+
+?>
+<section class="content-header">
+	<h1>
+        <?=$this->_listView['title']?>
+        <small>Listagem de registros</small>
+	</h1>
+	<ol class="breadcrumb">
+		<li><a href="/admin"><i class="fa fa-dashboard"></i> Home</a></li>
+		<li class="active"><?=$this->_listView['title']?></li>
+	</ol>
+</section>
+<div class="row">
+	<div class="col-md-12">
+		<br/>
+		<?php
+
+		$method_filter = 'filter'.ucwords($controller);
+		try{
+			echo $this->$method_filter();
+		}catch (Exception $e){
+
+		}
+
+		?>
+		<div class="col-md-12">
+			<br />
+			<div class="box">
+				<div class="box-header">
+					<h3 class="box-title">
+						<i class="fa  <?=$this->_listView['icon']?>"></i> <?=$this->_listView['title']?>
+                    </h3>
+					<div class="box-tools">
+						<div style="float: left; margin-right: 10px;" class="btn-group">
+							<a
+								href="<?php echo $this->url($this->_listView['route'],array('action'=>'new')); ?>">
+								<button type="button" class="btn btn-success">
+									<i class="fa fa-plus"></i> Novo
+								</button>
+							</a>
+						</div>
+					</div>
+				</div>
+				<!-- /.box-header -->
+				<br />
+				<div class="col-md-12 flashMessages">
+                    <?php $this->getAdminFlashMessenger();?>
+                </div>
+				<br />
+				<div class="col-md-12 box-body table-responsive no-padding">
+					<table class="table table-hover">
+                		<?=$this->partial('partial/header');?>
+    					<?=$this->partial('partial/body');?>                                  			
+        			</table>
+				</div>
+				<div class="box-footer clearfix">                
+                	<?=$this->paginationControl($this->data,'Sliding','partials/paginator'); ?>
+                </div>
+			</div>
+		</div>
+	</div>
+</div>

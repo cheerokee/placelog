@@ -1,0 +1,86 @@
+<?php
+$tmp = explode('?', $_SERVER['REQUEST_URI']);
+$urlPattern = $tmp[0];
+$formatUrl = function ($page) use($urlPattern) {
+    if (! preg_match('/page/', $urlPattern))
+        return $urlPattern . '/page/' . (int) $page;
+    else
+        return preg_replace('@/page/\d@', '/page/' . (int) $page, $urlPattern);
+};
+
+$params = '';
+if (isset($_GET['field']) && isset($_GET['orderby'])) {
+    
+    $params = '?field=' . $_GET['field'] . '&orderby=' . $_GET['orderby'];
+}
+
+if ($this->pageCount) {
+    ?>
+<ul class="pagination pagination-sm no-margin pull-right">
+
+	<!-- Previous page link -->
+	<!-- Previous page link -->
+	<!-- Previous page link -->
+        <?php
+    if (isset($this->previous)) {
+        
+        ?>
+        	<li><a
+		href="<?php echo $formatUrl($this->previous).$params; ?>"> « </a></li>
+        <?php
+    } else {
+        ?>
+        	<li class="disabled"><a href=""> « </a></li>
+          
+        <?php
+    }
+    ?>
+        <!-- Previous page link -->
+	<!-- Previous page link -->
+	<!-- Previous page link -->
+
+	<!-- Numbered page links -->
+	<!-- Numbered page links -->
+	<!-- Numbered page links -->
+    	<?php
+    foreach ($this->pagesInRange as $page) {
+        if ($page != $this->current) {
+            ?>
+    	    	<li><a href="<?php echo $formatUrl($page).$params; ?>">
+                        <?=$page; ?>
+                    </a></li>
+			<?php
+        } else {
+            ?>
+        		<li class="disabled"><a href="">
+                        <?=$page; ?>
+                    </a></li>
+            <?php
+        }
+    }
+    ?>
+        <!-- Numbered page links -->
+	<!-- Numbered page links -->
+	<!-- Numbered page links -->
+
+	<!-- Next page link -->
+	<!-- Next page link -->
+	<!-- Next page link -->
+        <?php if (isset($this->next)){ ?>
+            <li><a href="<?php echo $formatUrl($this->next).$params; ?>">
+			» </a></li>
+        <?php }else{ ?>
+            <li class="disabled"><a href=""> » </a></li>
+        <?php }?>
+        <!-- Next page link -->
+	<!-- Next page link -->
+	<!-- Next page link -->
+
+</ul>
+
+<?php
+}
+?>
+
+
+                  
