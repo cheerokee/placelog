@@ -59,13 +59,12 @@ class Module{
                 'Register\Form\Person' => function ($sm){
                     return new Form\Person($sm->get('Doctrine\ORM\EntityManager'));
                 },
+                'Register\Form\Address' => function ($sm){
+                    return new Form\Address($sm->get('Doctrine\ORM\EntityManager'));
+                },
                 'Register\Form\BankAccount' => function ($sm)
                 {
                     return new Form\BankAccount($sm->get('Doctrine\ORM\EntityManager'));
-                },
-                'Register\Form\Image' => function ($sm)
-                {
-                    return new Form\Image($sm->get('Doctrine\ORM\EntityManager'));
                 },
                 'Register\Form\Profile' => function ($sm)
                 {
@@ -92,9 +91,9 @@ class Module{
                 {
                     return new Service\BankAccount($sm->get('Doctrine\ORM\EntityManager'));
                 },
-                'Register\Service\Image' => function ($sm)
+                'Register\Service\Address' => function ($sm)
                 {
-                    return new Service\Image($sm->get('Doctrine\ORM\EntityManager'));
+                    return new Service\Address($sm->get('Doctrine\ORM\EntityManager'));
                 },
                 'Register\Service\Profile' => function ($sm)
                 {
@@ -153,7 +152,6 @@ class Module{
             'invokables' => array(
                 'getConfiguration'  => __NAMESPACE__ . '\View\Helper\GetConfiguration',
                 'PersonIdentity'    => __NAMESPACE__ . '\View\Helper\PersonIdentity',
-                'PersonPicture'     => __NAMESPACE__ . '\View\Helper\PersonPicture',
                 'PersonPermission'  => __NAMESPACE__ . '\View\Helper\PersonPermission',
             )
         );

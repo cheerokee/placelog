@@ -4,8 +4,8 @@ echo $this->doctype();
 <html lang="en">
     <head>
         <meta charset="utf-8">
-        <meta name="description" content="Boa Forma Academia" />
-        <meta name="keywords" content="Boa Forma Academia" />
+        <meta name="description" content="Place One" />
+        <meta name="keywords" content="Place One" />
         <meta name="author" content="freehtml5.co" />
 
         <meta property="og:title" content=""/>
@@ -40,6 +40,7 @@ echo $this->doctype();
             ->prependStylesheet($this->basePath('css/site/animate.css'));
 
 		echo $this->headScript()
+            ->prependFile($this->basePath('js/admin/geral.js'))
 			->prependFile($this->basePath('js/site/geral.js'))
             ->prependFile($this->basePath('js/site/main.js'))
             ->prependFile($this->basePath('js/site/magnific-popup-options.js'))
@@ -56,195 +57,12 @@ echo $this->doctype();
 		
 		global $em;
 		$em = $this->getEm();
-
-		$telefone   = $this->getConfiguration('TELEFONEEMPRESA');
-        $facebook   = $this->getConfiguration('FACEBOOK');
-        $instagram  = $this->getConfiguration('INSTAGRAM');
         $logo       = $this->getConfiguration('LOGO');
-
         $db_person  = $this->personIdentity('Person');
         $path       = $_SERVER['REQUEST_URI'];
 		?>
-        <script src='https://www.google.com/recaptcha/api.js'></script>
     </head>
     <body>
-        <div class="fh5co-loader"></div>
-        <div id="page">
-            <nav class="fh5co-nav" role="navigation">
-                <div class="top">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-xs-12 text-right">
-                                <ul class="fh5co-social">
-                                    <li>
-                                        <a target="_blank" href="<?=$facebook?>">
-                                            <i class="icon-facebook"></i>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a target="_blank" href="<?=$instagram?>">
-                                            <i class="icon-instagram"></i>
-                                        </a>
-                                    </li>
-                                </ul>
-                                <p class="num">Telefone: <?=$telefone?></p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="top-menu">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-xs-3">
-                                <div id="fh5co-logo">
-                                    <a href="<?=$this->url('home');?>">
-                                        Boa Forma <span>.</span>
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="col-xs-9 text-right menu-1">
-                                <ul>
-                                    <li <?=($path == '/' || $path == '/home')?'class="active"':''?> >
-                                        <a href="<?=$this->url('home');?>">
-                                            Home
-                                        </a>
-                                    </li>
-                                    <li <?=($path == '/activities-site')?'class="active"':''?> >
-                                        <a href="<?=$this->url('activities-site');?>">
-                                            Atividades
-                                        </a>
-                                    </li>
-                                    <li <?=($path == '/teacher')?'class="active"':''?> >
-                                        <a href="<?=$this->url('teacher-site');?>">
-                                            Professores
-                                        </a>
-                                    </li>
-                                    <li <?=($path == '/gallery')?'class="active"':''?> >
-                                        <a href="<?=$this->url('gallery-site');?>">
-                                            Galeria
-                                        </a>
-                                    </li>
-                                    <li <?=($path == '/contact')?'class="active"':''?> >
-                                        <a href="<?=$this->url('home-contact');?>">
-                                            Contato
-                                        </a>
-                                    </li>
-                                    <li <?=($path == '/auth' || $path == '/auth/lostpassword')?'class="active has-dropdown"':'class="has-dropdown"'?>>
-                                        <?php
-                                        if($db_person instanceof \Register\Entity\Person)
-                                        {
-                                            ?>
-                                            <a style="cursor: pointer">
-                                                <i class="icon-lock-open"></i> Área Restrita
-                                            </a>
-                                            <ul class="dropdown" style="display: none;">
-                                                <li>
-                                                    <a href="<?=$this->url('person-auth')?>">
-                                                        Área Restrita
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a href="<?=$this->url('person-logout')?>">
-                                                        Logout
-                                                    </a>
-                                                </li>
-                                            </ul>
-                                            <?php
-                                        }else{
-                                            ?>
-                                            <a style="cursor: pointer" href="<?=$this->url('person-auth');?>">
-                                                <i class="icon-lock"></i> Entrar
-                                            </a>
-                                            <?php
-                                        }
-                                        ?>
-
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </nav>
-            <?php echo $this->content; ?>
-            <footer id="fh5co-footer" class="fh5co-bg" style="background-image: url(img/site/img_bg_1.jpg);" role="contentinfo">
-                <div class="overlay"></div>
-                <div class="container">
-                    <div class="row row-pb-md">
-                        <?php
-                        $footer_txt = $this->getText('RODAPETEXTO');
-                        ?>
-                        <div class="col-md-4 fh5co-widget">
-                            <h3><?=$footer_txt->getTitle()?></h3>
-                            <p class="footer-text">
-                                <?=$footer_txt->getText()?>
-                            </p>
-                            <p>
-                                <a class="btn btn-primary" href="<?=$this->url('home-contact');?>">
-                                    Faça uma Visita
-                                </a>
-                            </p>
-                        </div>
-                        <?php
-                        /**
-                         * @var \Activities\Entity\Activities[] $db_activities
-                         */
-                        $db_activities = $em->getRepository('Activities\Entity\Activities')->findAll();
-
-                        if(!empty($db_activities))
-                        {
-                            ?>
-                            <div class="col-md-8">
-                                <h3>Modalidades</h3>
-                                <?php
-                                foreach($db_activities as $db_activity)
-                                {
-                                    ?>
-                                    <div class="col-md-4 col-sm-4 col-xs-6">
-                                        <ul class="fh5co-footer-links">
-                                            <li><a href="<?=$this->url('activities-site/defaults', array(
-                                                    'action' => 'activity',
-                                                    'id' => $db_activity->getId()
-                                                ))?>"><?=$db_activity->getName()?></a></li>
-                                        </ul>
-                                    </div>
-                                    <?php
-                                }
-                                ?>
-                            </div>
-                            <?php
-                        }
-                        ?>
-
-                    </div>
-                    <div class="row copyright">
-                        <div class="col-md-12 text-center">
-                            <p>
-                                <small class="block">&copy; 2016 Free HTML5. All Rights Reserved.</small>
-                                <small class="block">Designed by <a href="http://freehtml5.co/" target="_blank">FreeHTML5.co</a> Demo Images: <a href="http://unsplash.co/" target="_blank">Unsplash</a></small>
-                            </p>
-                            <p>
-                            <ul class="fh5co-social-icons">
-                                <li>
-                                    <a target="_blank" href="<?=$facebook?>">
-                                        <i class="icon-facebook"></i>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a target="_blank" href="<?=$instagram?>">
-                                        <i class="icon-instagram"></i>
-                                    </a>
-                                </li>
-                            </ul>
-                            </p>
-                        </div>
-                    </div>
-
-                </div>
-            </footer>
-        </div>
-        <div class="gototop js-top">
-            <a href="#" class="js-gotop"><i class="icon-arrow-up"></i></a>
-        </div>
+        <?php echo $this->content;?>
 	</body>
 </html>

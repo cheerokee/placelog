@@ -32,16 +32,6 @@ class PersonController extends CrudController
             'actions' => array(
                 'enable' =>true,
                 'customs' => array(
-                    'images' => array(
-                        'rota' => 'person/default',
-                        'controller' => 'person',
-                        'action' => 'images',
-                        'title' => 'Imagens do Usuário',
-                        'enable' => true,
-                        'class' => 'btn btn-info',
-                        'icon' => 'fa fa-image',
-                        'group' => false,
-                    ),
                     'permissions' => array(
                         'rota' => 'person-profile',
                         'title' => 'Perfil',
@@ -82,10 +72,10 @@ class PersonController extends CrudController
                     'label' => 'E-mail',
                     'list' => true,
                 ),
-                'image'=>array(
-                    'label' => 'Imagem',
-                    'list' => true,
-                ),
+                'document' => array(
+                    'label' => 'Documento',
+                    'list' => true
+                )
             ),
         );
     }
@@ -198,27 +188,5 @@ class PersonController extends CrudController
     
         $this->flashmessenger()->addMessage("Usuário foi desativado com sucesso!");
         return $this->redirect()->toRoute('admin/default',array('controller'=>'person'));
-    }
-
-    public function imagesAction(){
-        $em = $this->getEm();
-        $db_entity = $em->getRepository($this->entity)->findOneById($this->params()->fromRoute('id',0));
-        $data_page = array(
-            'title' => "Imagens do Usuário"
-        );
-        $request = $this->getRequest();
-        if($request->isPost())
-        {
-            $data = $request->getPost()->toArray();
-        }
-
-        return new ViewModel(array(
-            'em' => $em,
-            'entity' => $db_entity,
-            'db_person' => $db_entity,
-            'data_page' => $data_page,
-            'controller' => $this->controller,
-            'id' => $this->params()->fromRoute('id',0),
-        ));
     }
 }

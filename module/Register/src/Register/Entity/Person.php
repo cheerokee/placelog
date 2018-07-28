@@ -29,7 +29,7 @@ class Person
      *
      * @ORM\Column(name="type_person", type="boolean", nullable=true)
      */
-    private $typePerson;
+    private $type_person;
 
     /**
      * @var string
@@ -52,19 +52,6 @@ class Person
      */
     private $email;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="specialty", type="string", length=255, nullable=true)
-     */
-    private $specialty;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="friendly_url", type="string", length=255, nullable=true)
-     */
-    private $friendlyUrl;
 
     /**
      * @var string
@@ -76,72 +63,9 @@ class Person
     /**
      * @var string
      *
-     * @ORM\Column(name="whatsapp", type="string", length=255, nullable=true)
+     * @ORM\Column(name="celphone", type="string", length=255, nullable=true)
      */
-    private $whatsapp;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="facebook", type="string", length=255, nullable=true)
-     */
-    private $facebook;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="instagram", type="string", length=255, nullable=true)
-     */
-    private $instagram;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="zip_code", type="string", length=255, nullable=true)
-     */
-    private $zipCode;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="street", type="string", length=255, nullable=true)
-     */
-    private $street;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="number", type="string", length=255, nullable=true)
-     */
-    private $number;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="neighborhood", type="string", length=255, nullable=true)
-     */
-    private $neighborhood;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="complement", type="string", length=255, nullable=true)
-     */
-    private $complement;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="city", type="string", length=255, nullable=true)
-     */
-    private $city;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="image", type="string", length=255, nullable=true)
-     */
-    private $image;
+    private $celphone;
 
     /**
      * @var string
@@ -200,10 +124,18 @@ class Person
     private $isAdmin;
 
     /**
-     * @ORM\Column(name="about", type="text", length=65000, nullable=true)
+     * @var \Register\Entity\Person
+     *
+     * @ORM\ManyToOne(targetEntity="Register\Entity\Person")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="company", referencedColumnName="id", nullable=true, onDelete="SET NULL")
+     * })
      */
-    protected $about;
+    private $company;
 
+    /**
+     * @return string
+     */
     public function __toString()
     {
         return $this->getName();
@@ -217,39 +149,6 @@ class Person
         $this->updatedAt = new \DateTime("now");
 
         $this->activationKey = md5($this->email);
-    }
-
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    public function setId($id)
-    {
-        $this->id = $id;
-        return $this;
-    }
-
-    public function getName()
-    {
-        return $this->name;
-    }
-
-    public function setName($name)
-    {
-        $this->name = $name;
-        return $this;
-    }
-
-    public function getEmail()
-    {
-        return $this->email;
-    }
-
-    public function setEmail($email)
-    {
-        $this->email = $email;
-        return $this;
     }
 
     public function getPassword()
@@ -327,19 +226,105 @@ class Person
     }
 
     /**
-     * @return string
+     * @return boolean
      */
-    public function getImage()
+    public function isIsAdmin()
     {
-        return $this->image;
+        return $this->isAdmin;
     }
 
     /**
-     * @param string $image
+     * @param boolean $isAdmin
      */
-    public function setImage($image)
+    public function setIsAdmin($isAdmin)
     {
-        $this->image = $image;
+        $this->isAdmin = $isAdmin;
+    }
+
+    public function getAdmin()
+    {
+        return $this->isAdmin;
+    }
+
+    /**
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @param int $id
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isTypePerson()
+    {
+        return $this->type_person;
+    }
+
+    /**
+     * @param bool $type_person
+     */
+    public function setTypePerson($type_person)
+    {
+        $this->type_person = $type_person;
+    }
+
+
+    /**
+     * @return string
+     */
+    public function getDocument()
+    {
+        return $this->document;
+    }
+
+    /**
+     * @param string $document
+     */
+    public function setDocument($document)
+    {
+        $this->document = $document;
+    }
+
+    /**
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * @param string $name
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+    }
+
+    /**
+     * @return string
+     */
+    public function getEmail()
+    {
+        return $this->email;
+    }
+
+    /**
+     * @param string $email
+     */
+    public function setEmail($email)
+    {
+        $this->email = $email;
     }
 
     /**
@@ -361,117 +346,21 @@ class Person
     /**
      * @return string
      */
-    public function getWhatsapp()
+    public function getCelphone()
     {
-        return $this->whatsapp;
+        return $this->celphone;
     }
 
     /**
-     * @param string $whatsapp
+     * @param string $celphone
      */
-    public function setWhatsapp($whatsapp)
+    public function setCelphone($celphone)
     {
-        $this->whatsapp = $whatsapp;
+        $this->celphone = $celphone;
     }
 
     /**
-     * @return string
-     */
-    public function getFacebook()
-    {
-        return $this->facebook;
-    }
-
-    /**
-     * @param string $facebook
-     */
-    public function setFacebook($facebook)
-    {
-        $this->facebook = $facebook;
-    }
-
-    /**
-     * @return string
-     */
-    public function getZipCode()
-    {
-        return $this->zipCode;
-    }
-
-    /**
-     * @param string $cep
-     */
-    public function setZipCode($zipCode)
-    {
-        $this->zipCode = $zipCode;
-    }
-
-    /**
-     * @return string
-     */
-    public function getStreet()
-    {
-        return $this->street;
-    }
-
-    /**
-     * @param string $street
-     */
-    public function setStreet($street)
-    {
-        $this->street = $street;
-    }
-
-    /**
-     * @return string
-     */
-    public function getNumber()
-    {
-        return $this->number;
-    }
-
-    /**
-     * @param string $number
-     */
-    public function setNumber($number)
-    {
-        $this->number = $number;
-    }
-
-    /**
-     * @return string
-     */
-    public function getComplement()
-    {
-        return $this->complement;
-    }
-
-    /**
-     * @param string $complement
-     */
-    public function setComplement($complement)
-    {
-        $this->complement = $complement;
-    }
-
-    /**
-     * @return string
-     */
-    public function getNeighborhood()
-    {
-        return $this->neighborhood;
-    }
-
-    /**
-     * @param string $neighborhood
-     */
-    public function setNeighborhood($neighborhood)
-    {
-        $this->neighborhood = $neighborhood;
-    }
-
-    /**
-     * @return boolean
+     * @return bool
      */
     public function isFirstAccess()
     {
@@ -479,138 +368,10 @@ class Person
     }
 
     /**
-     * @param boolean $primeiroAcesso
+     * @param bool $firstAccess
      */
     public function setFirstAccess($firstAccess)
     {
         $this->firstAccess = $firstAccess;
-    }
-
-    /**
-     * @return boolean
-     */
-    public function isIsAdmin()
-    {
-        return $this->isAdmin;
-    }
-
-    /**
-     * @param boolean $isAdmin
-     */
-    public function setIsAdmin($isAdmin)
-    {
-        $this->isAdmin = $isAdmin;
-    }
-
-    /**
-     * @return string
-     */
-    public function getCity()
-    {
-        return $this->city;
-    }
-
-    /**
-     * @param string $city
-     */
-    public function setCity($city)
-    {
-        $this->city = $city;
-    }
-
-    /**
-     * @return boolean
-     */
-    public function getTypePerson()
-    {
-        return $this->typePerson;
-    }
-
-    /**
-     * @param boolean $typePerson
-     */
-    public function setTypePerson($typePerson)
-    {
-        $this->typePerson = $typePerson;
-    }
-
-    /**
-     * @return string
-     */
-    public function getDocument()
-    {
-        return $this->document;
-    }
-
-    /**
-     * @param string $document
-     */
-    public function setDocument($document)
-    {
-        $this->document = $document;
-    }
-
-    /**
-     * @return string
-     */
-    public function getSpecialty()
-    {
-        return $this->specialty;
-    }
-
-    /**
-     * @param string $specialty
-     */
-    public function setSpecialty($specialty)
-    {
-        $this->specialty = $specialty;
-    }
-
-    /**
-     * @return string
-     */
-    public function getInstagram()
-    {
-        return $this->instagram;
-    }
-
-    /**
-     * @param string $instagram
-     */
-    public function setInstagram($instagram)
-    {
-        $this->instagram = $instagram;
-    }
-
-    /**
-     * @return string
-     */
-    public function getFriendlyUrl()
-    {
-        return $this->friendlyUrl;
-    }
-
-    /**
-     * @param string $friendlyUrl
-     */
-    public function setFriendlyUrl($friendlyUrl)
-    {
-        $this->friendlyUrl = $friendlyUrl;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getAbout()
-    {
-        return $this->about;
-    }
-
-    /**
-     * @param mixed $about
-     */
-    public function setAbout($about)
-    {
-        $this->about = $about;
     }
 }

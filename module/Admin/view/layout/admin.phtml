@@ -13,55 +13,12 @@ echo $this->doctype(); ?>
         ->appendName('viewport', 'width=device-width, initial-scale=1.0')
         ->appendHttpEquiv('X-UA-Compatible', 'IE=edge');
 
-    echo $this->headLink(array('rel' => 'shortcut icon', 'type' => 'image/vnd.microsoft.icon', 'href' => $this->basePath() . '/img/icons/favicon.ico'))
-        ->prependStylesheet($this->basePath('css/admin/cropper/cropper.css'))
-        ->prependStylesheet($this->basePath('css/admin/summernote.css'))
-        ->prependStylesheet($this->basePath('css/admin/dataTables.bootstrap.css'))
-        ->prependStylesheet($this->basePath('css/admin/style.css'))
-        ->prependStylesheet($this->basePath('css/admin/styles-front.css'))
-        ->prependStylesheet($this->basePath('css/admin/jquery-ui.css'))
-        ->prependStylesheet($this->basePath('css/admin/bootstrap3-wysihtml5.min.css'))
-        ->prependStylesheet($this->basePath('css/admin/daterangepicker-bs3.css'))
-        ->prependStylesheet($this->basePath('css/admin/datepicker3.css'))
-        ->prependStylesheet($this->basePath('css/admin/jquery-jvectormap-1.2.2.css'))
-        ->prependStylesheet($this->basePath('css/admin/morris.css'))
-        ->prependStylesheet($this->basePath('css/admin/blue.css'))
-        ->prependStylesheet($this->basePath('css/admin/all.css'))
-        ->prependStylesheet($this->basePath('css/admin/_all.css'))
-        ->prependStylesheet($this->basePath('css/admin/_all-skins.min.css'))
-        ->prependStylesheet($this->basePath('css/admin/AdminLTE.min.css'))
-        ->prependStylesheet($this->basePath('css/admin/ionicons.min.css'))
-        ->prependStylesheet($this->basePath('css/admin/font-awesome.min.css'))
-        ->prependStylesheet($this->basePath('css/admin/bootstrap.min.css'));
+    echo $this->headLink(array(
+        'rel' => 'shortcut icon',
+        'type' => 'image/vnd.microsoft.icon',
+        'href' => $this->basePath() . '/img/icons/favicon.ico'
+    ));
 
-    echo $this->headScript()
-        ->prependFile($this->basePath('js/admin/cropper/cropper.min.js'))
-        ->prependFile($this->basePath('js/admin/summernote.js'))
-        ->prependFile($this->basePath('js/admin/bootbox.js'))
-        ->prependFile($this->basePath('js/admin/demo.js'))
-        ->prependFile($this->basePath('js/admin/dashboard.js'))
-        ->prependFile($this->basePath('js/admin/Chart.min.js'))
-        ->prependFile($this->basePath('js/admin/app.min.js'))
-        ->prependFile($this->basePath('js/admin/fastclick.min.js'))
-        ->prependFile($this->basePath('js/admin/daterangepicker.js'))
-        ->prependFile($this->basePath('js/admin/moment.js'))
-        ->prependFile($this->basePath('js/admin/raphael-min.js'))
-        ->prependFile($this->basePath('js/admin/bootstrap3-wysihtml5.all.min.js'))
-        ->prependFile($this->basePath('js/admin/bootstrap-datepicker.js'))
-        ->prependFile($this->basePath('js/admin/bootstrap.js'))
-        ->prependFile($this->basePath('js/admin/icheck.js'))
-        ->prependFile($this->basePath('js/admin/jquery.slimscroll.min.js'))
-        ->prependFile($this->basePath('js/admin/jquery.dataTables.min.js'))
-        ->prependFile($this->basePath('js/admin/jquery.knob.js'))
-        ->prependFile($this->basePath('js/admin/jquery.maskedinput.js'))
-        ->prependFile($this->basePath('/js/admin/jquery-jvectormap-world-mill-en.js'))
-        ->prependFile($this->basePath('js/admin/jquery-jvectormap-1.2.2.min.js'))
-        ->prependFile($this->basePath('js/admin/jquery.sparkline.min.js'))
-        ->prependFile($this->basePath('js/admin/jquery.inputmask.date.extensions.js'))
-        ->prependFile($this->basePath('js/admin/jquery.inputmask.js'))
-        ->prependFile($this->basePath('js/admin/jquery.maskMoney.js'))
-        ->prependFile($this->basePath('js/admin/jquery-ui.min.js'))
-        ->prependFile($this->basePath('js/admin/jquery.js'));
 
     $person = $this->personIdentity('Person');
 
@@ -72,177 +29,179 @@ echo $this->doctype(); ?>
 
     $logo = $this->getConfiguration('LOGO');
     $logoAbreviado = $this->getConfiguration('LOGOMINI');
-    $personPicture = $this->personPicture($person);
-
     ?>
-    <script>
-        $.widget.bridge('uibutton', $.ui.button);
-        function alert(msg){
-            bootbox.alert(msg);
-        }
-    </script>
+    <link href="<?=$this->basePath('/assets/css/bootstrap.min.css');?>" rel="stylesheet" />
+    <link href="<?=$this->basePath('/assets/css/animate.min.css');?>" rel="stylesheet"/>
+    <link href="<?=$this->basePath('/assets/css/light-bootstrap-dashboard.css?v=1.4.0');?>" rel="stylesheet"/>
+    <link href="<?=$this->basePath('/assets/css/demo.css" rel="stylesheet');?>" />
+    <link href="<?=$this->basePath('/assets/css/pe-icon-7-stroke.css');?>" rel="stylesheet" />
+    <link href="<?=$this->basePath('/css/admin/style.css');?>" rel="stylesheet" />
+    <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href='http://fonts.googleapis.com/css?family=Roboto:400,700,300' rel='stylesheet' type='text/css'>
 
+    <script src="<?=$this->basePath('/assets/js/jquery.3.2.1.min.js');?>" type="text/javascript"></script>
+    <script src="<?=$this->basePath('/assets/js/bootstrap.min.js');?>" type="text/javascript"></script>
+    <script src="<?=$this->basePath('/assets/js/chartist.min.js');?>"></script>
+    <script src="<?=$this->basePath('/assets/js/bootstrap-notify.js');?>"></script>
+    <script src="<?=$this->basePath('/assets/js/light-bootstrap-dashboard.js?v=1.4.0');?>"></script>
+    <script src="<?=$this->basePath('/assets/js/demo.js');?>"></script>
+    <script src="<?=$this->basePath('/js/admin/geral.js')?>"></script>
 </head>
-<body class="hold-transition skin-blue sidebar-mini">
+<body>
     <div class="wrapper">
-        <header class="main-header">
-            <a href="/admin" class="logo center">
-                <span class="logo-mini">
-                    <?=($logoAbreviado!=false)?$logoAbreviado:'<i class="fa fa-dashboard"></i>'?>
-                </span>
-                <span class="logo-lg">
-                    <?=$logo?>
-                </span>
-            </a>
-            <nav class="navbar navbar-static-top" role="navigation">
-                <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
-                    <span class="sr-only">Toggle navigation</span>
-                </a>
-                <div class="navbar-custom-menu">
-                    <ul class="nav navbar-nav">
-                        <!-- User Account: style can be found in dropdown.less -->
-                        <li class="dropdown user user-menu ">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
-                                <img src="<?=$personPicture?>" class="user-image" alt="User Image">
-                                <span class="hidden-xs"><?=$person->getName()?></span>
-                            </a>
-                            <ul class="dropdown-menu">
-                                <!-- User image -->
-                                <li class="user-header">
-                                    <img src="<?=$personPicture?>" class="img-circle" alt="User Image">
-                                    <p>
-                                        <small>Membro desde <?=$person->getCreatedAt()->format('d/m/Y')?></small>
-                                    </p>
-                                </li>
-                                <!-- Menu Body -->
-                                <li style="display:none" class="user-body">
-                                    <div class="col-xs-4 text-center">
-                                        <a href="#">Followers</a>
-                                    </div>
-                                    <div class="col-xs-4 text-center">
-                                        <a href="#">Sales</a>
-                                    </div>
-                                    <div class="col-xs-4 text-center">
-                                        <a href="#">Friends</a>
-                                    </div>
-                                </li>
-                                <!-- Menu Footer-->
-                                <li class="user-footer">
-                                    <div class="pull-left">
-                                        <a href="/admin/person/edit/<?=$person->getId()?>" class="btn btn-default btn-flat">Informações</a>
-                                    </div>
-                                    <div class="pull-right">
-                                        <a href="/auth/logout" class="btn btn-default btn-flat">Deslogar</a>
-                                    </div>
-                                </li>
-                            </ul>
-                        </li>
-                    </ul>
+        <div class="sidebar" data-color="purple" data-image="<?=$this->basePath('/assets/img/sidebar-5.jpg');?>">
+            <div class="sidebar-wrapper">
+                <div class="logo">
+                    <a href="<?=$this->url('admin');?>" class="simple-text">
+                        <?=$logo?>
+                    </a>
                 </div>
-            </nav>
-        </header>
-        <aside class="main-sidebar">
-            <section class="sidebar">
-                <div class="user-panel">
-                    <div style="position: relative" class="pull-left image">
-                        <a class="edit-photo"
-                           href="<?= $this->url('person/default', array('controller' => 'person', 'action' => 'edit', 'id' => $person->getId())) ?>#Inputimage">
-                            <i class="fa fa-edit"></i>
+                <ul class="nav ">
+
+                    <li class="active">
+                        <a href="<?=$this->url('admin');?>">
+                            <i class="pe-7s-graph"></i>
+                            <p>Dashboard</p>
                         </a>
-                        <div style="background-image: url('<?=$personPicture?>'); width: 45px; height: 45px;background-position: center;background-size: cover"  class="img-circle foto-cliente" ></div>
-                    </div>
-                    <div class="pull-left info">
-                        <p><?=$person->getName()?></p>
-                        <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
-                    </div>
-                </div>
-    
-                <form style="display:none" action="#" method="get" class="sidebar-form">
-                    <div class="input-group">
-                        <input type="text" name="q" class="form-control" placeholder="Pesquisar...">
-                          <span class="input-group-btn">
-                            <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i></button>
-                          </span>
-                    </div>
-                </form>
-    
-                <ul class="sidebar-menu">
-                    <li class="header">MENU PRINCIPAL</li>
-                    <?
-                    $menu = $this->getMenu();
-                    if(!empty($menu)){
-                        foreach($menu as $id => $categorias){
+                    </li>
+
+
+                <?php
+                if(!empty($this->getMenu()))
+                {
+                    foreach($this->getMenu() as $menu)
+                    {
+                        if(empty($menu['itens']))
+                        {
                             ?>
-                            <li id="<?=$id?>"  class="<?=($categorias['active'])?'active':'';?> treeview">
-                                <a href="<?=(isset($categorias['rota']))?$categorias['rota']:'#'?>">
-                                    <i class="<?=$categorias['icon']?>"></i> <span><?=$categorias['titulo']?></span> <?=(!isset($categorias['rota']) && !empty($categorias['itens']))?'<i class="fa fa-angle-left pull-right"></i>':''?>
+                            <li>
+                                <a href="<?=$menu['rota']?>">
+                                    <i class="<?=$menu['icon']?>"></i>
+                                    <p><?=$menu['titulo']?></p>
                                 </a>
-                                <?
-                                $contador = 0;
-                                if(!empty($categorias['itens'])){
-                                    ?>
-                                    <ul class="treeview-menu">
-                                        <?
-    
-                                        foreach($categorias['itens'] as $chave => $item){
-                                            if(!$item['authorize']){
-                                                if($this->personPermission('modulos',$chave,'listAll')) {
-                                                    ?>
-                                                    <li>
-                                                        <a href="<?=$item['rota']?>">
-                                                            <i class="<?=$item['icon']?>"></i> <?=$item['titulo']?>
-                                                        </a>
-                                                    </li>
-                                                    <?
-                                                    $contador++;
-                                                }
-                                            }else{
-                                                ?>
-                                                <li>
-                                                    <a href="<?=$item['rota']?>">
-                                                        <i class="<?=$item['icon']?>"></i> <?=$item['titulo']?>
-                                                    </a>
-                                                </li>
-                                                <?
-                                                $contador++;
-                                            }
-                                        }
-                                        ?>
-                                    </ul>
-                                    <?
-                                }
-    
-                                if($contador < 1 && !isset($categorias['rota'])){
-                                    ?>
-                                    <style>
-                                        #<?=$id?>{
-                                            display: none;
-                                        }
-                                    </style>
-                                    <?
-                                }
-    
-                                ?>
                             </li>
                             <?
+                        }else{
+                            ?>
+                            <li class="nav-item dropdown">
+                                <a style="cursor: pointer;" class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+                                    <i class="<?=$menu['icon']?>"></i>
+                                    <p><?=$menu['titulo']?></p>
+                                </a>
+                                <div class="main dropdown-menu">
+                                    <?php
+                                    foreach($menu['itens'] as $item)
+                                    {
+                                        ?>
+                                        <a class="dropdown-item " href="<?=$item['rota']?>">
+                                            <i  class="<?=$item['icon']?>"></i>  <?=$item['titulo']?>
+                                        </a>
+                                        <?php
+                                    }
+                                    ?>
+                                </div>
+                            </li>
+                            <?php
                         }
                     }
-                    ?>
+                }
+                ?>
                 </ul>
-            </section>
-        </aside>
-        <div class="content-wrapper">
-            <?php
-            echo $this->content;
-            ?>
-        </div>
-        <footer class="main-footer">
-            <div class="pull-right hidden-xs">
-                <b>Todos os Direitos Reservados. CNPJ: 00.000.000/0000-00</b>
             </div>
-            <strong><a href="http://www.google.com/">© Nome da Empresa 2015 - 2016.</a></strong>
-        </footer>
+        </div>
+
+        <div class="main-panel">
+            <nav class="navbar navbar-default navbar-fixed">
+                <div class="container-fluid">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navigation-example-2">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <a class="navbar-brand" href="<?=$this->url('admin');?>">Dashboard</a>
+                    </div>
+                    <div class="collapse navbar-collapse">
+                        <ul class="nav navbar-nav navbar-left">
+                            <li>
+                                <a href="<?=$this->url('admin');?>" class="dropdown-toggle" data-toggle="dropdown">
+                                    <i class="fa fa-dashboard"></i>
+                                    <p class="hidden-lg hidden-md">Dashboard</p>
+                                </a>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                    <i class="fa fa-globe"></i>
+                                    <b class="caret hidden-lg hidden-md"></b>
+                                    <p class="hidden-lg hidden-md">
+                                        5 Notifications
+                                        <b class="caret"></b>
+                                    </p>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="#">Notification 1</a></li>
+                                    <li><a href="#">Notification 2</a></li>
+                                    <li><a href="#">Notification 3</a></li>
+                                    <li><a href="#">Notification 4</a></li>
+                                    <li><a href="#">Another notification</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <ul class="nav navbar-nav navbar-right">
+                            <li>
+                                <a href="/admin/person/edit/<?=$person->getId()?>">
+                                    <p>Meu Cadastro</p>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/auth/logout">
+                                    <p>Deslogar</p>
+                                </a>
+                            </li>
+                            <li class="separator hidden-lg"></li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+
+
+            <div class="content">
+                <?php
+                echo $this->content;
+                ?>
+            </div>
+
+
+            <footer class="footer">
+                <div class="container-fluid">
+                    <p class="copyright pull-right">
+                        &copy; <script>document.write(new Date().getFullYear())</script>
+                    </p>
+                </div>
+            </footer>
+        </div>
     </div>
 </body>
-<script src="<?=$this->basePath("/js/admin/geral.js")?>"></script>
+<script type="text/javascript">
+    $(document).ready(function(){
+
+        demo.initChartist();
+
+        $.notify({
+            icon: 'pe-7s-gift',
+            message: "Welcome to <b>Light Bootstrap Dashboard</b> - a beautiful freebie for every web developer."
+
+        },{
+            type: 'info',
+            timer: 4000
+        });
+
+    });
+
+    function alert(msg){
+        bootbox.alert(msg);
+    }
+</script>
 </html>

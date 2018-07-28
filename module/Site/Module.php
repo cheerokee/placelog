@@ -61,14 +61,6 @@ class Module{
                 {
                     return new Form\Testimony($sm->get('Doctrine\ORM\EntityManager'));
                 },
-                'Site\Service\Contact' => function ($sm)
-                {
-                    return new Service\Contact($sm->get('Doctrine\ORM\EntityManager'));
-                },
-                'Site\Form\Contact' => function ($sm)
-                {
-                    return new Form\Contact($sm->get('Doctrine\ORM\EntityManager'));
-                },
                 'Site\Service\Text' => function ($sm)
                 {
                     return new Service\Text($sm->get('Doctrine\ORM\EntityManager'));

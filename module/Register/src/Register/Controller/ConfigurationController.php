@@ -9,7 +9,7 @@ use Zend\Stdlib\Hydrator;
 class ConfigurationController extends CrudController{
     public function __construct(){
         $this->title = $this->translate("Configuração Geral do Sistema");
-        $this->table = 'configuration';
+        $this->table = 'Configuration';
         $this->entity = 'Register\Entity\\'.$this->table ;
         $this->service = 'Register\Service\\'.$this->table ;
         $this->form = 'Register\Form\\'.$this->table ;

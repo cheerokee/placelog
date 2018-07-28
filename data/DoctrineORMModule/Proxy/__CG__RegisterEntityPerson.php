@@ -64,10 +64,10 @@ class Person extends \Register\Entity\Person implements \Doctrine\ORM\Proxy\Prox
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return ['__isInitialized__', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'id', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'typePerson', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'document', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'name', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'email', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'specialty', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'friendlyUrl', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'phone', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'whatsapp', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'facebook', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'instagram', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'zipCode', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'street', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'number', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'neighborhood', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'complement', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'city', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'image', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'password', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'salt', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'active', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'firstAccess', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'activationKey', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'updatedAt', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'createdAt', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'isAdmin', 'about'];
+            return ['__isInitialized__', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'id', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'type_person', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'document', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'name', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'email', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'phone', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'celphone', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'password', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'salt', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'active', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'firstAccess', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'activationKey', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'updatedAt', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'createdAt', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'isAdmin', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'company'];
         }
 
-        return ['__isInitialized__', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'id', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'typePerson', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'document', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'name', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'email', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'specialty', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'friendlyUrl', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'phone', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'whatsapp', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'facebook', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'instagram', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'zipCode', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'street', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'number', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'neighborhood', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'complement', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'city', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'image', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'password', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'salt', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'active', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'firstAccess', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'activationKey', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'updatedAt', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'createdAt', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'isAdmin', 'about'];
+        return ['__isInitialized__', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'id', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'type_person', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'document', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'name', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'email', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'phone', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'celphone', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'password', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'salt', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'active', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'firstAccess', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'activationKey', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'updatedAt', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'createdAt', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'isAdmin', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'company'];
     }
 
     /**
@@ -182,76 +182,6 @@ class Person extends \Register\Entity\Person implements \Doctrine\ORM\Proxy\Prox
         $this->__initializer__ && $this->__initializer__->__invoke($this, '__toString', []);
 
         return parent::__toString();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getId()
-    {
-        if ($this->__isInitialized__ === false) {
-            return (int)  parent::getId();
-        }
-
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getId', []);
-
-        return parent::getId();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function setId($id)
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setId', [$id]);
-
-        return parent::setId($id);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getName()
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getName', []);
-
-        return parent::getName();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function setName($name)
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setName', [$name]);
-
-        return parent::setName($name);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getEmail()
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getEmail', []);
-
-        return parent::getEmail();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function setEmail($email)
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setEmail', [$email]);
-
-        return parent::setEmail($email);
     }
 
     /**
@@ -411,226 +341,6 @@ class Person extends \Register\Entity\Person implements \Doctrine\ORM\Proxy\Prox
     /**
      * {@inheritDoc}
      */
-    public function getImage()
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getImage', []);
-
-        return parent::getImage();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function setImage($image)
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setImage', [$image]);
-
-        return parent::setImage($image);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getPhone()
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getPhone', []);
-
-        return parent::getPhone();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function setPhone($phone)
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setPhone', [$phone]);
-
-        return parent::setPhone($phone);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getWhatsapp()
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getWhatsapp', []);
-
-        return parent::getWhatsapp();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function setWhatsapp($whatsapp)
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setWhatsapp', [$whatsapp]);
-
-        return parent::setWhatsapp($whatsapp);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getFacebook()
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getFacebook', []);
-
-        return parent::getFacebook();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function setFacebook($facebook)
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setFacebook', [$facebook]);
-
-        return parent::setFacebook($facebook);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getZipCode()
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getZipCode', []);
-
-        return parent::getZipCode();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function setZipCode($zipCode)
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setZipCode', [$zipCode]);
-
-        return parent::setZipCode($zipCode);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getStreet()
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getStreet', []);
-
-        return parent::getStreet();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function setStreet($street)
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setStreet', [$street]);
-
-        return parent::setStreet($street);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getNumber()
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getNumber', []);
-
-        return parent::getNumber();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function setNumber($number)
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setNumber', [$number]);
-
-        return parent::setNumber($number);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getComplement()
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getComplement', []);
-
-        return parent::getComplement();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function setComplement($complement)
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setComplement', [$complement]);
-
-        return parent::setComplement($complement);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getNeighborhood()
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getNeighborhood', []);
-
-        return parent::getNeighborhood();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function setNeighborhood($neighborhood)
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setNeighborhood', [$neighborhood]);
-
-        return parent::setNeighborhood($neighborhood);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function isFirstAccess()
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'isFirstAccess', []);
-
-        return parent::isFirstAccess();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function setFirstAccess($firstAccess)
-    {
-
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setFirstAccess', [$firstAccess]);
-
-        return parent::setFirstAccess($firstAccess);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
     public function isIsAdmin()
     {
 
@@ -653,45 +363,60 @@ class Person extends \Register\Entity\Person implements \Doctrine\ORM\Proxy\Prox
     /**
      * {@inheritDoc}
      */
-    public function getCity()
+    public function getAdmin()
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getCity', []);
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getAdmin', []);
 
-        return parent::getCity();
+        return parent::getAdmin();
     }
 
     /**
      * {@inheritDoc}
      */
-    public function setCity($city)
+    public function getId()
     {
+        if ($this->__isInitialized__ === false) {
+            return (int)  parent::getId();
+        }
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setCity', [$city]);
 
-        return parent::setCity($city);
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getId', []);
+
+        return parent::getId();
     }
 
     /**
      * {@inheritDoc}
      */
-    public function getTypePerson()
+    public function setId($id)
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getTypePerson', []);
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setId', [$id]);
 
-        return parent::getTypePerson();
+        return parent::setId($id);
     }
 
     /**
      * {@inheritDoc}
      */
-    public function setTypePerson($typePerson)
+    public function isTypePerson()
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setTypePerson', [$typePerson]);
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'isTypePerson', []);
 
-        return parent::setTypePerson($typePerson);
+        return parent::isTypePerson();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setTypePerson($type_person)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setTypePerson', [$type_person]);
+
+        return parent::setTypePerson($type_person);
     }
 
     /**
@@ -719,89 +444,111 @@ class Person extends \Register\Entity\Person implements \Doctrine\ORM\Proxy\Prox
     /**
      * {@inheritDoc}
      */
-    public function getSpecialty()
+    public function getName()
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getSpecialty', []);
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getName', []);
 
-        return parent::getSpecialty();
+        return parent::getName();
     }
 
     /**
      * {@inheritDoc}
      */
-    public function setSpecialty($specialty)
+    public function setName($name)
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setSpecialty', [$specialty]);
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setName', [$name]);
 
-        return parent::setSpecialty($specialty);
+        return parent::setName($name);
     }
 
     /**
      * {@inheritDoc}
      */
-    public function getInstagram()
+    public function getEmail()
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getInstagram', []);
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getEmail', []);
 
-        return parent::getInstagram();
+        return parent::getEmail();
     }
 
     /**
      * {@inheritDoc}
      */
-    public function setInstagram($instagram)
+    public function setEmail($email)
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setInstagram', [$instagram]);
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setEmail', [$email]);
 
-        return parent::setInstagram($instagram);
+        return parent::setEmail($email);
     }
 
     /**
      * {@inheritDoc}
      */
-    public function getFriendlyUrl()
+    public function getPhone()
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getFriendlyUrl', []);
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getPhone', []);
 
-        return parent::getFriendlyUrl();
+        return parent::getPhone();
     }
 
     /**
      * {@inheritDoc}
      */
-    public function setFriendlyUrl($friendlyUrl)
+    public function setPhone($phone)
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setFriendlyUrl', [$friendlyUrl]);
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setPhone', [$phone]);
 
-        return parent::setFriendlyUrl($friendlyUrl);
+        return parent::setPhone($phone);
     }
 
     /**
      * {@inheritDoc}
      */
-    public function getAbout()
+    public function getCelphone()
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getAbout', []);
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getCelphone', []);
 
-        return parent::getAbout();
+        return parent::getCelphone();
     }
 
     /**
      * {@inheritDoc}
      */
-    public function setAbout($about)
+    public function setCelphone($celphone)
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setAbout', [$about]);
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setCelphone', [$celphone]);
 
-        return parent::setAbout($about);
+        return parent::setCelphone($celphone);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function isFirstAccess()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'isFirstAccess', []);
+
+        return parent::isFirstAccess();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setFirstAccess($firstAccess)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setFirstAccess', [$firstAccess]);
+
+        return parent::setFirstAccess($firstAccess);
     }
 
 }

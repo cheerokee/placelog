@@ -4,28 +4,6 @@ namespace Register;
 return array(
     'router' => array(
         'routes' => array(
-            'images' => array(
-                'type' => 'Literal',
-                'options' => array(
-                    'route' => '/admin/image/images/',
-                    'defaults' => array(
-                        '__NAMESPACE__' => 'Register\Controller',
-                        'controller' => 'Image',
-                        'action' => 'images'
-                    )
-                )
-            ),
-            'gallery' => array(
-                'type' => 'Literal',
-                'options' => array(
-                    'route' => '/admin/gallery',
-                    'defaults' => array(
-                        '__NAMESPACE__' => 'Register\Controller',
-                        'controller' => 'Image',
-                        'action' => 'gallery'
-                    )
-                )
-            ),
             'person' => array(
                 'type' => 'Literal',
                 'options' => array(
@@ -73,7 +51,21 @@ return array(
                     )
                 )
             ),
-            'person-teacher' => array(
+            'person-profile' => array(
+                'type' => 'Segment',
+                'options' => array(
+                    'route'=>'/admin/person-profile[/:id]',
+                    'constraints' => array(
+                        'id' => '\d+'
+                    ),
+                    'defaults' => array(
+                        '__NAMESPACE__' => 'Register\Controller',
+                        'controller' => 'Person',
+                        'action' => 'profile'
+                    )
+                )
+            ),
+            'address' => array(
                 'type' => 'Literal',
                 'options' => array(
                     'route' => '/admin',
@@ -88,7 +80,7 @@ return array(
                     'default' => array(
                         'type' => 'Segment',
                         'options' => array(
-                            'route' => '/person-teacher[/:action[/:id]][/page/:page][/order_by/:order_by][/:order]',
+                            'route' => '/address[/:action[/:id]][/page/:page][/order_by/:order_by][/:order]',
                             'constraints' => array(
                                 'action' => '(?!\bpage\b)(?!\border_by\b)[a-zA-Z][a-zA-Z0-9_-]*',
                                 'id' => '\d+',
@@ -98,8 +90,8 @@ return array(
                             ),
                             'defaults' => array(
                                 '__NAMESPACE__' => __NAMESPACE__ . '\Controller',
-                                'controller' => 'Person',
-                                'action' => 'teacher'
+                                'controller' => 'Address',
+                                'action' => 'index'
                             )
                         )
                     ),
@@ -117,20 +109,6 @@ return array(
                                 'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
                             )
                         )
-                    )
-                )
-            ),
-            'person-profile' => array(
-                'type' => 'Segment',
-                'options' => array(
-                    'route'=>'/admin/person-profile[/:id]',
-                    'constraints' => array(
-                        'id' => '\d+'
-                    ),
-                    'defaults' => array(
-                        '__NAMESPACE__' => 'Register\Controller',
-                        'controller' => 'Person',
-                        'action' => 'profile'
                     )
                 )
             ),
@@ -393,53 +371,6 @@ return array(
                         )
                     )
                 )
-            ),
-            'image' => array(
-                'type' => 'Literal',
-                'options' => array(
-                    'route' => '/admin',
-                    'defaults' => array(
-                        '__NAMESPACE__' => 'Register\Controller',
-                        'controller' => 'Index',
-                        'action' => 'index'
-                    )
-                ),
-                'may_terminate' => true,
-                'child_routes' => array(
-                    'defaults' => array(
-                        'type' => 'Segment',
-                        'options' => array(
-                            'route' => '/image[/:action[/:id]][/page/:page][/order_by/:order_by][/:order]',
-                            'constraints' => array(
-                                'action' => '(?!\bpage\b)(?!\border_by\b)[a-zA-Z][a-zA-Z0-9_-]*',
-                                'id' => '\d+',
-                                'page' => '\d+',
-                                'order_by' => '[a-zA-Z][a-zA-Z0-9_-]*',
-                                'order' => 'ASC|DESC',
-                            ),
-                            'defaults' => array(
-                                '__NAMESPACE__' => __NAMESPACE__ . '\Controller',
-                                'controller' => 'Image',
-                                'action' => 'index'
-                            )
-                        )
-                    ),
-                    'paginator' => array(
-                        'type' => 'Segment',
-                        'options' => array(
-                            'route' => '/[/:controller[/page/:page]]',
-                            'constraints' => array(
-                                'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
-                                'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
-                                'page' => '\d+'
-                            ),
-                            'defaults' => array(
-                                '__NAMESPACE__' => __NAMESPACE__ . '\Controller',
-                                'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
-                            )
-                        )
-                    )
-                )
             )
         )
     ),
@@ -447,11 +378,12 @@ return array(
         'invokables' => array(
             'Register\Controller\Index' => 'Register\Controller\IndexController',
             'Register\Controller\Person' => 'Register\Controller\PersonController',
+            'Register\Controller\Address' => 'Register\Controller\Address',
             'Register\Controller\Auth' => 'Register\Controller\AuthController',
             'Register\Controller\BankAccount' => 'Register\Controller\BankAccountController',
             'Register\Controller\Profile' => 'Register\Controller\ProfileController',
             'Register\Controller\Configuration' => 'Register\Controller\ConfigurationController',
-            'Register\Controller\Image' => 'Register\Controller\ImageController',
+
         )
     ),
     'service_manager' => array(
@@ -471,10 +403,8 @@ return array(
         'not_found_template' => 'error/404',
         'exception_template' => 'error/index',
         'template_map' => array(
-            //'layout/layout' => __DIR__ . '/../view/layout/layout.phtml',
             'error/404' => __DIR__ . '/../view/error/404.phtml',
             'error/index' => __DIR__ . '/../view/error/index.phtml',
-            'image-interface' => __DIR__ . '/../view/partials/image-interface.phtml',
         ),
         'template_path_stack' => array(
             __DIR__ . '/../view',

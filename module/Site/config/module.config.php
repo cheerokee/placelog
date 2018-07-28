@@ -145,64 +145,6 @@ return array(
                     )
                 )
             ),
-            'contact' => array(
-                'type' => 'Literal',
-                'options' => array(
-                    'route' => '/admin',
-                    'defaults' => array(
-                        '__NAMESPACE__' => 'Register\Controller',
-                        'controller' => 'Index',
-                        'action' => 'index'
-                    )
-                ),
-                'may_terminate' => true,
-                'child_routes' => array(
-                    'defaults' => array(
-                        'type' => 'Segment',
-                        'options' => array(
-                            'route' => '/contact[/:action[/:id]][/page/:page][/order_by/:order_by][/:order]',
-                            'constraints' => array(
-                                'action' => '(?!\bpage\b)(?!\border_by\b)[a-zA-Z][a-zA-Z0-9_-]*',
-                                'id' => '\d+',
-                                'page' => '\d+',
-                                'order_by' => '[a-zA-Z][a-zA-Z0-9_-]*',
-                                'order' => 'ASC|DESC',
-                            ),
-                            'defaults' => array(
-                                '__NAMESPACE__' => __NAMESPACE__ . '\Controller',
-                                'controller' => 'Contact',
-                                'action' => 'index'
-                            )
-                        )
-                    ),
-                    'paginator' => array(
-                        'type' => 'Segment',
-                        'options' => array(
-                            'route' => '/[/:controller[/page/:page]]',
-                            'constraints' => array(
-                                'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
-                                'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
-                                'page' => '\d+'
-                            ),
-                            'defaults' => array(
-                                '__NAMESPACE__' => __NAMESPACE__ . '\Controller',
-                                'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
-                            )
-                        )
-                    )
-                )
-            ),
-            'home-contact' => array(
-                'type' => 'Literal',
-                'options' => array(
-                    'route' => '/contact',
-                    'defaults' => array(
-                        '__NAMESPACE__' => 'Site\Controller',
-                        'controller' => 'Index',
-                        'action' => 'contact'
-                    )
-                ),
-            ),
             'home-index' => array(
                 'type' => 'Literal',
                 'options' => array(
@@ -258,92 +200,6 @@ return array(
                     )
                 )
             ),
-            'category' => array(
-                'type' => 'Literal',
-                'options' => array(
-                    'route' => '/category',
-                    'defaults' => array(
-                        '__NAMESPACE__' => 'Site\Controller',
-                        'controller' => 'Index',
-                        'action' => 'category'
-                    )
-                )
-            ),
-            'person-page' => array(
-                'type' => 'Segment',
-                'options' => array(
-                    'route' => '/person-page[/:friendly-url]',
-                    'constraints' => array(
-                        'friendly-url' => '[a-zA-Z][a-zA-Z0-9_-]*',
-                    ),
-                    'defaults' => array(
-                        '__NAMESPACE__' => 'Site\Controller',
-                        'controller' => 'Index',
-                        'action' => 'person-page'
-                    )
-                )
-            ),
-            'activities-site' => array(
-                'type' => 'Literal',
-                'options' => array(
-                    'route' => '/activities-site',
-                    'defaults' => array(
-                        '__NAMESPACE__' => 'Site\Controller',
-                        'controller' => 'Index',
-                        'action' => 'activities'
-                    )
-                ),
-                'may_terminate' => true,
-                'child_routes' => array(
-                    'defaults' => array(
-                        'type' => 'Segment',
-                        'options' => array(
-                            'route' => '/[:action[/:id]]',
-                            'constraints' => array(
-                                'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
-                                'id' => '\d+'
-                            ),
-                            'defaults' => array(
-                                '__NAMESPACE__' => 'Site\Controller',
-                                'controller' => 'Index'
-                            )
-                        )
-                    )
-                )
-            ),
-            'gallery-site' => array(
-                'type' => 'Literal',
-                'options' => array(
-                    'route' => '/gallery',
-                    'defaults' => array(
-                        '__NAMESPACE__' => 'Site\Controller',
-                        'controller' => 'Index',
-                        'action' => 'gallery'
-                    )
-                )
-            ),
-            'teacher-site' => array(
-                'type' => 'Literal',
-                'options' => array(
-                    'route' => '/teacher',
-                    'defaults' => array(
-                        '__NAMESPACE__' => 'Site\Controller',
-                        'controller' => 'Index',
-                        'action' => 'teacher'
-                    )
-                ),
-            ),
-            'exercice-site' => array(
-                'type' => 'Literal',
-                'options' => array(
-                    'route' => '/list-exercice',
-                    'defaults' => array(
-                        '__NAMESPACE__' => 'Site\Controller',
-                        'controller' => 'Index',
-                        'action' => 'list-exercice'
-                    )
-                ),
-            ),
             'not-have-permission' => array(
                 'type' => 'Literal',
                 'options' => array(
@@ -362,7 +218,6 @@ return array(
             'Site\Controller\Index'     => 'Site\Controller\IndexController',
             'Site\Controller\Banner'    => 'Site\Controller\BannerController',
             'Site\Controller\Testimony' => 'Site\Controller\TestimonyController',
-            'Site\Controller\Contact'   => 'Site\Controller\ContactController',
             'Site\Controller\Text'      => 'Site\Controller\TextController'
         )
     ),
@@ -373,7 +228,6 @@ return array(
         'not_found_template' => 'error/404',
         'exception_template' => 'error/index',
         'template_map' => array(
-            //'layout/layout' => __DIR__ . '/../view/layout/layout.phtml',
             'error/404' => __DIR__ . '/../view/error/404.phtml',
             'error/index' => __DIR__ . '/../view/error/index.phtml',
         ),

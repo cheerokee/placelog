@@ -35,6 +35,11 @@ return [
     'Base',
     'Site',
     'Register',
+    'Catalog',
+    'Transaction',
+    'App',
+    'Financial',
+    'Relation',
     'api',
     'Admin',
 ];

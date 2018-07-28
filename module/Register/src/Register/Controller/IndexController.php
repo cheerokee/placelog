@@ -24,7 +24,7 @@ class IndexController extends AbstractActionController
                 {
                     $fm = $this->flashMessenger()
                             ->setNamespace('Person')
-                            ->addMessage($this->translate("Usuário cadastrado com sucesso"));
+                            ->addMessage("Usuário cadastrado com sucesso");
                 }
                 
                 return $this->redirect()->toRoute('person-register');
@@ -46,10 +46,10 @@ class IndexController extends AbstractActionController
         $result = $personService->activate($activationKey);
         
         if($result){
-            $this->flashmessenger()->addSuccessMessage($this->translate("Você foi ativado com sucesso!"));
+            $this->flashmessenger()->addSuccessMessage("Você foi ativado com sucesso!");
             return $this->redirect()->toRoute('person-auth',array('controller'=>'index'));
         }else{
-            $this->flashmessenger()->addErrorMessage($this->translate("Houve um erro na ativação do usuário"));
+            $this->flashmessenger()->addErrorMessage("Houve um erro na ativação do usuário");
             return $this->redirect()->toRoute('person-auth',array('controller'=>'index'));
         }
     }

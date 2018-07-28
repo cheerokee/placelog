@@ -26,63 +26,59 @@ if(isset($goto[$chave])){
 
 
 ?>
-<section class="content-header">
-	<h1>
-        <?=$this->_listView['title']?>
-        <small>Listagem de registros</small>
-	</h1>
-	<ol class="breadcrumb">
-		<li><a href="/admin"><i class="fa fa-dashboard"></i> Home</a></li>
-		<li class="active"><?=$this->_listView['title']?></li>
-	</ol>
-</section>
-<div class="row">
-	<div class="col-md-12">
-		<br/>
-		<?php
 
-		$method_filter = 'filter'.ucwords($controller);
-		try{
-			echo $this->$method_filter();
-		}catch (Exception $e){
-
-		}
-
-		?>
-		<div class="col-md-12">
-			<br />
-			<div class="box">
-				<div class="box-header">
-					<h3 class="box-title">
-						<i class="fa  <?=$this->_listView['icon']?>"></i> <?=$this->_listView['title']?>
-                    </h3>
-					<div class="box-tools">
-						<div style="float: left; margin-right: 10px;" class="btn-group">
-							<a
-								href="<?php echo $this->url($this->_listView['route'],array('action'=>'new')); ?>">
-								<button type="button" class="btn btn-success">
-									<i class="fa fa-plus"></i> Novo
-								</button>
-							</a>
-						</div>
-					</div>
-				</div>
-				<!-- /.box-header -->
-				<br />
-				<div class="col-md-12 flashMessages">
-                    <?php $this->getAdminFlashMessenger();?>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <ol class="breadcrumb">
+                <li><a href="/admin"><i class="fa fa-dashboard"></i> Home</a></li>
+                <li class="active"><?=$this->_listView['title']?></li>
+            </ol>
+            <?php $this->getAdminFlashMessenger();?>
+        </div>
+        <div class="col-md-12">
+            <div class="card">
+                <div class="header">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <h4 class="title">
+                                <?=$this->_listView['title']?> - <small>Listagem de Registros</small>
+                            </h4>
+                        </div>
+                        <div class="col-md-4">
+                            <div style="float: right; margin-right: 10px;" class="btn-group">
+                                <a
+                                        href="<?php echo $this->url($this->_listView['route'],array('action'=>'new')); ?>">
+                                    <button type="button" class="btn btn-success">
+                                        <i class="fa fa-plus"></i> Novo
+                                    </button>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-				<br />
-				<div class="col-md-12 box-body table-responsive no-padding">
-					<table class="table table-hover">
-                		<?=$this->partial('partial/header');?>
-    					<?=$this->partial('partial/body');?>                                  			
-        			</table>
-				</div>
-				<div class="box-footer clearfix">                
-                	<?=$this->paginationControl($this->data,'Sliding','partials/paginator'); ?>
+                <div class="content">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <?php
+                            $method_filter = 'filter'.ucwords($controller);
+                            try{
+                                echo $this->$method_filter();
+                            }catch (Exception $e){}
+                            ?>
+                            <table class="table table-hover">
+                                <?=$this->partial('partial/header');?>
+                                <?=$this->partial('partial/body');?>
+                            </table>
+                        </div>
+                        <div class="col-md-12">
+                            <?=$this->paginationControl($this->data,'Sliding','partials/paginator'); ?>
+                        </div>
+                    </div>
                 </div>
-			</div>
-		</div>
-	</div>
+            </div>
+        </div>
+    </div>
 </div>
+
+

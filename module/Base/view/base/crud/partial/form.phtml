@@ -63,218 +63,204 @@ if(!$this->personPermission('modulos',$chave,$type)){
 }
 ?>
 
-<div class="container">
+<div class="container-fluid">
     <div class="row">
-        <div class="col-md-12 flashMessages"><?php $this->getAdminFlashMessenger();?></div>
-    </div>
-</div>
-<br />
-<div class="row">
-    <div class="col-md-12">
         <div class="col-md-12">
-            <div class="box box-primary">
-                <div class="box-header with-border">
-                    <h3>
-                        <?=$this->title?> <small> - <?=$this->translate($acao)?></small>
-                    </h3>
-                </div>
-                <?=$this->form()->openTag($form);?>
-                <div class="box-body">
+            <ol class="breadcrumb">
+                <li><a href="<?=$this->url('admin')?>"><i class="fa fa-dashboard"></i> Home</a></li>
+                <li><a href="<?=$this->url($this->_listView['route']);?>"><i class="<?=$this->icon?>"></i> <?=$this->title?></a></li>
+                <li class="active"><?=$acao?></li>
+            </ol>
+            <?php $this->getAdminFlashMessenger();?>
+        </div>
+        <div class="col-md-12">
+            <div class="card">
+                <div class="header">
                     <div class="row">
-                        <?php
-                        $hidden = array(
-                            'hidden' => 1,
-                            'submit' => 1
-                        );
-
-                        foreach ($form as $element) {
-                            $element->setAttribute('form',$form->getName());
-
-                            if($entity instanceof \Register\Entity\Person){
-                                if($especilidade === false && ($element->getName() == 'specialty' || $element->getName() == 'about')){
-                                    continue;
-                                }
-                            }
-
-                            $type = $element->getAttributes()['type'];
-                            switch ($type){
-                                case ($element instanceof \Zend\Form\Element\Textarea):
-                                    $column = "col-md-12";
-                                    break;
-                                case "radio":
-                                    $column = "col-md-12";
-                                    break;
-                                default:
-                                    $column = "col-md-4";
-                            }
-
-                            $column .= ' field';
-                            $id = 'input'.$element->getName();
-                            $style = ($hidden[$type])?'display:none':'display:block';
-
-                            if($element->getName() == 'icon')
-                            {
-                                $column = "col-md-8";
-                            }
-
-                            ?>
-                            <div id="<?=$id?>" style="<?=$style?>" class="<?=$column?>">
-                                <div class="form-group">
-                                    <?php
-                                    $entity = $this->entity;
-
-                                    if ($element->getLabel() != null) {
-                                        echo "<label for='Input" . $element->getName() . "'>" . $element->getLabel() . "</label>";
-                                    }
-
-                                    $formElement = $form->get($element->getName());
-
-                                    if ($type != 'checkbox' && $type != 'multi_checkbox')
-                                    {
-                                        $formElement->setAttribute("class", $formElement->getAttribute('class')." form-control ");
-                                    } else {
-                                        $formElement->setAttribute("class", "checkbox");
-                                        $arr_values = explode(',',$formElement->getValue());
-                                        $formElement->setValue($arr_values);
-                                    }
-
-                                    if ($type == 'radio') {
-                                        $formElement->setAttribute("class", "radio ");
-                                    }
-
-                                    $formElement->setAttribute("id", "Input" . $element->getName())->setAttribute("type", $type);
-
-                                    if($type == 'date') {
-                                        echo '
-                                        <div class="input-group input-group-md">
-                                        ';
-                                        echo $this->formelement($formElement);
-                                        echo '
-                                            <span class="input-group-btn">
-                                                <button type="button" onclick="setToday(\''.$formElement->getAttribute('id').'\')" class="btn btn-info">Hoje</button>
-                                            </span>
-                                        </div>';
-                                    }else{
-                                        $classes = explode(' ',$formElement->getAttribute('class'));
-
-                                        if(in_array('rich-text',$classes)){
-                                            $formElement->setAttribute('name',$formElement->getName());
-                                            echo $this->formelement($formElement);
-                                            echo '<div class="summernote" id="summernote_'.$formElement->getName().'" ></div>';
-                                        }else if($formElement->getName() == 'icon')
-                                        {?>
-                                            <div class="row">
-                                                <div class="col-md-2">
-                                                    <img title = "Dança" id="icon-1" class="img-responsive img-thumbnail selectable" src="/img/icons/ballet.svg">
-                                                </div>
-                                                <div class="col-md-2">
-                                                    <img title = "Musculação" id="icon-2" class="img-responsive img-thumbnail selectable" src="/img/icons/dumbbell.svg">
-                                                </div>
-                                                <div class="col-md-2" >
-                                                    <img title = "Aeróbico" id="icon-3" class="img-responsive img-thumbnail selectable" src="/img/icons/exercise.svg">
-                                                </div>
-                                                <div class="col-md-2">
-                                                    <img title = "Luta" id="icon-4" class="img-responsive img-thumbnail selectable" src="/img/icons/two-boxing-gloves.svg">
-                                                </div>
-                                                <div class="col-md-2">
-                                                    <img title = "Yoga" id="icon-5" class="img-responsive img-thumbnail selectable" src="/img/icons/yoga-carpet.svg">
-                                                </div>
-                                            </div>
-                                            <input type="hidden" name="icon" id="inputIcon" value="<?=$formElement->getValue()?>">
-                                        <?php
-                                        }else if(isset($formElement->getattributes()['limit-text'])){
-                                            $tipo   = $formElement->getAttribute('type');
-                                            $limit  = $formElement->getattributes()['limit-text'];
-                                            $name   = $formElement->getAttribute('name');
-                                            $value  = $formElement->getValue();
-                                            $id     = $formElement->getAttribute('id');
-                                            ?>
-                                            <div id="limit-number-<?=$name?>"
-                                                 class="limit-number bg-warning">
-                                                <?=$limit?>
-                                            </div>
-                                            <?php
-                                            if($tipo == 'textarea')
-                                            {
-                                                ?>
-                                                <textarea class="form-group <?=$formElement->getAttribute('class')?>"
-                                                          limit-text="<?=$limit?>"
-                                                          id="input-<?=$name?>"
-                                                          name="<?=$name?>" ><?=$value?></textarea>
-                                                <?php
-                                            }else{
-                                                ?>
-                                                <input  class="form-group <?=$formElement->getAttribute('class')?>"
-                                                        imit-text="<?=$limit?>"
-                                                        id="input-<?=$name?>"
-                                                        type="<?=$tipo?>"
-                                                        name="<?=$name?>"
-                                                        value="<?=$value?>"
-                                                />
-                                                <?php
-                                            }
-                                        }else{
-                                            echo $this->formelement($formElement);
-                                        }
-                                    }
-
-                                    echo $this->formElementErrors($element);
-
-                                    if($type == 'file') {
-                                        $file = $this->getFile($this->controller, $element->getName(), $this->id);
-                                        $tmp = explode('.',$file);
-                                        $tmp = strtolower($tmp[count($tmp)-1]);
-
-                                        if($file && $file != '/'){
-                                            $element->setAttribute('value',$file);?>
-                                            <script>
-                                                $("input[name=<?=$element->getName()?>]").removeAttr('required');
-                                            </script>
-                                        <?
-                                        if($tmp == 'png' || $tmp == 'jpg' || $tmp == 'jpeg'){
-                                        ?>
-                                            <div class="col-md-12">
-                                                <center>
-                                                    <a  target="_blank" href="<?= $file ?>">
-                                                        <img style="height: 40px;margin-top: 5px" src="<?=$file?>"/>
-                                                        <p>Maximizar</p>
-                                                    </a>
-                                                </center>
-                                            </div>
-                                            <?
-                                        }else{
-                                            ?>
-                                            <div class="col-md-12">
-                                                <a  target="_blank" href="<?= $file ?>">Baixar Arquivo</a>
-                                            </div>
-                                        <?
-                                        }
-                                        }else{
-                                        ?>
-                                            <div class="col-md-12">
-                                                <p class="text-red">Não há imagem cadastrada</p>
-                                            </div>
-                                            <?
-                                        }
-                                    }
-                                    ?>
-                                </div>
-                            </div>
-                        <?php
-                        }
-                        ?>
+                        <div class="col-md-12">
+                            <h4 class="title">
+                                <?=$this->title?> - <small><?=$this->translate($acao)?></small>
+                            </h4>
+                        </div>
                     </div>
                 </div>
-                <div class="box-footer">
-                    <?//=$this->formelement($form->get('id'))?>
-                    <button type="submit" name="submit" class="btn btn-app">
-                        <i class="fa fa-save"></i> Salvar
-                    </button>
-                    <a class="btn btn-app" href="<?=$link['return']?>">
-                        <i class="fa fa-arrow-circle-o-left"></i> Retornar
-                    </a>
+                <div class="content">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <?=$this->form()->openTag($form);?>
+                            <div class="row">
+                                <?php
+                                $hidden = array(
+                                    'hidden' => 1,
+                                    'submit' => 1
+                                );
+
+                                foreach ($form as $element) {
+                                    $element->setAttribute('form',$form->getName());
+
+                                    $type = $element->getAttributes()['type'];
+                                    switch ($type){
+                                        case ($element instanceof \Zend\Form\Element\Textarea):
+                                            $column = "col-md-12";
+                                            break;
+                                        case "radio":
+                                            $column = "col-md-12";
+                                            break;
+                                        default:
+                                            $column = "col-md-4";
+                                    }
+
+                                    $column .= ' field';
+                                    $id = 'input'.$element->getName();
+                                    $style = ($hidden[$type])?'display:none':'display:block';
+
+                                    if($element->getName() == 'icon')
+                                    {
+                                        $column = "col-md-8";
+                                    }
+
+                                    ?>
+                                    <div id="<?=$id?>" style="<?=$style?>" class="<?=$column?>">
+                                        <div class="form-group">
+                                            <?php
+                                            $entity = $this->entity;
+
+                                            if ($element->getLabel() != null) {
+                                                echo "<label for='Input" . $element->getName() . "'>" . $element->getLabel() . "</label>";
+                                            }
+
+                                            $formElement = $form->get($element->getName());
+
+                                            if ($type != 'checkbox' && $type != 'multi_checkbox')
+                                            {
+                                                $formElement->setAttribute("class", $formElement->getAttribute('class')." form-control ");
+                                            } else {
+                                                $formElement->setAttribute("class", "checkbox");
+                                                $arr_values = explode(',',$formElement->getValue());
+                                                $formElement->setValue($arr_values);
+                                            }
+
+                                            if ($type == 'radio') {
+                                                $formElement->setAttribute("class", "radio ");
+                                            }
+
+                                            $formElement->setAttribute("id", "Input" . $element->getName())->setAttribute("type", $type);
+
+                                            if($type == 'date') {
+                                                echo '
+                                                    <div class="input-group input-group-md">
+                                                    ';
+
+                                                echo $this->formelement($formElement);
+
+                                                echo '
+                                                        <span class="input-group-btn">
+                                                            <button type="button" onclick="setToday(\''.$formElement->getAttribute('id').'\')" class="btn btn-info">Hoje</button>
+                                                        </span>
+                                                    </div>';
+                                            }else{
+                                                $classes = explode(' ',$formElement->getAttribute('class'));
+
+                                                if(in_array('rich-text',$classes)){
+                                                    $formElement->setAttribute('name',$formElement->getName());
+                                                    echo $this->formelement($formElement);
+                                                    echo '<div class="summernote" id="summernote_'.$formElement->getName().'" ></div>';
+                                                }else if(isset($formElement->getattributes()['limit-text'])){
+                                                    $tipo   = $formElement->getAttribute('type');
+                                                    $limit  = $formElement->getattributes()['limit-text'];
+                                                    $name   = $formElement->getAttribute('name');
+                                                    $value  = $formElement->getValue();
+                                                    $id     = $formElement->getAttribute('id');
+                                                    ?>
+                                                    <div id="limit-number-<?=$name?>"
+                                                         class="limit-number bg-warning">
+                                                        <?=$limit?>
+                                                    </div>
+                                                    <?php
+                                                    if($tipo == 'textarea')
+                                                    {
+                                                        ?>
+                                                        <textarea class="form-group <?=$formElement->getAttribute('class')?>"
+                                                                  limit-text="<?=$limit?>"
+                                                                  id="input-<?=$name?>"
+                                                                  name="<?=$name?>" ><?=$value?></textarea>
+                                                        <?php
+                                                    }else{
+                                                        ?>
+                                                        <input  class="form-group <?=$formElement->getAttribute('class')?>"
+                                                                imit-text="<?=$limit?>"
+                                                                id="input-<?=$name?>"
+                                                                type="<?=$tipo?>"
+                                                                name="<?=$name?>"
+                                                                value="<?=$value?>"
+                                                        />
+                                                        <?php
+                                                    }
+                                                }else{
+                                                    echo $this->formelement($formElement);
+                                                }
+                                            }
+
+                                            echo $this->formElementErrors($element);
+
+                                            if($type == 'file') {
+                                                $file = $this->getFile($this->controller, $element->getName(), $this->id);
+                                                $tmp = explode('.',$file);
+                                                $tmp = strtolower($tmp[count($tmp)-1]);
+
+                                                if($file && $file != '/'){
+                                                    $element->setAttribute('value',$file);?>
+                                                    <script>
+                                                        $("input[name=<?=$element->getName()?>]").removeAttr('required');
+                                                    </script>
+                                                <?
+                                                if($tmp == 'png' || $tmp == 'jpg' || $tmp == 'jpeg'){
+                                                ?>
+                                                    <div class="col-md-12">
+                                                        <center>
+                                                            <a  target="_blank" href="<?= $file ?>">
+                                                                <img style="height: 40px;margin-top: 5px" src="<?=$file?>"/>
+                                                                <p>Maximizar</p>
+                                                            </a>
+                                                        </center>
+                                                    </div>
+                                                    <?
+                                                }else{
+                                                    ?>
+                                                    <div class="col-md-12">
+                                                        <a  target="_blank" href="<?= $file ?>">Baixar Arquivo</a>
+                                                    </div>
+                                                <?
+                                                }
+                                                }else{
+                                                ?>
+                                                    <div class="col-md-12">
+                                                        <p class="text-red">Não há imagem cadastrada</p>
+                                                    </div>
+                                                    <?
+                                                }
+                                            }
+                                            ?>
+                                        </div>
+                                    </div>
+                                    <?php
+                                }
+                                ?>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <button type="submit" name="submit" class="btn btn-app">
+                                        <i class="pe-7s-diskette"></i> Salvar
+                                    </button>
+                                    <a class="btn btn-app" href="<?=$link['return']?>">
+                                        <i class="pe-7s-angle-left"></i> Retornar
+                                    </a>
+                                </div>
+                            </div>
+                            <?=$this->form()->closeTag();?>
+                        </div>
+                    </div>
                 </div>
-                <?=$this->form()->closeTag();?>
             </div>
         </div>
     </div>

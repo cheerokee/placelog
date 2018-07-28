@@ -43,81 +43,75 @@ class GetMenu extends AbstractHelper implements ServiceLocatorAwareInterface{
             'minha_informacao' => array(
                 'titulo'    =>  'Meu Cadastro',
                 'active'    => false,
-                'icon' => 'fa fa-user text-yellow',
+                'icon' => 'pe-7s-user',
                 'rota'  => '/admin/person/edit/'.$this->getAuthService()->getIdentity()->getId(),
                 'itens'     =>  array()
             ),
-            'lista_exercicio' => array(
-                'titulo'    =>  'Lista de Exercícios',
-                'active'    => false,
-                'icon' => 'fa fa-list text-blue',
-                'rota'  => '/list-exercice',
-                'itens'     =>  array()
-            ),
-            'cadastros' => array(
-                'titulo'    =>  'Cadastros',
+            'integration' => array(
+                'titulo'    =>  'Integrações',
                 'active'    => true,
-                'icon' => 'fa fa-dashboard',
+                'icon' => 'pe-7s-share',
+                'itens'     =>  array(
+                    'app' => array(
+                        'titulo' => 'Aplicações',
+                        'rota' => '/admin/app',
+                        'icon' => 'pe-7s-keypad',
+                        'authorize' => false,
+                    ),
+                    'config-app' => array(
+                        'titulo' => 'Configuração das Aplicações',
+                        'rota' => '/admin/config-app',
+                        'icon' => 'pe-7s-config',
+                        'authorize' => false,
+                    ),
+                    'type-app' => array(
+                        'titulo' => 'Tipo de Aplicações',
+                        'rota' => '/admin/type-app',
+                        'icon' => 'pe-7s-airplay',
+                        'authorize' => false,
+                    ),
+                ),
+            ),
+            'site-cadastro' => array(
+                'titulo'    =>  'Site Cadastros',
+                'active'    => true,
+                'icon' => 'pe-7s-monitor',
                 'itens'     =>  array(
                     'banner' => array(
                         'titulo' => 'Banners',
                         'rota' => '/admin/banner',
-                        'icon' => 'fa fa-image',
-                        'authorize' => false,
-                    ),
-                    'activities' => array(
-                        'titulo' => 'Atividades',
-                        'rota' => '/admin/activities',
-                        'icon' => 'fa fa-file-text',
-                        'authorize' => false,
-                    ),
-                    'exercices' => array(
-                        'titulo' => 'Exercícios',
-                        'rota' => '/admin/exercice',
-                        'icon' => 'fa fa-file-text',
-                        'authorize' => false,
-                    ),
-                    'teacher' => array(
-                        'titulo' => 'Profissionais',
-                        'rota' => '/admin/person-teacher',
-                        'icon' => 'fa fa-user',
-                        'authorize' => false,
-                    ),
-                    'gallery' => array(
-                        'titulo' => 'Galeria',
-                        'rota' => '/admin/gallery',
-                        'icon' => 'fa fa-image',
+                        'icon' => 'pe-7s-photo',
                         'authorize' => false,
                     ),
                     'texto' => array(
                         'titulo' => 'Textos',
                         'rota' => '/admin/text',
-                        'icon' => 'fa fa-file-text',
+                        'icon' => 'pe-7s-news-paper',
                         'authorize' => false,
                     ),
                     'testimony' => array(
                         'titulo' => 'Depoimentos',
                         'rota' => '/admin/testimony',
-                        'icon' => 'fa fa-comment-o',
+                        'icon' => 'pe-7s-comment',
                         'authorize' => false,
                     )
                 ),
             ),
             'autorizacao' => array(
                 'titulo'    =>  'Autorizações',
-                'icon' => 'fa fa-lock',
+                'icon' => 'pe-7s-unlock',
                 'active'    => true,
                 'itens'     =>  array(
                     'person' => array(
                         'titulo' => 'Usuários',
                         'rota' => '/admin/person',
-                        'icon' => 'fa fa-user',
+                        'icon' => 'pe-7s-users',
                         'authorize' => false,
                     ),
                     'perfil' => array(
                         'titulo' => 'Perfis',
                         'rota' => '/admin/profile',
-                        'icon' => 'fa fa-share-alt-square',
+                        'icon' => 'pe-7s-id',
                         'authorize' => false,
                     ),
                 )
@@ -125,12 +119,12 @@ class GetMenu extends AbstractHelper implements ServiceLocatorAwareInterface{
             'configuracoes' => array(
                 'titulo'    =>  'Configurações',
                 'active'    => false,
-                'icon' => 'fa fa-cog',
+                'icon' => 'pe-7s-settings',
                 'itens'     =>  array(
                     'configuration' => array(
                         'titulo' => 'Configuração Geral',
                         'rota' => '/admin/configuration',
-                        'icon' => 'fa fa-cog',
+                        'icon' => 'pe-7s-settings',
                         'authorize' => false,
                     ),
                 ),
@@ -138,14 +132,14 @@ class GetMenu extends AbstractHelper implements ServiceLocatorAwareInterface{
             'site' => array(
                 'titulo'    =>  'Site',
                 'active'    => false,
-                'icon' => 'fa fa-desktop text-aqua',
+                'icon' => 'pe-7s-monitor',
                 'rota'  => '/home',
                 'itens'     =>  array()
             ),
             'deslogar' => array(
                 'titulo'    =>  'Deslogar',
                 'active'    => false,
-                'icon' => 'fa fa-sign-out text-red',
+                'icon' => 'pe-7s-next-2',
                 'rota'  => '/auth/logout',
                 'itens'     =>  array()
             ),

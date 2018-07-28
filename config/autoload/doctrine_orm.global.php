@@ -15,7 +15,7 @@ return array(
                     'dbname'   => 'placeone',
                     'charset'  => 'utf8',
                 )
-            )
+            ),
         )
     ),
 );

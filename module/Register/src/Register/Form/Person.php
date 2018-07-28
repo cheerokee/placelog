@@ -66,70 +66,12 @@ class Person  extends FormBase
             ->setAttribute('placeholder',$this->translate('Entre com o telefone'));
         $this->add($phone);
 
-        $whatsapp = new \Zend\Form\Element\Text("whatsapp");
-        $whatsapp->setLabel("Whatsapp: ")
+        $celphone = new \Zend\Form\Element\Text("celphone");
+        $celphone->setLabel("Celular: ")
             ->setAttribute('class','form-control telefone')
-            ->setAttribute('placeholder',$this->translate('Entre com o Whatsapp'));
-        $this->add($whatsapp);
+            ->setAttribute('placeholder',$this->translate('Entre com o Celular'));
+        $this->add($celphone);
 
-        $facebook = new \Zend\Form\Element\Text("facebook");
-        $facebook->setLabel("Facebook: ")
-            ->setAttribute('class','form-control')
-            ->setAttribute('placeholder',$this->translate('Entre com o Facebook'));
-        $this->add($facebook);
-
-        $instagram = new \Zend\Form\Element\Text("instagram");
-        $instagram->setLabel("Instagram: ")
-            ->setAttribute('class','form-control')
-            ->setAttribute('placeholder',$this->translate('Entre com o Instagram'));
-        $this->add($instagram);
-
-        $zipCode = new \Zend\Form\Element\Text("zip_code");
-        $zipCode->setLabel($this->translate("CEP: *"))
-            ->setAttribute('class','form-control cep')
-            ->setAttribute('required','required')
-            ->setAttribute('placeholder',$this->translate('Entre com o CEP'));
-        $this->add($zipCode);
-
-        $street = new \Zend\Form\Element\Text("street");
-        $street->setLabel($this->translate("Endereço: *"))
-            ->setAttribute('class','form-control')
-            ->setAttribute('required','required')
-            ->setAttribute('placeholder',$this->translate('Entre com o Endereço'));
-        $this->add($street);
-
-        $number = new \Zend\Form\Element\Text("number");
-        $number->setLabel($this->translate("Número: *"))
-            ->setAttribute('class','form-control')
-            ->setAttribute('required','required')
-            ->setAttribute('placeholder',$this->translate('Entre com o Número'));
-        $this->add($number);
-
-        $neighborhood = new \Zend\Form\Element\Text("neighborhood");
-        $neighborhood->setLabel($this->translate("Bairro: "))
-            ->setAttribute('class','form-control')
-            ->setAttribute('placeholder',$this->translate('Entre com o Bairro'));
-        $this->add($neighborhood);
-
-        $complement = new \Zend\Form\Element\Text("complement");
-        $complement->setLabel($this->translate("Complemento: "))
-            ->setAttribute('class','form-control')
-            ->setAttribute('placeholder',$this->translate('Entre com o Complemento'));
-        $this->add($complement);
-
-        $city = new \Zend\Form\Element\Text("city");
-        $city->setLabel($this->translate("Cidade: *"))
-            ->setAttribute('class','form-control')
-            ->setAttribute('required','required')
-            ->setAttribute('placeholder',$this->translate('Entre com a Cidade'));
-        $this->add($city);
-
-        $image = new \Zend\Form\Element\File("image");
-        $image->setLabel($this->translate('Foto: '))
-            ->setAttribute('class','form-control')
-            ->setAttribute('placeholder',$this->translate('Altere a foto do perfil'));
-        $this->add($image);
-       
         $password = new \Zend\Form\Element\Password("password");
         $password->setLabel($this->translate("Password: "))
                 ->setAttribute('class','form-control password')
@@ -147,18 +89,6 @@ class Person  extends FormBase
         $active = new \Zend\Form\Element\Hidden('active');
         $active->setAttribute('value','1');
         $this->add($active);
-
-        $specialty = new \Zend\Form\Element\Text("specialty");
-        $specialty->setLabel($this->translate("Especialidade: "))
-            ->setAttribute('class','form-control')
-            ->setAttribute('placeholder',$this->translate('Entre com a especialidade'));
-        $this->add($specialty);
-
-        $about = new \Zend\Form\Element\Textarea("about");
-        $about->setLabel($this->translate("Descrição Profissional: "))
-            ->setAttribute('class','form-control')
-            ->setAttribute('placeholder',$this->translate('Digite informações referente ao profissional'));
-        $this->add($about);
         
         $this->add(array(
             'name' => 'submit',
