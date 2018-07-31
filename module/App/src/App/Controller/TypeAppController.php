@@ -12,12 +12,12 @@ class TypeAppController extends CrudController
     {
         $this->title = "Tipo de Aplicação";
 
-        $this->table = 'type-app';
+        $this->table = 'TypeApp';
         $this->entity = 'App\Entity\\'.$this->table ;
         $this->service = 'App\Service\\'.$this->table ;
         $this->form = 'App\Form\\'.$this->table ;
         $this->controller = "TypeApp";
-        $this->route = $this->table."/default";
+        $this->route = "type-app/default";
 
         $this->_listView = array(
             'title' => $this->title,

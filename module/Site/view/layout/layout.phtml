@@ -4,8 +4,8 @@ echo $this->doctype();
 <html lang="en">
     <head>
         <meta charset="utf-8">
-        <meta name="description" content="Place One" />
-        <meta name="keywords" content="Place One" />
+        <meta name="description" content="Smart Envios" />
+        <meta name="keywords" content="Smart Envios" />
         <meta name="author" content="freehtml5.co" />
 
         <meta property="og:title" content=""/>
@@ -22,7 +22,7 @@ echo $this->doctype();
 
         <?php
 
-		echo $this->headTitle('Site '. $this->translate('- Site Base'))
+		echo $this->headTitle($this->translate('Smart Envios'))
 			->setSeparator(' - ')->setAutoEscape(false);
 
 		echo $this->headMeta()
@@ -40,7 +40,7 @@ echo $this->doctype();
             ->prependStylesheet($this->basePath('css/site/animate.css'));
 
 		echo $this->headScript()
-            ->prependFile($this->basePath('js/admin/geral.js'))
+            //->prependFile($this->basePath('js/admin/geral.js'))
 			->prependFile($this->basePath('js/site/geral.js'))
             ->prependFile($this->basePath('js/site/main.js'))
             ->prependFile($this->basePath('js/site/magnific-popup-options.js'))

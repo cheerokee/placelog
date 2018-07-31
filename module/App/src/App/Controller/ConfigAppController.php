@@ -12,12 +12,12 @@ class ConfigAppController extends CrudController
     {
         $this->title = "Configuração da Aplicação";
 
-        $this->table = 'config-app';
+        $this->table = "ConfigApp";
         $this->entity = 'App\Entity\\'.$this->table ;
         $this->service = 'App\Service\\'.$this->table ;
         $this->form = 'App\Form\\'.$this->table ;
         $this->controller = "ConfigApp";
-        $this->route = $this->table."/default";
+        $this->route = "config-app/default";
 
         $this->_listView = array(
             'title' => $this->title,

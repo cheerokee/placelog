@@ -1,1 +1,13 @@
-SITE
+<iframe style="width: 100%;float: left" id="data-frame" src="http://www.datafrete.com.br/placelog/index/placelog"></iframe>
+<script>
+    $(document).ready(function(){
+        $("#data-frame").css('height',$(window).height()+"px");
+        var altura = $(window).height();
+        setInterval(function () {
+            if(altura != $(window).height()){
+                $("#data-frame").css('height',$(window).height()+"px");
+                altura = $(window).height();
+            }
+        },1000);
+    });
+</script>
