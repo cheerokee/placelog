@@ -74,6 +74,51 @@ return [
                     ],
                 ],
             ],
+            'api.rest.doctrine.config' => [
+                'type' => 'Segment',
+                'options' => [
+                    'route' => '/api/data-frete/config[/:config_id]',
+                    'defaults' => [
+                        'controller' => 'api\\V1\\Rest\\Config\\Controller',
+                    ],
+                ],
+            ],
+            'api.rest.doctrine.person' => [
+                'type' => 'Segment',
+                'options' => [
+                    'route' => '/api/person[/:person_id]',
+                    'defaults' => [
+                        'controller' => 'api\\V1\\Rest\\Person\\Controller',
+                    ],
+                ],
+            ],
+            'api.rest.doctrine.app' => [
+                'type' => 'Segment',
+                'options' => [
+                    'route' => '/api/app[/:app_id]',
+                    'defaults' => [
+                        'controller' => 'api\\V1\\Rest\\App\\Controller',
+                    ],
+                ],
+            ],
+            'api.rest.doctrine.sku' => [
+                'type' => 'Segment',
+                'options' => [
+                    'route' => '/api/sku[/:sku_id]',
+                    'defaults' => [
+                        'controller' => 'api\\V1\\Rest\\Sku\\Controller',
+                    ],
+                ],
+            ],
+            'api.rest.doctrine.product' => [
+                'type' => 'Segment',
+                'options' => [
+                    'route' => '/api/product[/:product_id]',
+                    'defaults' => [
+                        'controller' => 'api\\V1\\Rest\\Product\\Controller',
+                    ],
+                ],
+            ],
         ],
     ],
     'zf-versioning' => [
@@ -86,6 +131,11 @@ return [
             5 => 'api.rest.doctrine.category-image',
             6 => 'api.rest.doctrine.image',
             7 => 'api.rest.doctrine.exercice',
+            8 => 'api.rest.doctrine.config',
+            9 => 'api.rest.doctrine.person',
+            10 => 'api.rest.doctrine.app',
+            11 => 'api.rest.doctrine.sku',
+            12 => 'api.rest.doctrine.product',
         ],
     ],
     'zf-rest' => [
@@ -223,7 +273,7 @@ return [
             'collection_query_whitelist' => [],
             'page_size' => 25,
             'page_size_param' => null,
-            'entity_class' => \Register\Entity\CategoryImage::class,
+            'entity_class' => 'Register\\Entity\\CategoryImage',
             'collection_class' => \api\V1\Rest\CategoryImage\CategoryImageCollection::class,
             'service_name' => 'CategoryImage',
         ],
@@ -246,7 +296,7 @@ return [
             'collection_query_whitelist' => [],
             'page_size' => 25,
             'page_size_param' => null,
-            'entity_class' => \Register\Entity\Image::class,
+            'entity_class' => 'Register\\Entity\\Image',
             'collection_class' => \api\V1\Rest\Image\ImageCollection::class,
             'service_name' => 'Image',
         ],
@@ -269,9 +319,124 @@ return [
             'collection_query_whitelist' => [],
             'page_size' => 25,
             'page_size_param' => null,
-            'entity_class' => \Activities\Entity\Exercice::class,
+            'entity_class' => 'Activities\\Entity\\Exercice',
             'collection_class' => \api\V1\Rest\Exercice\ExerciceCollection::class,
             'service_name' => 'Exercice',
+        ],
+        'api\\V1\\Rest\\Config\\Controller' => [
+            'listener' => \api\V1\Rest\Config\ConfigResource::class,
+            'route_name' => 'api.rest.doctrine.config',
+            'route_identifier_name' => 'config_id',
+            'entity_identifier_name' => 'id',
+            'collection_name' => 'config',
+            'entity_http_methods' => [
+                0 => 'GET',
+                1 => 'PATCH',
+                2 => 'PUT',
+                3 => 'DELETE',
+            ],
+            'collection_http_methods' => [
+                0 => 'GET',
+                1 => 'POST',
+            ],
+            'collection_query_whitelist' => [],
+            'page_size' => 25,
+            'page_size_param' => null,
+            'entity_class' => \DataFrete\Entity\Config::class,
+            'collection_class' => \api\V1\Rest\Config\ConfigCollection::class,
+            'service_name' => 'Config',
+        ],
+        'api\\V1\\Rest\\Person\\Controller' => [
+            'listener' => \api\V1\Rest\Person\PersonResource::class,
+            'route_name' => 'api.rest.doctrine.person',
+            'route_identifier_name' => 'person_id',
+            'entity_identifier_name' => 'id',
+            'collection_name' => 'person',
+            'entity_http_methods' => [
+                0 => 'GET',
+                1 => 'PATCH',
+                2 => 'PUT',
+                3 => 'DELETE',
+            ],
+            'collection_http_methods' => [
+                0 => 'GET',
+                1 => 'POST',
+            ],
+            'collection_query_whitelist' => [],
+            'page_size' => 25,
+            'page_size_param' => null,
+            'entity_class' => \Register\Entity\Person::class,
+            'collection_class' => \api\V1\Rest\Person\PersonCollection::class,
+            'service_name' => 'Person',
+        ],
+        'api\\V1\\Rest\\App\\Controller' => [
+            'listener' => \api\V1\Rest\App\AppResource::class,
+            'route_name' => 'api.rest.doctrine.app',
+            'route_identifier_name' => 'app_id',
+            'entity_identifier_name' => 'id',
+            'collection_name' => 'app',
+            'entity_http_methods' => [
+                0 => 'GET',
+                1 => 'PATCH',
+                2 => 'PUT',
+                3 => 'DELETE',
+            ],
+            'collection_http_methods' => [
+                0 => 'GET',
+                1 => 'POST',
+            ],
+            'collection_query_whitelist' => [],
+            'page_size' => 25,
+            'page_size_param' => null,
+            'entity_class' => \App\Entity\App::class,
+            'collection_class' => \api\V1\Rest\App\AppCollection::class,
+            'service_name' => 'App',
+        ],
+        'api\\V1\\Rest\\Sku\\Controller' => [
+            'listener' => \api\V1\Rest\Sku\SkuResource::class,
+            'route_name' => 'api.rest.doctrine.sku',
+            'route_identifier_name' => 'sku_id',
+            'entity_identifier_name' => 'id',
+            'collection_name' => 'sku',
+            'entity_http_methods' => [
+                0 => 'GET',
+                1 => 'PATCH',
+                2 => 'PUT',
+                3 => 'DELETE',
+            ],
+            'collection_http_methods' => [
+                0 => 'GET',
+                1 => 'POST',
+            ],
+            'collection_query_whitelist' => [],
+            'page_size' => 25,
+            'page_size_param' => null,
+            'entity_class' => \Catalog\Entity\Sku::class,
+            'collection_class' => \api\V1\Rest\Sku\SkuCollection::class,
+            'service_name' => 'Sku',
+        ],
+        'api\\V1\\Rest\\Product\\Controller' => [
+            'listener' => \api\V1\Rest\Product\ProductResource::class,
+            'route_name' => 'api.rest.doctrine.product',
+            'route_identifier_name' => 'product_id',
+            'entity_identifier_name' => 'id',
+            'collection_name' => 'product',
+            'entity_http_methods' => [
+                0 => 'GET',
+                1 => 'PATCH',
+                2 => 'PUT',
+                3 => 'DELETE',
+            ],
+            'collection_http_methods' => [
+                0 => 'GET',
+                1 => 'POST',
+            ],
+            'collection_query_whitelist' => [],
+            'page_size' => 25,
+            'page_size_param' => null,
+            'entity_class' => \Catalog\Entity\Product::class,
+            'collection_class' => \api\V1\Rest\Product\ProductCollection::class,
+            'service_name' => 'Product',
         ],
     ],
     'zf-content-negotiation' => [
@@ -284,6 +449,11 @@ return [
             'api\\V1\\Rest\\CategoryImage\\Controller' => 'HalJson',
             'api\\V1\\Rest\\Image\\Controller' => 'HalJson',
             'api\\V1\\Rest\\Exercice\\Controller' => 'HalJson',
+            'api\\V1\\Rest\\Config\\Controller' => 'HalJson',
+            'api\\V1\\Rest\\Person\\Controller' => 'HalJson',
+            'api\\V1\\Rest\\App\\Controller' => 'HalJson',
+            'api\\V1\\Rest\\Sku\\Controller' => 'HalJson',
+            'api\\V1\\Rest\\Product\\Controller' => 'HalJson',
         ],
         'accept_whitelist' => [
             'api\\V1\\Rest\\City\\Controller' => [
@@ -326,6 +496,31 @@ return [
                 1 => 'application/hal+json',
                 2 => 'application/json',
             ],
+            'api\\V1\\Rest\\Config\\Controller' => [
+                0 => 'application/vnd.api.v1+json',
+                1 => 'application/hal+json',
+                2 => 'application/json',
+            ],
+            'api\\V1\\Rest\\Person\\Controller' => [
+                0 => 'application/vnd.api.v1+json',
+                1 => 'application/hal+json',
+                2 => 'application/json',
+            ],
+            'api\\V1\\Rest\\App\\Controller' => [
+                0 => 'application/vnd.api.v1+json',
+                1 => 'application/hal+json',
+                2 => 'application/json',
+            ],
+            'api\\V1\\Rest\\Sku\\Controller' => [
+                0 => 'application/vnd.api.v1+json',
+                1 => 'application/hal+json',
+                2 => 'application/json',
+            ],
+            'api\\V1\\Rest\\Product\\Controller' => [
+                0 => 'application/vnd.api.v1+json',
+                1 => 'application/hal+json',
+                2 => 'application/json',
+            ],
         ],
         'content_type_whitelist' => [
             'api\\V1\\Rest\\City\\Controller' => [
@@ -357,6 +552,26 @@ return [
                 1 => 'application/json',
             ],
             'api\\V1\\Rest\\Exercice\\Controller' => [
+                0 => 'application/vnd.api.v1+json',
+                1 => 'application/json',
+            ],
+            'api\\V1\\Rest\\Config\\Controller' => [
+                0 => 'application/vnd.api.v1+json',
+                1 => 'application/json',
+            ],
+            'api\\V1\\Rest\\Person\\Controller' => [
+                0 => 'application/vnd.api.v1+json',
+                1 => 'application/json',
+            ],
+            'api\\V1\\Rest\\App\\Controller' => [
+                0 => 'application/vnd.api.v1+json',
+                1 => 'application/json',
+            ],
+            'api\\V1\\Rest\\Sku\\Controller' => [
+                0 => 'application/vnd.api.v1+json',
+                1 => 'application/json',
+            ],
+            'api\\V1\\Rest\\Product\\Controller' => [
                 0 => 'application/vnd.api.v1+json',
                 1 => 'application/json',
             ],
@@ -419,7 +634,7 @@ return [
                 'route_name' => 'api.rest.doctrine.event',
                 'is_collection' => true,
             ],
-            \Register\Entity\CategoryImage::class => [
+            'Register\\Entity\\CategoryImage' => [
                 'route_identifier_name' => 'category_image_id',
                 'entity_identifier_name' => 'id',
                 'route_name' => 'api.rest.doctrine.category-image',
@@ -430,7 +645,7 @@ return [
                 'route_name' => 'api.rest.doctrine.category-image',
                 'is_collection' => true,
             ],
-            \Register\Entity\Image::class => [
+            'Register\\Entity\\Image' => [
                 'route_identifier_name' => 'image_id',
                 'entity_identifier_name' => 'id',
                 'route_name' => 'api.rest.doctrine.image',
@@ -441,7 +656,7 @@ return [
                 'route_name' => 'api.rest.doctrine.image',
                 'is_collection' => true,
             ],
-            \Activities\Entity\Exercice::class => [
+            'Activities\\Entity\\Exercice' => [
                 'route_identifier_name' => 'exercice_id',
                 'entity_identifier_name' => 'id',
                 'route_name' => 'api.rest.doctrine.exercice',
@@ -450,6 +665,61 @@ return [
             \api\V1\Rest\Exercice\ExerciceCollection::class => [
                 'entity_identifier_name' => 'id',
                 'route_name' => 'api.rest.doctrine.exercice',
+                'is_collection' => true,
+            ],
+            \DataFrete\Entity\Config::class => [
+                'route_identifier_name' => 'config_id',
+                'entity_identifier_name' => 'id',
+                'route_name' => 'api.rest.doctrine.config',
+                'hydrator' => 'api\\V1\\Rest\\Config\\ConfigHydrator',
+            ],
+            \api\V1\Rest\Config\ConfigCollection::class => [
+                'entity_identifier_name' => 'id',
+                'route_name' => 'api.rest.doctrine.config',
+                'is_collection' => true,
+            ],
+            \Register\Entity\Person::class => [
+                'route_identifier_name' => 'person_id',
+                'entity_identifier_name' => 'id',
+                'route_name' => 'api.rest.doctrine.person',
+                'hydrator' => 'api\\V1\\Rest\\Person\\PersonHydrator',
+            ],
+            \api\V1\Rest\Person\PersonCollection::class => [
+                'entity_identifier_name' => 'id',
+                'route_name' => 'api.rest.doctrine.person',
+                'is_collection' => true,
+            ],
+            \App\Entity\App::class => [
+                'route_identifier_name' => 'app_id',
+                'entity_identifier_name' => 'id',
+                'route_name' => 'api.rest.doctrine.app',
+                'hydrator' => 'api\\V1\\Rest\\App\\AppHydrator',
+            ],
+            \api\V1\Rest\App\AppCollection::class => [
+                'entity_identifier_name' => 'id',
+                'route_name' => 'api.rest.doctrine.app',
+                'is_collection' => true,
+            ],
+            \Catalog\Entity\Sku::class => [
+                'route_identifier_name' => 'sku_id',
+                'entity_identifier_name' => 'id',
+                'route_name' => 'api.rest.doctrine.sku',
+                'hydrator' => 'api\\V1\\Rest\\Sku\\SkuHydrator',
+            ],
+            \api\V1\Rest\Sku\SkuCollection::class => [
+                'entity_identifier_name' => 'id',
+                'route_name' => 'api.rest.doctrine.sku',
+                'is_collection' => true,
+            ],
+            \Catalog\Entity\Product::class => [
+                'route_identifier_name' => 'product_id',
+                'entity_identifier_name' => 'id',
+                'route_name' => 'api.rest.doctrine.product',
+                'hydrator' => 'api\\V1\\Rest\\Product\\ProductHydrator',
+            ],
+            \api\V1\Rest\Product\ProductCollection::class => [
+                'entity_identifier_name' => 'id',
+                'route_name' => 'api.rest.doctrine.product',
                 'is_collection' => true,
             ],
         ],
@@ -487,6 +757,26 @@ return [
             \api\V1\Rest\Exercice\ExerciceResource::class => [
                 'object_manager' => 'doctrine.entitymanager.orm_default',
                 'hydrator' => 'api\\V1\\Rest\\Exercice\\ExerciceHydrator',
+            ],
+            \api\V1\Rest\Config\ConfigResource::class => [
+                'object_manager' => 'doctrine.entitymanager.orm_default',
+                'hydrator' => 'api\\V1\\Rest\\Config\\ConfigHydrator',
+            ],
+            \api\V1\Rest\Person\PersonResource::class => [
+                'object_manager' => 'doctrine.entitymanager.orm_default',
+                'hydrator' => 'api\\V1\\Rest\\Person\\PersonHydrator',
+            ],
+            \api\V1\Rest\App\AppResource::class => [
+                'object_manager' => 'doctrine.entitymanager.orm_default',
+                'hydrator' => 'api\\V1\\Rest\\App\\AppHydrator',
+            ],
+            \api\V1\Rest\Sku\SkuResource::class => [
+                'object_manager' => 'doctrine.entitymanager.orm_default',
+                'hydrator' => 'api\\V1\\Rest\\Sku\\SkuHydrator',
+            ],
+            \api\V1\Rest\Product\ProductResource::class => [
+                'object_manager' => 'doctrine.entitymanager.orm_default',
+                'hydrator' => 'api\\V1\\Rest\\Product\\ProductHydrator',
             ],
         ],
     ],
@@ -527,21 +817,56 @@ return [
             'use_generated_hydrator' => true,
         ],
         'api\\V1\\Rest\\CategoryImage\\CategoryImageHydrator' => [
-            'entity_class' => \Register\Entity\CategoryImage::class,
+            'entity_class' => 'Register\\Entity\\CategoryImage',
             'object_manager' => 'doctrine.entitymanager.orm_default',
             'by_value' => true,
             'strategies' => [],
             'use_generated_hydrator' => true,
         ],
         'api\\V1\\Rest\\Image\\ImageHydrator' => [
-            'entity_class' => \Register\Entity\Image::class,
+            'entity_class' => 'Register\\Entity\\Image',
             'object_manager' => 'doctrine.entitymanager.orm_default',
             'by_value' => true,
             'strategies' => [],
             'use_generated_hydrator' => true,
         ],
         'api\\V1\\Rest\\Exercice\\ExerciceHydrator' => [
-            'entity_class' => \Activities\Entity\Exercice::class,
+            'entity_class' => 'Activities\\Entity\\Exercice',
+            'object_manager' => 'doctrine.entitymanager.orm_default',
+            'by_value' => true,
+            'strategies' => [],
+            'use_generated_hydrator' => true,
+        ],
+        'api\\V1\\Rest\\Config\\ConfigHydrator' => [
+            'entity_class' => \DataFrete\Entity\Config::class,
+            'object_manager' => 'doctrine.entitymanager.orm_default',
+            'by_value' => true,
+            'strategies' => [],
+            'use_generated_hydrator' => true,
+        ],
+        'api\\V1\\Rest\\Person\\PersonHydrator' => [
+            'entity_class' => \Register\Entity\Person::class,
+            'object_manager' => 'doctrine.entitymanager.orm_default',
+            'by_value' => true,
+            'strategies' => [],
+            'use_generated_hydrator' => true,
+        ],
+        'api\\V1\\Rest\\App\\AppHydrator' => [
+            'entity_class' => \App\Entity\App::class,
+            'object_manager' => 'doctrine.entitymanager.orm_default',
+            'by_value' => true,
+            'strategies' => [],
+            'use_generated_hydrator' => true,
+        ],
+        'api\\V1\\Rest\\Sku\\SkuHydrator' => [
+            'entity_class' => \Catalog\Entity\Sku::class,
+            'object_manager' => 'doctrine.entitymanager.orm_default',
+            'by_value' => true,
+            'strategies' => [],
+            'use_generated_hydrator' => true,
+        ],
+        'api\\V1\\Rest\\Product\\ProductHydrator' => [
+            'entity_class' => \Catalog\Entity\Product::class,
             'object_manager' => 'doctrine.entitymanager.orm_default',
             'by_value' => true,
             'strategies' => [],
@@ -572,6 +897,21 @@ return [
         ],
         'api\\V1\\Rest\\Exercice\\Controller' => [
             'input_filter' => 'api\\V1\\Rest\\Exercice\\Validator',
+        ],
+        'api\\V1\\Rest\\Config\\Controller' => [
+            'input_filter' => 'api\\V1\\Rest\\Config\\Validator',
+        ],
+        'api\\V1\\Rest\\Person\\Controller' => [
+            'input_filter' => 'api\\V1\\Rest\\Person\\Validator',
+        ],
+        'api\\V1\\Rest\\App\\Controller' => [
+            'input_filter' => 'api\\V1\\Rest\\App\\Validator',
+        ],
+        'api\\V1\\Rest\\Sku\\Controller' => [
+            'input_filter' => 'api\\V1\\Rest\\Sku\\Validator',
+        ],
+        'api\\V1\\Rest\\Product\\Controller' => [
+            'input_filter' => 'api\\V1\\Rest\\Product\\Validator',
         ],
     ],
     'input_filter_specs' => [
@@ -979,6 +1319,478 @@ return [
                 'required' => true,
                 'filters' => [],
                 'validators' => [],
+            ],
+        ],
+        'api\\V1\\Rest\\Config\\Validator' => [
+            0 => [
+                'name' => 'updatedAt',
+                'required' => false,
+                'filters' => [],
+                'validators' => [],
+            ],
+            1 => [
+                'name' => 'createdAt',
+                'required' => false,
+                'filters' => [],
+                'validators' => [],
+            ],
+            2 => [
+                'name' => 'login',
+                'required' => false,
+                'filters' => [
+                    0 => [
+                        'name' => \Zend\Filter\StringTrim::class,
+                    ],
+                    1 => [
+                        'name' => \Zend\Filter\StripTags::class,
+                    ],
+                ],
+                'validators' => [
+                    0 => [
+                        'name' => \Zend\Validator\StringLength::class,
+                        'options' => [
+                            'min' => 1,
+                            'max' => 255,
+                        ],
+                    ],
+                ],
+            ],
+            3 => [
+                'name' => 'password',
+                'required' => false,
+                'filters' => [
+                    0 => [
+                        'name' => \Zend\Filter\StringTrim::class,
+                    ],
+                    1 => [
+                        'name' => \Zend\Filter\StripTags::class,
+                    ],
+                ],
+                'validators' => [
+                    0 => [
+                        'name' => \Zend\Validator\StringLength::class,
+                        'options' => [
+                            'min' => 1,
+                            'max' => 255,
+                        ],
+                    ],
+                ],
+            ],
+            4 => [
+                'name' => 'token',
+                'required' => false,
+                'filters' => [
+                    0 => [
+                        'name' => \Zend\Filter\StringTrim::class,
+                    ],
+                    1 => [
+                        'name' => \Zend\Filter\StripTags::class,
+                    ],
+                ],
+                'validators' => [
+                    0 => [
+                        'name' => \Zend\Validator\StringLength::class,
+                        'options' => [
+                            'min' => 1,
+                            'max' => 255,
+                        ],
+                    ],
+                ],
+            ],
+            5 => [
+                'name' => 'active',
+                'required' => false,
+                'filters' => [],
+                'validators' => [],
+            ],
+            6 => [
+                'required' => false,
+                'validators' => [],
+                'filters' => [],
+                'name' => 'company',
+            ],
+        ],
+        'api\\V1\\Rest\\Person\\Validator' => [
+            0 => [
+                'name' => 'type_person',
+                'required' => false,
+                'filters' => [],
+                'validators' => [],
+            ],
+            1 => [
+                'name' => 'document',
+                'required' => false,
+                'filters' => [
+                    0 => [
+                        'name' => \Zend\Filter\StringTrim::class,
+                    ],
+                    1 => [
+                        'name' => \Zend\Filter\StripTags::class,
+                    ],
+                ],
+                'validators' => [
+                    0 => [
+                        'name' => \Zend\Validator\StringLength::class,
+                        'options' => [
+                            'min' => 1,
+                            'max' => 255,
+                        ],
+                    ],
+                ],
+            ],
+            2 => [
+                'name' => 'name',
+                'required' => true,
+                'filters' => [
+                    0 => [
+                        'name' => \Zend\Filter\StringTrim::class,
+                    ],
+                    1 => [
+                        'name' => \Zend\Filter\StripTags::class,
+                    ],
+                ],
+                'validators' => [
+                    0 => [
+                        'name' => \Zend\Validator\StringLength::class,
+                        'options' => [
+                            'min' => 1,
+                            'max' => 255,
+                        ],
+                    ],
+                ],
+            ],
+            3 => [
+                'name' => 'email',
+                'required' => true,
+                'filters' => [
+                    0 => [
+                        'name' => \Zend\Filter\StringTrim::class,
+                    ],
+                    1 => [
+                        'name' => \Zend\Filter\StripTags::class,
+                    ],
+                ],
+                'validators' => [
+                    0 => [
+                        'name' => \Zend\Validator\StringLength::class,
+                        'options' => [
+                            'min' => 1,
+                            'max' => 255,
+                        ],
+                    ],
+                ],
+            ],
+            4 => [
+                'name' => 'phone',
+                'required' => false,
+                'filters' => [
+                    0 => [
+                        'name' => \Zend\Filter\StringTrim::class,
+                    ],
+                    1 => [
+                        'name' => \Zend\Filter\StripTags::class,
+                    ],
+                ],
+                'validators' => [
+                    0 => [
+                        'name' => \Zend\Validator\StringLength::class,
+                        'options' => [
+                            'min' => 1,
+                            'max' => 255,
+                        ],
+                    ],
+                ],
+            ],
+            5 => [
+                'name' => 'celphone',
+                'required' => false,
+                'filters' => [
+                    0 => [
+                        'name' => \Zend\Filter\StringTrim::class,
+                    ],
+                    1 => [
+                        'name' => \Zend\Filter\StripTags::class,
+                    ],
+                ],
+                'validators' => [
+                    0 => [
+                        'name' => \Zend\Validator\StringLength::class,
+                        'options' => [
+                            'min' => 1,
+                            'max' => 255,
+                        ],
+                    ],
+                ],
+            ],
+            6 => [
+                'name' => 'password',
+                'required' => true,
+                'filters' => [
+                    0 => [
+                        'name' => \Zend\Filter\StringTrim::class,
+                    ],
+                    1 => [
+                        'name' => \Zend\Filter\StripTags::class,
+                    ],
+                ],
+                'validators' => [
+                    0 => [
+                        'name' => \Zend\Validator\StringLength::class,
+                        'options' => [
+                            'min' => 1,
+                            'max' => 255,
+                        ],
+                    ],
+                ],
+            ],
+            7 => [
+                'name' => 'salt',
+                'required' => false,
+                'filters' => [
+                    0 => [
+                        'name' => \Zend\Filter\StringTrim::class,
+                    ],
+                    1 => [
+                        'name' => \Zend\Filter\StripTags::class,
+                    ],
+                ],
+                'validators' => [
+                    0 => [
+                        'name' => \Zend\Validator\StringLength::class,
+                        'options' => [
+                            'min' => 1,
+                            'max' => 255,
+                        ],
+                    ],
+                ],
+            ],
+            8 => [
+                'name' => 'active',
+                'required' => false,
+                'filters' => [],
+                'validators' => [],
+            ],
+            9 => [
+                'name' => 'firstAccess',
+                'required' => false,
+                'filters' => [],
+                'validators' => [],
+            ],
+            10 => [
+                'name' => 'activationKey',
+                'required' => true,
+                'filters' => [
+                    0 => [
+                        'name' => \Zend\Filter\StringTrim::class,
+                    ],
+                    1 => [
+                        'name' => \Zend\Filter\StripTags::class,
+                    ],
+                ],
+                'validators' => [
+                    0 => [
+                        'name' => \Zend\Validator\StringLength::class,
+                        'options' => [
+                            'min' => 1,
+                            'max' => 255,
+                        ],
+                    ],
+                ],
+            ],
+            11 => [
+                'name' => 'updatedAt',
+                'required' => true,
+                'filters' => [],
+                'validators' => [],
+            ],
+            12 => [
+                'name' => 'createdAt',
+                'required' => true,
+                'filters' => [],
+                'validators' => [],
+            ],
+            13 => [
+                'name' => 'isAdmin',
+                'required' => false,
+                'filters' => [],
+                'validators' => [],
+            ],
+        ],
+        'api\\V1\\Rest\\App\\Validator' => [
+            0 => [
+                'name' => 'updatedAt',
+                'required' => true,
+                'filters' => [],
+                'validators' => [],
+            ],
+            1 => [
+                'name' => 'createdAt',
+                'required' => true,
+                'filters' => [],
+                'validators' => [],
+            ],
+            2 => [
+                'name' => 'name',
+                'required' => true,
+                'filters' => [
+                    0 => [
+                        'name' => \Zend\Filter\StringTrim::class,
+                    ],
+                    1 => [
+                        'name' => \Zend\Filter\StripTags::class,
+                    ],
+                ],
+                'validators' => [
+                    0 => [
+                        'name' => \Zend\Validator\StringLength::class,
+                        'options' => [
+                            'min' => 1,
+                            'max' => 255,
+                        ],
+                    ],
+                ],
+            ],
+        ],
+        'api\\V1\\Rest\\Sku\\Validator' => [
+            0 => [
+                'name' => 'updatedAt',
+                'required' => true,
+                'filters' => [],
+                'validators' => [],
+            ],
+            1 => [
+                'name' => 'createdAt',
+                'required' => true,
+                'filters' => [],
+                'validators' => [],
+            ],
+            2 => [
+                'name' => 'name',
+                'required' => true,
+                'filters' => [
+                    0 => [
+                        'name' => \Zend\Filter\StringTrim::class,
+                    ],
+                    1 => [
+                        'name' => \Zend\Filter\StripTags::class,
+                    ],
+                ],
+                'validators' => [
+                    0 => [
+                        'name' => \Zend\Validator\StringLength::class,
+                        'options' => [
+                            'min' => 1,
+                            'max' => 255,
+                        ],
+                    ],
+                ],
+            ],
+            3 => [
+                'name' => 'friendly_url',
+                'required' => false,
+                'filters' => [
+                    0 => [
+                        'name' => \Zend\Filter\StringTrim::class,
+                    ],
+                    1 => [
+                        'name' => \Zend\Filter\StripTags::class,
+                    ],
+                ],
+                'validators' => [
+                    0 => [
+                        'name' => \Zend\Validator\StringLength::class,
+                        'options' => [
+                            'min' => 1,
+                            'max' => 255,
+                        ],
+                    ],
+                ],
+            ],
+            4 => [
+                'name' => 'weight',
+                'required' => false,
+                'filters' => [],
+                'validators' => [],
+            ],
+            5 => [
+                'name' => 'width',
+                'required' => false,
+                'filters' => [],
+                'validators' => [],
+            ],
+            6 => [
+                'name' => 'height',
+                'required' => false,
+                'filters' => [],
+                'validators' => [],
+            ],
+            7 => [
+                'name' => 'length',
+                'required' => false,
+                'filters' => [],
+                'validators' => [],
+            ],
+            8 => [
+                'name' => 'description',
+                'required' => false,
+                'filters' => [],
+                'validators' => [],
+            ],
+        ],
+        'api\\V1\\Rest\\Product\\Validator' => [
+            0 => [
+                'name' => 'updatedAt',
+                'required' => true,
+                'filters' => [],
+                'validators' => [],
+            ],
+            1 => [
+                'name' => 'createdAt',
+                'required' => true,
+                'filters' => [],
+                'validators' => [],
+            ],
+            2 => [
+                'name' => 'name',
+                'required' => true,
+                'filters' => [
+                    0 => [
+                        'name' => \Zend\Filter\StringTrim::class,
+                    ],
+                    1 => [
+                        'name' => \Zend\Filter\StripTags::class,
+                    ],
+                ],
+                'validators' => [
+                    0 => [
+                        'name' => \Zend\Validator\StringLength::class,
+                        'options' => [
+                            'min' => 1,
+                            'max' => 255,
+                        ],
+                    ],
+                ],
+            ],
+            3 => [
+                'name' => 'friendly_url',
+                'required' => false,
+                'filters' => [
+                    0 => [
+                        'name' => \Zend\Filter\StringTrim::class,
+                    ],
+                    1 => [
+                        'name' => \Zend\Filter\StripTags::class,
+                    ],
+                ],
+                'validators' => [
+                    0 => [
+                        'name' => \Zend\Validator\StringLength::class,
+                        'options' => [
+                            'min' => 1,
+                            'max' => 255,
+                        ],
+                    ],
+                ],
             ],
         ],
     ],

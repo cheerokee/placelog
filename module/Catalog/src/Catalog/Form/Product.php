@@ -19,6 +19,9 @@ class Product extends FormBase{
             ->setAttribute('required','required');
         $this->add($field);
 
+        $company = new \Zend\Form\Element\Hidden('company');
+        $this->add($company);
+
         $this->add(array(
             'name' => 'submit',
             'type'=>'Zend\Form\Element\Submit',

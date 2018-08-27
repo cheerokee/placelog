@@ -1,0 +1,53 @@
+<?php
+$functions = new \Base\Controller\BaseFunctions();
+$controller = $this->listView['controller'];
+$filters = $this->listView['filters'];
+
+$arr_element = array();
+if(!empty($this->form))
+{
+    foreach($this->form as $k => $element)
+    {
+        $arr_element[$k] = $element;
+    }
+}
+
+if(!empty($filters)) {
+    ?>
+    <div class="row">
+        <div class="col-md-4 col-md-offset-8">
+            <div class="card">
+                <div class="header">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h4 style="margin: 0"><i class="pe-7s-search"></i>&nbsp;Filtro</h4>
+                        </div>
+                    </div>
+                </div>
+                <div class="content">
+                    <form method="post" action="">
+                        <?php
+                        foreach ($filters as $k => $filter) {
+                            echo $this->partial('filter/'.$filter['type'],array(
+                                'em'            => $this->em,
+                                'chave'         => $k,
+                                'filter'        => $filter,
+                                'controller'    => $controller,
+                                'entity'        => $this->entity,
+                                'element'       => $arr_element[$k]
+                            ));
+                        }
+                        ?>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <button class="btn btn-success" name="filter-form">Filtrar</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <?php
+}
+?>

@@ -4,20 +4,20 @@ namespace App\Controller;
 
 use Base\Controller\CrudController;
 
-class ConfigAppController extends CrudController
+class IntegrationController extends CrudController
 {
     protected $route;
 
     public function __construct() 
     {
-        $this->title = "Configuração da Aplicação";
+        $this->title = "Integração";
 
-        $this->table = "ConfigApp";
+        $this->table = 'Integration';
         $this->entity = 'App\Entity\\'.$this->table ;
         $this->service = 'App\Service\\'.$this->table ;
         $this->form = 'App\Form\\'.$this->table ;
-        $this->controller = "ConfigApp";
-        $this->route = "config-app/default";
+        $this->controller = "Integration";
+        $this->route = "integration/default";
 
         $this->_listView = array(
             'title' => $this->title,
@@ -49,6 +49,10 @@ class ConfigAppController extends CrudController
                     'label' => 'Id',
                     'list' => true,
                 ),
+                'name'=>array(
+                    'label' => 'Nome',
+                    'list' => true,
+                )
             ),
         );
     }

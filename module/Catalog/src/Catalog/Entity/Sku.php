@@ -46,6 +46,46 @@ class Sku
     private $name;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="friendly_url", type="string", length=255, nullable=true)
+     */
+    private $friendly_url;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="weight", type="float", nullable=true)
+     */
+    private $weight;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="width", type="float", nullable=true)
+     */
+    private $width;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="height", type="float", nullable=true)
+     */
+    private $height;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="length", type="float", nullable=true)
+     */
+    private $length;
+
+    /**
+     * @ORM\Column(name="description", type="text", length=65000, nullable=true)
+     */
+    protected $description;
+
+    /**
      * @var \Catalog\Entity\Product
      *
      * @ORM\ManyToOne(targetEntity="Catalog\Entity\Product")
@@ -142,5 +182,166 @@ class Sku
     public function setProduct($product)
     {
         $this->product = $product;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFriendlyUrl()
+    {
+        return $this->friendly_url;
+    }
+
+    /**
+     * @param string $friendly_url
+     */
+    public function setFriendlyUrl($friendly_url)
+    {
+        $this->friendly_url = $friendly_url;
+    }
+
+//    /**
+//     * @return string
+//     */
+//    public function getPrice()
+//    {
+//        return $this->price;
+//    }
+//
+//    public function getPriceStr()
+//    {
+//        if($this->price != null){
+//            return 'R$ ' . number_format($this->price, 2, ',', '.');
+//        }else{
+//            return 'R$ ' . number_format(0, 2, ',', '.');
+//        }
+//    }
+//
+//    /**
+//     * @param string $price
+//     */
+//    public function setPrice($price)
+//    {
+//        $this->price = $price;
+//    }
+
+    /**
+     * @return string
+     */
+    public function getWeight()
+    {
+        return $this->weight;
+    }
+
+    public function getWeightStr()
+    {
+        $vl = $this->weight;
+        if($vl != null){
+            return number_format($vl, 2, ',', '.');
+        }else{
+            return number_format(0, 2, ',', '.');
+        }
+    }
+
+    /**
+     * @param string $weight
+     */
+    public function setWeight($weight)
+    {
+        $this->weight = $weight;
+    }
+
+    /**
+     * @return string
+     */
+    public function getWidth()
+    {
+        return $this->width;
+    }
+
+    public function getWidthStr()
+    {
+        $vl = $this->width;
+        if($vl != null){
+            return number_format($vl, 2, ',', '.');
+        }else{
+            return number_format(0, 2, ',', '.');
+        }
+    }
+
+    /**
+     * @param string $width
+     */
+    public function setWidth($width)
+    {
+        $this->width = $width;
+    }
+
+    /**
+     * @return string
+     */
+    public function getHeight()
+    {
+        return $this->height;
+    }
+
+    public function getHeightStr()
+    {
+        $vl = $this->height;
+        if($vl != null){
+            return number_format($vl, 2, ',', '.');
+        }else{
+            return number_format(0, 2, ',', '.');
+        }
+    }
+
+    /**
+     * @param string $height
+     */
+    public function setHeight($height)
+    {
+        $this->height = $height;
+    }
+
+    /**
+     * @return string
+     */
+    public function getLength()
+    {
+        return $this->length;
+    }
+
+    public function getLengthStr()
+    {
+        $vl = $this->length;
+        if($vl != null){
+            return number_format($vl, 2, ',', '.');
+        }else{
+            return number_format(0, 2, ',', '.');
+        }
+    }
+
+    /**
+     * @param string $length
+     */
+    public function setLength($length)
+    {
+        $this->length = $length;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    /**
+     * @param mixed $description
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
     }
 }

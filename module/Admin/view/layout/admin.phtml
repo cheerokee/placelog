@@ -19,17 +19,10 @@ echo $this->doctype(); ?>
         'href' => $this->basePath() . '/img/icons/favicon.ico'
     ));
 
-
-    $person = $this->personIdentity('Person');
-
-    if(!($person instanceof \Register\Entity\Person)){
-        header('Location: /auth');
-        die;
-    }
-
     $logo = $this->getConfiguration('LOGO');
     $logoAbreviado = $this->getConfiguration('LOGOMINI');
     ?>
+    <link href="<?=$this->basePath('/assets/css/jquery-ui.css');?>" rel="stylesheet" />
     <link href="<?=$this->basePath('/assets/css/bootstrap.min.css');?>" rel="stylesheet" />
     <link href="<?=$this->basePath('/assets/css/animate.min.css');?>" rel="stylesheet"/>
     <link href="<?=$this->basePath('/assets/css/light-bootstrap-dashboard.css?v=1.4.0');?>" rel="stylesheet"/>
@@ -39,13 +32,34 @@ echo $this->doctype(); ?>
     <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
     <link href='http://fonts.googleapis.com/css?family=Roboto:400,700,300' rel='stylesheet' type='text/css'>
 
-    <script src="<?=$this->basePath('/assets/js/jquery.3.2.1.min.js');?>" type="text/javascript"></script>
+    <script src="<?=$this->basePath('/assets/js/jquery-1.9.1.js');?>" type="text/javascript"></script>
+    <script src="<?=$this->basePath('/assets/js/jquery-ui.js');?>" type="text/javascript"></script>
     <script src="<?=$this->basePath('/assets/js/bootstrap.min.js');?>" type="text/javascript"></script>
     <script src="<?=$this->basePath('/assets/js/chartist.min.js');?>"></script>
     <script src="<?=$this->basePath('/assets/js/bootstrap-notify.js');?>"></script>
     <script src="<?=$this->basePath('/assets/js/light-bootstrap-dashboard.js?v=1.4.0');?>"></script>
     <script src="<?=$this->basePath('/assets/js/demo.js');?>"></script>
     <script src="<?=$this->basePath('/js/admin/geral.js')?>"></script>
+    <script src="<?=$this->basePath('/js/admin/bootbox.js')?>"></script>
+
+    <?php
+    $person = $this->getEm()->getRepository('Register\Entity\Person')->find($this->personIdentity('Person')->getId());
+
+    if(!($person instanceof \Register\Entity\Person)){
+        header('Location: /auth');
+        die;
+    }
+
+    if($person instanceof \Register\Entity\Person){
+        if(!$person->hasThisProfile('administrator') && !$person->hasThisProfile('company')){
+            $_SESSION['company'] = null;
+        }else if($person->hasThisProfile('company')){
+            $_SESSION['company'] = $person->getId();
+        }else{
+            $_SESSION['company'] = $person->getCompany();
+        }
+    }
+    ?>
 </head>
 <body>
     <div class="wrapper">
@@ -61,20 +75,21 @@ echo $this->doctype(); ?>
                     <li class="active">
                         <a href="<?=$this->url('admin');?>">
                             <i class="pe-7s-graph"></i>
-                            <p>Dashboard</p>
+                            <p>Dashboard <i class="pe-7s-star pull-right text-yellow"></i></p>
                         </a>
                     </li>
 
-
                 <?php
+
                 if(!empty($this->getMenu()))
                 {
-                    foreach($this->getMenu() as $menu)
+
+                    foreach($this->getMenu() as $a => $menu)
                     {
                         if(empty($menu['itens']))
                         {
                             ?>
-                            <li>
+                            <li <?=($_SERVER['REDIRECT_URL'] == $menu['rota'])?'class="active"':''?> >
                                 <a href="<?=$menu['rota']?>">
                                     <i class="<?=$menu['icon']?>"></i>
                                     <p><?=$menu['titulo']?></p>
@@ -82,27 +97,43 @@ echo $this->doctype(); ?>
                             </li>
                             <?
                         }else{
+                            $somenu = true;
                             ?>
-                            <li class="nav-item dropdown">
+                            <li id="menu_<?=$a?>" class="nav-item dropdown">
                                 <a style="cursor: pointer;" class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
                                     <i class="<?=$menu['icon']?>"></i>
                                     <p><?=$menu['titulo']?></p>
                                 </a>
                                 <div class="main dropdown-menu">
                                     <?php
-                                    foreach($menu['itens'] as $item)
+                                    foreach($menu['itens'] as $k => $item)
                                     {
+                                        if(isset($item['authorize']) && $item['authorize'] == false && !$this->personPermission('modulos',$k,'listAll',$item['authorize'])) {
+                                            continue;
+                                        }
                                         ?>
                                         <a class="dropdown-item " href="<?=$item['rota']?>">
                                             <i  class="<?=$item['icon']?>"></i>  <?=$item['titulo']?>
                                         </a>
+
                                         <?php
+                                        $somenu = false;
                                     }
                                     ?>
                                 </div>
                             </li>
                             <?php
+                            if($somenu) {
+                                ?>
+                                <style>
+                                    #menu_<?=$a?> {
+                                        display: none;
+                                    }
+                                </style>
+                                <?php
+                            }
                         }
+
                     }
                 }
                 ?>
@@ -187,16 +218,16 @@ echo $this->doctype(); ?>
 <script type="text/javascript">
     $(document).ready(function(){
 
-        demo.initChartist();
+        //demo.initChartist();
 
-        $.notify({
-            icon: 'pe-7s-gift',
-            message: "Welcome to <b>Light Bootstrap Dashboard</b> - a beautiful freebie for every web developer."
-
-        },{
-            type: 'info',
-            timer: 4000
-        });
+        // $.notify({
+        //     icon: 'pe-7s-gift',
+        //     message: "Welcome to <b>Light Bootstrap Dashboard</b> - a beautiful freebie for every web developer."
+        //
+        // },{
+        //     type: 'info',
+        //     timer: 4000
+        // });
 
     });
 

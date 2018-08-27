@@ -1,0 +1,243 @@
+<script src="/js/admin/angular.min.js"></script>
+<div ng-app="consulta-frete-interface" ng-controller="ConsultaFreteController as conf" class="col-md-12">
+    <div class="card">
+        <div class="header">
+            <h4 class="title">Consultar Frete</h4>
+            <p class="category text-justify">
+                Função responsável por retornar o valor do frete e seu prazo de
+                entrega para a mercadoria informada.
+            </p>
+        </div>
+        <div class="content">
+            <div class="row">
+
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="col-md-3 form-group">
+                            <labe>CEP Origem *</labe>
+                            <input class="form-control" ng-model="cepOrigem">
+                        </div>
+                        <div class="col-md-3 form-group">
+                            <labe>CEP Destino *</labe>
+                            <input class="form-control" ng-model="cepOrigem">
+                        </div>
+                        <div class="col-md-6 form-group">
+                            <labe>Documento do Destinatário <i title="INFORMAÇÃO QUE AJUDARÁ A IDENTIFICAR POSSÍVEIS TAXAS ADICIONAIS (TRT, TDE OU TDA)" class="pe-7s-info"></i></labe>
+                            <input class="form-control" ng-model="docDest">
+                        </div>
+                    </div>
+                    <hr />
+                </div>
+
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="col-md-6 form-group">
+                            <labe>Exibição Resultados</labe>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="exibeRes" id="sr1" ng-model="exibeRes" ng-value="0" checked>
+                                <label class="form-check-label" for="sr1">
+                                    Apenas Registros que Possuem Valores
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="exibeRes" id="sr2" ng-model="exibeRes" ng-value="1">
+                                <label class="form-check-label" for="sr2">
+                                    Apenas o Menor Preço
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="exibeRes" id="sr3" ng-model="exibeRes" ng-value="2">
+                                <label class="form-check-label" for="sr3">
+                                    Todos os Registros ( Com ou sem Valores )
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-md-6 form-group">
+                            <labe>Tipo Ordenação</labe>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="ordenar" id="of1" ng-model="ordenar" ng-value="0" checked>
+                                <label class="form-check-label" for="of1">
+                                    Ordenar Pelo Preço
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="ordenar" id="of2" ng-model="ordenar" ng-value="1">
+                                <label class="form-check-label" for="of2">
+                                    Ordenar Pelo Prazo
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <hr />
+                </div>
+
+                <div class="col-md-12 form-group">
+                    <labe>Inserir Produtos</labe>
+                    <div class="row">
+                        <div class="col-md-8">
+                            <input class="form-control" id="produtoFind" ng-="search()"   ng-model="produtoFind" placeholder="Buscar por Nome" >
+                            <input type="hidden"        id="produtoFindId"  ng-model="produtoFindId" >
+                        </div>
+                        <div class="col-md-4">
+                            <button ng-click="add" class="btn btn-primary form-control">Inserir</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12 form-group">
+                    <hr />
+                    <labe>Lista Produtos *</labe>
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Descrição</th>
+                                <th>Quantidade</th>
+                                <th>Preço</th>
+                                <th>Peso</th>
+                                <th>Cubagem</th>
+                                <th>Volume</th>
+                                <th>Ação</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="sku in data">
+                                <td>{{ sku._embedded.product.id }} - {{ sku._embedded.product.name }} ( {{ sku.id }} - {{ sku.name }} )</td>
+                                <td><input class="form-control moeda" onkeypress="mascara(this,moeda)" ng-model="sku.qtde" placeholder="Insira a Quantidade" /></td>
+                                <td><input class="form-control moeda" onkeypress="mascara(this,moeda)" ng-model="sku.price" placeholder="Insira o Preço" /></td>
+                                <td><input class="form-control moeda" onkeypress="mascara(this,moeda)" ng-model="sku.weight" placeholder="Insira o Peso" /></td>
+                                <td><input class="form-control moeda" onkeypress="mascara(this,moeda)" ng-model="sku.cubagem" placeholder="Insira a Cubagem" /></td>
+                                <td><input class="form-control moeda" onkeypress="mascara(this,moeda)" ng-model="sku.volume" placeholder="Insira o Volume" /></td>
+                                <td><button class="btn btn-danger text-danger" ng-click="del(sku)"><i class="pe-7s-close-circle"></i></button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-md-12">
+                    <hr />
+                    <button class="btn btn-primary">Consultar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    angular.module('consulta-frete-interface', []).controller('ConsultaFreteController', ['$scope','$http', function($scope,$http) {
+        $scope.cepOrigem    = '';
+        $scope.cepDestino   = '';
+        $scope.docDest      = '';
+        $scope.exibeRes     = 0;
+        $scope.ordenar      = 0;
+
+        $scope.produtoFind = '';
+        $scope.produtoFindId = -1;
+
+        $scope.data = [];
+
+        $scope.loadSkus = function () {
+            $.ajax({
+                url: "/api/sku",
+                async: false,
+                type: "GET",
+                data: {
+                    'filter': [
+                        <?php
+                        if(isset($_SESSION['company']) && $_SESSION['company'] != null){
+                            ?>
+                            {
+                                'type' : 'innerjoin',
+                                'field' : 'product',
+                                'alias' : 'p'
+                            },
+                            {
+                                'type' : 'eq',
+                                'alias' : 'p',
+                                'field' : 'company',
+                                'value' : '<?=$_SESSION['company']?>'
+                            }
+                            <?php
+                        }
+                        ?>
+                    ]
+                },
+                dataType: "json"
+            }).done(function(response) {
+                var contador = 1;
+                var json = "[";
+                for (i in response._embedded.sku)
+                {
+                    var product = response._embedded.sku[i]._embedded.product;
+                    var sku = response._embedded.sku[i];
+                    json += "{\"value\" : \""+sku.id+"\" , \"label\": \""+product.id+" - "+product.name+" ("+sku.id+" - "+sku.name+")\"}";
+
+                    if(contador < response._embedded.sku.length){
+                        json += ",";
+                        contador++;
+                    }
+                }
+                json += "]";
+
+                var idfield = 'produtoFind';
+                var idfieldid = 'produtoFindId';
+
+                $("#produtoFind").autocomplete({
+                    source: JSON.parse(json),
+                    open: function (event, ui) {
+                        $('#' + idfieldid).val('');
+                    },
+                    select: function (event, ui) {
+                        $('#' + idfield).val(ui.item.label);
+                        $('#' + idfieldid).val(ui.item.value);
+
+                        $.ajax({
+                            url: "/api/sku/"+ui.item.value,
+                            async: false,
+                            type: "GET",
+                            dataType: "json"
+                        }).done(function(data) {
+                            data.qtde       = 0;
+                            data.price      = 0;
+                            data.weight     = 0;
+                            data.cubagem    = 0;
+                            data.volume     = 0;
+
+                            $scope.data.push(data);
+                        });
+                        return false;
+                    }
+                }).blur(function () {
+                    if ($('#' + idfield).val() == '') {
+                        $('#' + idfield).val('');
+                        $('#' + idfieldid).val('');
+                    }
+
+                    if ($('#' + idfieldid).val() == '') {
+                        $('#' + idfield).val('');
+                    }
+                });
+            });
+        };
+
+        $scope.add = function() {
+            $scope.data.push({ id : 1,name : 'Teste'});
+        };
+        
+        $scope.del = function (sku) {
+            console.log($scope.data.indexOf(sku));
+            $scope.data.splice($scope.data.indexOf(sku), 1);
+        };
+
+        var typingTimer;
+        var doneTypingInterval = 100;
+
+        $('#produtoFind').keyup(function() {
+            clearTimeout(typingTimer);
+            if ($('#produtoFind').val) {
+                typingTimer = setTimeout(doneTyping, doneTypingInterval);
+            }
+        });
+
+        function doneTyping() {
+            $scope.loadSkus();
+        }
+    }]);
+</script>

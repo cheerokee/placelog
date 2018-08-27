@@ -20,8 +20,9 @@ class PersonPermission extends AbstractHelper implements ServiceLocatorAwareInte
         return $this->__invoke($recurso,$item,$privilege);
     }
 
-    public function __invoke($recurso,$item,$privilege) {
+    public function __invoke($recurso,$item,$privilege,$authorize = null) {
 
+        $item = str_replace(' ','_',strtolower($item));
         $helperPluginManager = $this->getServiceLocator();
         $serviceManager = $helperPluginManager->getServiceLocator();
         $this->setEm($serviceManager->get('Doctrine\ORM\EntityManager'));
@@ -37,9 +38,18 @@ class PersonPermission extends AbstractHelper implements ServiceLocatorAwareInte
             $permitido = false;
             if(!empty($personProfiles)){
                 foreach($personProfiles as $personProfile){
+                    $information = json_decode($personProfile->getProfile()->getInformation(),true);
+
                     if($permitido == true)
                         break;
-                    $information = json_decode($personProfile->getProfile()->getInformation(),true);
+
+                    //Está como autorização nao permitida
+//                    if($authorize === false){
+//                        //E também verifica se o privilegio existe, se nao existe é porque nao tem permissao realmente
+//                        if(!isset($information['recursos'][$recurso][$item]))
+//                            return false;
+//                    }
+
                     $permitido = ($information['recursos'][$recurso][$item][$privilege] == '1' || $personProfile->getPerson()->isIsAdmin())?true:false;
                 }
             }
@@ -84,4 +94,5 @@ class PersonPermission extends AbstractHelper implements ServiceLocatorAwareInte
     {
         return $this->serviceLocator;
     }
+
 }

@@ -64,10 +64,10 @@ class Person extends \Register\Entity\Person implements \Doctrine\ORM\Proxy\Prox
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return ['__isInitialized__', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'id', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'type_person', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'document', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'name', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'email', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'phone', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'celphone', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'password', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'salt', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'active', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'firstAccess', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'activationKey', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'updatedAt', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'createdAt', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'isAdmin', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'company'];
+            return ['__isInitialized__', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'id', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'type_person', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'document', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'name', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'email', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'phone', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'celphone', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'password', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'salt', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'active', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'firstAccess', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'activationKey', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'updatedAt', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'createdAt', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'isAdmin', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'company', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'person_profiles'];
         }
 
-        return ['__isInitialized__', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'id', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'type_person', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'document', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'name', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'email', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'phone', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'celphone', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'password', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'salt', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'active', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'firstAccess', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'activationKey', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'updatedAt', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'createdAt', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'isAdmin', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'company'];
+        return ['__isInitialized__', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'id', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'type_person', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'document', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'name', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'email', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'phone', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'celphone', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'password', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'salt', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'active', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'firstAccess', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'activationKey', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'updatedAt', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'createdAt', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'isAdmin', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'company', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'person_profiles'];
     }
 
     /**
@@ -549,6 +549,61 @@ class Person extends \Register\Entity\Person implements \Doctrine\ORM\Proxy\Prox
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'setFirstAccess', [$firstAccess]);
 
         return parent::setFirstAccess($firstAccess);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getCompany()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getCompany', []);
+
+        return parent::getCompany();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setCompany($company)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setCompany', [$company]);
+
+        return parent::setCompany($company);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getPersonProfiles()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getPersonProfiles', []);
+
+        return parent::getPersonProfiles();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setPersonProfiles($person_profiles)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setPersonProfiles', [$person_profiles]);
+
+        return parent::setPersonProfiles($person_profiles);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function hasThisProfile($profile)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'hasThisProfile', [$profile]);
+
+        return parent::hasThisProfile($profile);
     }
 
 }

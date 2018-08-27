@@ -21,6 +21,11 @@ class PersonFilter extends InputFilter
                 array('name'=>'NotEmpty','options'=>array('messages'=>array('isEmpty'=> 'Não pode estar em branco')))
             )
         ));
+
+        $this->add(array(
+            'name' => 'company',
+            'required'=>false
+        ));
         
         $validator = new \Zend\Validator\EmailAddress;
         $validator->setOptions(array('domain'=>FALSE));

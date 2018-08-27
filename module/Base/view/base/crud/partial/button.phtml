@@ -1,6 +1,12 @@
 <?php
 $action = $this->action;
 $entity = $this->entity;
+$em     = $this->em;
+
+/**
+ * @var \Base\Controller\BaseFunctions $functions
+ */
+$functions = new \Base\Controller\BaseFunctions();
 
 if ($action['where']) {
     eval("\$where = " . $action['where'] . ";");
@@ -30,7 +36,17 @@ if ($entity->$identifyMethod() != null) {
 }
 
 $rota = (isset($action['rota'])) ? $action['rota'] : $this->rota();
+
+$db_join_entity = array();
+if(isset($action['join'])){
+    $method_find = 'findBy'.$functions->toCamelCase($action['join']['fk']);
+    $method_get = 'get' .  $functions->toCamelCase($action['join']['pk']);
+    $db_join_entity = $em->getRepository($action['join']['entity'])->$method_find($entity->$method_get());
+    $url['fk'] = $action['join']['fk'];
+    $url['fk_id'] = $entity->$method_get();
+}
+
 ?>
-<a title="<?=($action['title'])?$action['title']:''?>" href="<?=$this->url($rota,$url,$options);?>"	class="btn <?=($action['class'])?$action['class']:"btn-default"?> button_custom">
-    <?=$icon?> <?=$action['label']?>
+<a title="<?=($action['title'])?$action['title']:''?>" href="<?=$this->url($rota,$url,$options);?>?<?=$this->param?>" class="btn <?=($action['class'])?$action['class']:"btn-default"?> button_custom">
+    <?=$icon?> <?=$action['label']?> <?=($action['appear-title'])?$action['title']:''?> <?=(!empty($db_join_entity))?'<span class="text-danger">( '.count($db_join_entity).' )</span>':'';?>
 </a>

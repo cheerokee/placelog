@@ -1,4 +1,9 @@
 <?php
+/**
+ * @var \Base\Controller\BaseFunctions $functions
+ */
+$functions = new \Base\Controller\BaseFunctions();
+
 function camel2dashed($className) {
     return strtolower(preg_replace('/([^A-Z-])([A-Z])/', '$1-$2', $className));
 }
@@ -24,6 +29,25 @@ if(isset($goto[$chave])){
 	}
 }
 
+$db_profile = $this->getEm()->getRepository('Register\Entity\Profile')->findOneByChave($chave);
+if($db_profile instanceof \Register\Entity\Profile)
+{
+    $param = 'profile=' . $db_profile->getChave();
+}
+
+$entity = $this->entity;
+$em = $this->getEm();
+
+$fk = $this->fk;
+$fk_id = $this->fk_id;
+
+$url_new = null;
+if($fk != null && $fk_id != null)
+{
+    $url_new = $this->url($controller.'-join-new',array('fk' => $fk,'fk_id' => $fk_id));
+}else{
+    $url_new = $this->url($this->_listView['route'],array('action'=>'new'));
+}
 
 ?>
 
@@ -36,6 +60,27 @@ if(isset($goto[$chave])){
             </ol>
             <?php $this->getAdminFlashMessenger();?>
         </div>
+        <?=$this->partial('filter-base',array(
+            'em' => $em,
+            'controller' => $controller,
+            'listView' => $this->_listView,
+            'entity' => $this->entity,
+            'form'  => $this->form,
+        ));?>
+        <?php
+        if($fk != null && $fk_id != null){
+            ?>
+            <div class="col-md-12">
+                <h4>
+                    <a href="<?=$this->url($this->fk_route,array('controller' => $fk,'action' => 'edit','id' => $fk_id))?>">
+                        Cod.: <?=$this->fk_entity->getId();?> <?=$this->fk_entity;?>
+                    </a>
+                </h4>
+            </div>
+            <?php
+        }
+        ?>
+
         <div class="col-md-12">
             <div class="card">
                 <div class="header">
@@ -47,8 +92,7 @@ if(isset($goto[$chave])){
                         </div>
                         <div class="col-md-4">
                             <div style="float: right; margin-right: 10px;" class="btn-group">
-                                <a
-                                        href="<?php echo $this->url($this->_listView['route'],array('action'=>'new')); ?>">
+                                <a href="<?php echo $url_new ?>?<?=$param?>">
                                     <button type="button" class="btn btn-success">
                                         <i class="fa fa-plus"></i> Novo
                                     </button>
@@ -65,10 +109,12 @@ if(isset($goto[$chave])){
                             try{
                                 echo $this->$method_filter();
                             }catch (Exception $e){}
+
+
                             ?>
                             <table class="table table-hover">
                                 <?=$this->partial('partial/header');?>
-                                <?=$this->partial('partial/body');?>
+                                <?=$this->partial('partial/body',array('controller' => $controller,'data' => $data,'param' => $param,'em' => $em,'fk' => $fk,'fk_id' => $fk_id));?>
                             </table>
                         </div>
                         <div class="col-md-12">

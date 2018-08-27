@@ -13,6 +13,20 @@ class TypeApp extends FormBase{
         $id = new \Zend\Form\Element\Hidden('id');
         $this->add($id);
 
+        $field = new \Zend\Form\Element\Text("name");
+        $field->setLabel($this->translate("Nome: "))
+            ->setAttribute('type','text')
+            ->setAttribute('required','required')
+            ->setAttribute('class','form-control');
+        $this->add($field);
+
+        $field = new \Zend\Form\Element\Text("key_value");
+        $field->setLabel($this->translate("Valor Chave: "))
+            ->setAttribute('type','text')
+            ->setAttribute('required','required')
+            ->setAttribute('class','form-control');
+        $this->add($field);
+
         $this->add(array(
             'name' => 'submit',
             'type'=>'Zend\Form\Element\Submit',

@@ -23,9 +23,12 @@ class PersonProfile
     /**
      * @var \Register\Entity\Person
      *
-     * @ORM\ManyToOne(targetEntity="Register\Entity\Person")
+     * @ORM\ManyToOne(targetEntity="Register\Entity\Person",
+     *      inversedBy="person_profiles", fetch="LAZY")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="person_id", referencedColumnName="id", nullable=false, onDelete="CASCADE")
+     *   @ORM\JoinColumn(name="person_id", referencedColumnName="id",
+     *      nullable=false,
+     *      onDelete="CASCADE")
      * })
      */
     private $person;

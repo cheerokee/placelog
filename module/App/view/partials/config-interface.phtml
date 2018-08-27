@@ -1,0 +1,569 @@
+<?php
+if($this->app){
+    $db_app = $this->app;
+}
+
+$title = $this->title;
+$form = $this->form;
+$form->setAttribute('action', $this->url($this->route, array(
+    'controller' => $this->controller,
+    'action' => $type
+)))->prepare();
+?>
+<script src="/js/admin/angular.min.js"></script>
+
+<div ng-app="config-interface" ng-controller="ConfigController as conf" class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="header">
+                    <h4 class="title">
+                        <?=$title?>  - <small>Gerencie as configurações da integração</small>
+                    </h4>
+                    <br />
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="card">
+                <div class="header">
+                    <h4 class="title">
+                        Criar / Editar - <small>Formulário de criação e edição de configurações de acesso a APIs / Web Services das Integrações </small>
+                    </h4>
+                </div>
+                <div class="content">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <?=$this->form()->openTag($form);?>
+                            <div>
+                                <input type="hidden" ng-model="id" value="{{id}}" >
+                                <?php
+                                $hidden = array(
+                                    'hidden' => 1,
+                                    'submit' => 1
+                                );
+
+                                foreach ($form as $element) {
+                                    $element->setAttribute('form',$form->getName());
+                                    $type = $element->getAttributes()['type'];
+                                    switch ($type){
+                                        case ($element instanceof \Zend\Form\Element\Textarea):
+                                            $column = "col-md-12";
+                                            break;
+                                        case "radio":
+                                            $column = "col-md-12";
+                                            break;
+                                        default:
+                                            $column = "col-md-4";
+                                    }
+
+                                    $column .= ' field';
+                                    $id = 'input'.$element->getName();
+                                    $style = ($hidden[$type])?'display:none':'display:block';
+                                    ?>
+                                    <div id="<?=$id?>" style="<?=$style?>" class="<?=$column?>">
+                                        <div class="form-group" ng-class="{'has-error': error_<?=$element->getName()?> == true}" >
+                                            <?php
+                                            if ($element->getLabel() != null) {
+                                                echo "<label for='Input" . $element->getName() . "'>" . $element->getLabel() . "</label>";
+                                            }
+
+                                            $element->setAttribute("id", "Input" . $element->getName())->setAttribute("type", $type);
+                                            $element->setAttribute("value","");
+
+                                            switch($type){
+                                                case 'select':
+                                                    ?>
+                                                    <select ng-model="<?=$element->getName()?>" ng-value="<?=$element->getName()?>" class="form-control" name="<?=$element->getName()?>">
+                                                        <?php
+                                                        if(!empty($element->getValueOptions()))
+                                                        {
+                                                            foreach($element->getValueOptions() as $k => $option)
+                                                            {
+
+                                                                $vl = '';
+                                                                if(is_array($option))
+                                                                {
+                                                                    $vl = $option['label'];
+                                                                    $index = $option['value']*1;
+                                                                }else{
+                                                                    $vl = $option;
+                                                                    $index = $k;
+                                                                }
+                                                                echo '<option value="'.$index.'">'.$vl.'</option>';
+                                                            }
+                                                        }
+                                                        ?>
+                                                    </select>
+                                                    <?php
+                                                    break;
+                                                case 'textarea':
+                                                    ?>
+                                                    <textarea ng-model="<?=$element->getName()?>" name="<?=$element->getName()?>" ng-required="{ string }" required class="form-control">
+                                                        <?='{{'.$element->getName().'}}'?>
+                                                    </textarea>
+                                                    <?php
+                                                    break;
+                                                default:
+                                                    ?>
+                                                    <input type="<?=$type?>" ng-model="<?=$element->getName()?>" class="form-control" ng-required="{ string }" required name="<?=$element->getName()?>" value="<?='{{'.$element->getName().'}}'?>">
+                                                <?php
+                                            }
+                                            ?>
+                                            <div ng-show="error_<?=$element->getName();?>" class="invalid-feedback form-base text-danger">
+                                                Valor do campo inválido!
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <?php
+                                }
+                                ?>
+                                <hr />
+                            </div>
+                            <div class="col-md-12">
+                                <button type="button" ng-if="btnadd" ng-click="add($event)" class="btn btn-success pull-right">
+                                    Adicionar
+                                </button>
+                                <button type="button" ng-if="btnedit" ng-click="save(id)" class="btn btn-primary pull-right">
+                                    Atualizar
+                                </button>
+                                <button ng-click="clear()" form="<?=$form->getName()?>" type="reset" class="btn btn-danger pull-right">
+                                    Cancelar
+                                </button>
+                            </div>
+                            <?=$this->form()->closeTag($form);?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="card">
+                <div class="header">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <h4 class="title">
+                                Configurações - <small>Listagem de Registros</small>
+                            </h4>
+                        </div>
+                        <div class="col-md-4">
+                            <div style="float: right; margin-right: 10px;" class="btn-group">
+                                <button ng-click="clear()" type="button" class="btn btn-success">
+                                    <i class="fa fa-plus"></i> Novo
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="content">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <table class="table table-hover">
+                                <thead>
+                                <tr>
+                                    <?php
+                                    $continue_fields = array(
+                                        'submit'
+                                    );
+
+                                    $continue_fields_name = array(
+                                        'end_point'
+                                    );
+
+                                    foreach ($form as $element)
+                                    {
+                                        if(in_array($element->getAttribute('type'),$continue_fields))
+                                        {
+                                            continue;
+                                        }
+
+                                        if(in_array($element->getName(),$continue_fields_name))
+                                        {
+                                            continue;
+                                        }
+                                        ?>
+                                        <th><?=$element->getLabel()?></th>
+                                        <?php
+                                    }
+                                    ?>
+                                    <th>Ação</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="config in configs">
+                                        <?php
+
+                                        $continue_fields = array(
+                                            'submit'
+                                        );
+
+                                        foreach ($form as $element)
+                                        {
+                                            if(in_array($element->getAttribute('type'),$continue_fields))
+                                            {
+                                                continue;
+                                            }
+
+                                            if(in_array($element->getName(),$continue_fields_name))
+                                            {
+                                                continue;
+                                            }
+
+                                            if($element instanceof DoctrineModule\Form\Element\ObjectSelect){
+                                                ?>
+                                                <td>
+                                                    {{
+                                                    config._embedded.<?=$element->getName()?>.id + " - " +
+                                                    config._embedded.<?=$element->getName()?>.name + " - " +
+                                                    config._embedded.<?=$element->getName()?>.document
+                                                    }}
+                                                </td>
+                                                <?php
+                                            }else{
+                                                ?>
+                                                <td>{{ config.<?=$element->getName()?> }}</td>
+                                                <?php
+                                            }
+
+                                        }
+                                        ?>
+                                        <td>
+                                            <button type="button" class="btn btn-primary" ng-click="edit(config.id)">
+                                                <i class="pe-7s-edit" title="Editar"></i>
+                                            </button>
+                                            <button type="button" class="btn btn-danger" ng-click="del(config.id)">
+                                                <i class="pe-7s-close-circle" title="Excluir"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    angular.module('config-interface', [])
+        .controller('ConfigController', ['$scope','$http', function($scope,$http) {
+            <?php
+            foreach ($form as $element) {
+                ?>
+                $scope.<?=$element->getName()?> = '<?=$element->getAttribute('value')?>';
+                $scope.error_<?=$element->getName()?> = false;
+                <?php
+
+                if($element->getName() == 'app'){
+                    ?>
+                    $scope.<?=$element->getName()?> = '<?=$db_app->getId()?>';
+                    <?
+                }
+            }
+            ?>
+
+            $scope.btnadd = true;
+            $scope.btnedit = false;
+            $scope.configs = [];
+            $scope.data = {};
+            $scope.has_error = 0;
+
+            $scope.load = function()
+            {
+                $http({
+                    url: '/api/data-frete/config',
+                    async: false,
+                    method: "GET"
+                }).then(function(response) {
+                        var configs = response.data._embedded.config;
+                        $scope.configs = configs;
+                    },
+                    function(response) {
+                        $.notify({
+                            icon: 'pe-7s-close-circle',
+                            message: "Impossível listar as configurações erro: "+response.statusText
+                        },{
+                            type: 'danger',
+                            timer: 4000
+                        });
+                    });
+            }
+
+            $scope.load();
+
+            $scope.validation = function()
+            {
+                <?php
+                foreach ($form as $element) {
+                $type = $element->getAttribute("type");
+                ?>
+                var required = "<?=($element->getAttribute('required') == 'required')?true:false;?>";
+                <?php
+                switch($type){
+                case 'select':
+                ?>
+                if(required && ($scope.<?=$element->getName()?> === '' || typeof $scope.<?=$element->getName()?> === 'undefined'))
+                {
+                    $scope.error_<?=$element->getName()?> = true;
+                    $scope.data.<?=$element->getName()?> = "";
+                    $scope.has_error++;
+                }else{
+                    $scope.error_<?=$element->getName()?> = false;
+                    $scope.data.<?=$element->getName()?> = $scope.<?=$element->getName()?>;
+                    $scope.has_error--;
+                }
+                <?php
+                break;
+                case 'textarea':
+                ?>
+                if(required && ($scope.<?=$element->getName()?> == '' || typeof $scope.<?=$element->getName()?> == 'undefined'))
+                {
+                    $scope.error_<?=$element->getName()?> = true;
+                    $scope.data.<?=$element->getName()?> = "";
+                    $scope.has_error++;
+                }else{
+                    $scope.error_<?=$element->getName()?> = false;
+                    $scope.data.<?=$element->getName()?> = $scope.<?=$element->getName()?>;
+                    $scope.has_error--;
+                }
+                <?php
+                break;
+                case 'hidden':
+                    break;
+                case 'submit':
+                    break;
+                default:
+                ?>
+                if(required && ($scope.<?=$element->getName()?> == '' || typeof $scope.<?=$element->getName()?> == 'undefined'))
+                {
+                    $scope.error_<?=$element->getName()?> = true;
+                    $scope.data.<?=$element->getName()?> = "";
+                    $scope.has_error++;
+                }else{
+                    $scope.error_<?=$element->getName()?> = false;
+                    $scope.data.<?=$element->getName()?> = $scope.<?=$element->getName()?>;
+                    $scope.has_error--;
+                }
+                <?php
+                }
+
+                }
+                ?>
+            }
+
+            $scope.add = function(clickEvent) {
+                $scope.validation();
+
+                if($scope.has_error < 1){
+                    $http({
+                        url: '/api/data-frete/config',
+                        method: "POST",
+                        data: $scope.data
+                    }).then(function(response) {
+                            // success
+                            $.notify({
+                                icon: 'pe-7s-smile',
+                                message: "Configuração cadastrada com sucesso!"
+                            },{
+                                type: 'success',
+                                timer: 4000
+                            });
+
+                            $scope.load();
+                            $scope.clear();
+                        },
+                        function(response) {
+                            // failed
+                            if(response.status == 422)
+                            {
+                                $.notify({
+                                    icon: 'pe-7s-close-circle',
+                                    message: "Houve erro na inclusão do cadastro erro: "+response.statusText
+                                },{
+                                    type: 'danger',
+                                    timer: 4000
+                                });
+                            }
+                        });
+                }else{
+                    $.notify({
+                        icon: 'pe-7s-close-circle',
+                        message: "Há erros no cadastro, verifique se o formulário foi preenchido corretamente!"
+
+                    },{
+                        type: 'danger',
+                        timer: 4000
+                    });
+                }
+
+            };
+
+            $scope.save = function(id){
+                $scope.validation();
+
+                if($scope.has_error < 1){
+                    $http({
+                        url: '/api/data-frete/config/'+id,
+                        method: "PUT",
+                        data: $scope.data
+                    }).then(function(response) {
+                            // success
+                            $.notify({
+                                icon: 'pe-7s-smile',
+                                message: "Configuração atualizada com sucesso!"
+                            },{
+                                type: 'success',
+                                timer: 4000
+                            });
+
+                            $scope.load();
+                            $scope.btnadd = true;
+                            $scope.btnedit = false;
+                            $scope.clear();
+                        },
+                        function(response) {
+                            // failed
+                            if(response.status == 422)
+                            {
+                                $.notify({
+                                    icon: 'pe-7s-close-circle',
+                                    message: "Houve erro na edição do cadastro erro: "+response.statusText
+                                },{
+                                    type: 'danger',
+                                    timer: 4000
+                                });
+                            }
+                        });
+                }else{
+                    $.notify({
+                        icon: 'pe-7s-close-circle',
+                        message: "Há erros no cadastro, verifique se o formulário foi preenchido corretamente!"
+
+                    },{
+                        type: 'danger',
+                        timer: 4000
+                    });
+                }
+            }
+
+            $scope.edit = function(id) {
+                $http({
+                    url: '/api/data-frete/config/'+id,
+                    async: false,
+                    method: "GET"
+                }).then(function(response) {
+                        var config = response.data;
+                        $scope.btnadd = false;
+                        $scope.btnedit = true;
+                        <?php
+
+                        foreach ($form as $element) {
+                        $type = $element->getAttribute('type');
+                        if($element instanceof DoctrineModule\Form\Element\ObjectSelect){
+                        ?>
+                        if(config._embedded.<?=$element->getName()?>){
+                            $scope.<?=$element->getName();?> = config._embedded.<?=$element->getName()?>.id;
+                        }
+
+                        <?php
+                        }else if($type == 'select'){
+                        ?>
+                        var value = null;
+                        if(config.<?=$element->getName();?> == false){
+                            value = 0;
+                        }else if(config.<?=$element->getName();?> == true){
+                            value = 1;
+                        }else{
+                            value = config.<?=$element->getName();?>;
+                        }
+
+                        $scope.<?=$element->getName();?> = value;
+                        <?php
+                        }else{
+                        ?>
+
+                        $scope.<?=$element->getName();?> = config.<?=$element->getName();?>;
+                        <?php
+                        }
+                        }
+                        ?>
+                    },
+                    function(response) {
+                        $.notify({
+                            icon: 'pe-7s-close-circle',
+                            message: "Não é possível editar esse item, erro: "+response.statusText
+                        },{
+                            type: 'danger',
+                            timer: 4000
+                        });
+                    });
+            };
+
+            $scope.clear = function(){
+                <?php
+                $continued = array(
+                    'app','company'
+                );
+                foreach ($form as $element) {
+                    if(in_array($element->getName(),$continued)){
+                        continue;
+                    }
+                    ?>
+                    $scope.<?=$element->getName()?> = '';
+                    <?php
+                }
+                ?>
+            }
+
+            $scope.del = function(id){
+                bootbox.confirm({
+                    message: "Deseja excluir esse item?",
+                    buttons: {
+                        cancel: {
+                            label: 'Não',
+                            className: 'btn-danger'
+                        },
+                        confirm: {
+                            label: 'Sim',
+                            className: 'btn-success btnConfirm',
+                        }
+                    },
+                    callback: function (result) {
+                        if(!result){
+                            this.modal('hide');
+                        }else{
+                            $http({
+                                url: '/api/data-frete/config/'+id,
+                                method: "DELETE"
+                            }).then(function(response) {
+                                    // success
+                                    $.notify({
+                                        icon: 'pe-7s-smile',
+                                        message: "Configuração deletada com sucesso!"
+                                    },{
+                                        type: 'success',
+                                        timer: 4000
+                                    });
+
+                                    $scope.load();
+                                },
+                                function(response) {
+                                    // failed
+                                    if(response.status == 422)
+                                    {
+                                        $.notify({
+                                            icon: 'pe-7s-close-circle',
+                                            message: "Houve erro na exclusão do cadastro, erro: "+response.statusText
+                                        },{
+                                            type: 'danger',
+                                            timer: 4000
+                                        });
+                                    }
+                                });
+                        }
+                    }
+                });
+            }
+        }]);
+</script>

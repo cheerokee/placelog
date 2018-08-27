@@ -38,6 +38,13 @@ class App
     private $createdAt;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="name", type="string", length=255, nullable=false)
+     */
+    private $name;
+
+    /**
      * @var \Register\Entity\Person
      *
      * @ORM\ManyToOne(targetEntity="Register\Entity\Person")
@@ -56,6 +63,16 @@ class App
      * })
      */
     private $type_app;
+
+    /**
+     * @var \App\Entity\Integration
+     *
+     * @ORM\ManyToOne(targetEntity="App\Entity\Integration")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="integration", referencedColumnName="id", nullable=false, onDelete="CASCADE")
+     * })
+     */
+    private $integration;
 
     public function __construct(array $options = array())
     {
@@ -144,5 +161,37 @@ class App
     public function setTypeApp($type_app)
     {
         $this->type_app = $type_app;
+    }
+
+    /**
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * @param string $name
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+    }
+
+    /**
+     * @return Integration
+     */
+    public function getIntegration()
+    {
+        return $this->integration;
+    }
+
+    /**
+     * @param Integration $integration
+     */
+    public function setIntegration($integration)
+    {
+        $this->integration = $integration;
     }
 }

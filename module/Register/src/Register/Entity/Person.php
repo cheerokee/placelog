@@ -134,6 +134,16 @@ class Person
     private $company;
 
     /**
+     * @var \Doctrine\Common\Collections\Collection
+     * @ORM\OneToMany(targetEntity="Register\Entity\PersonProfile",
+     *      cascade={"persist", "remove","merge","refresh"},
+     *      mappedBy="person", orphanRemoval=true)
+     */
+    private $person_profiles;
+
+
+
+    /**
      * @return string
      */
     public function __toString()
@@ -373,5 +383,59 @@ class Person
     public function setFirstAccess($firstAccess)
     {
         $this->firstAccess = $firstAccess;
+    }
+
+    /**
+     * @return Person
+     */
+    public function getCompany()
+    {
+        return $this->company;
+    }
+
+    /**
+     * @param Person $company
+     */
+    public function setCompany($company)
+    {
+        $this->company = $company;
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getPersonProfiles()
+    {
+        return $this->person_profiles;
+    }
+
+    /**
+     * @param Collection $person_profiles
+     */
+    public function setPersonProfiles($person_profiles)
+    {
+        $this->person_profiles = $person_profiles;
+    }
+
+    public function hasThisProfile($profile) {
+        /**
+         * @var PersonProfile[] $personProfiles
+         * @var Profile $db_profile
+         */
+        $personProfiles = $this->getPersonProfiles()->getValues();
+
+        if(!empty($personProfiles))
+        {
+            foreach($personProfiles as $personProfile)
+            {
+                $db_profile = $personProfile->getProfile();
+                if($db_profile->getChave() == $profile)
+                {
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 }

@@ -47,6 +47,50 @@ class GetMenu extends AbstractHelper implements ServiceLocatorAwareInterface{
                 'rota'  => '/admin/person/edit/'.$this->getAuthService()->getIdentity()->getId(),
                 'itens'     =>  array()
             ),
+            'cadastro' => array(
+                'titulo'    =>  'Cadastros',
+                'active'    => true,
+                'icon' => 'pe-7s-news-paper',
+                'itens'     =>  array(
+                    'administrator' => array(
+                        'titulo' => 'Administrador',
+                        'rota' => '/admin/administrator',
+                        'icon' => 'pe-7s-user',
+                        'authorize' => false,
+                    ),
+                    'company' => array(
+                        'titulo' => 'Empresas',
+                        'rota' => '/admin/company',
+                        'icon' => 'pe-7s-home',
+                        'authorize' => false,
+                    ),
+                    'employee' => array(
+                        'titulo' => 'Funcionários',
+                        'rota' => '/admin/employee',
+                        'icon' => 'pe-7s-id',
+                        'authorize' => false,
+                    ),
+                    'customer' => array(
+                        'titulo' => 'Clientes',
+                        'rota' => '/admin/customer',
+                        'icon' => 'pe-7s-users',
+                        'authorize' => false,
+                    )
+                )
+            ),
+            'catalog' => array(
+                'titulo'    =>  'Catálogo',
+                'active'    => true,
+                'icon' => 'pe-7s-albums',
+                'itens'     =>  array(
+                    'product' => array(
+                        'titulo' => 'Produto',
+                        'rota' => '/admin/product',
+                        'icon' => 'pe-7s-box1',
+                        'authorize' => false,
+                    )
+                )
+            ),
             'integration' => array(
                 'titulo'    =>  'Integrações',
                 'active'    => true,
@@ -58,18 +102,18 @@ class GetMenu extends AbstractHelper implements ServiceLocatorAwareInterface{
                         'icon' => 'pe-7s-keypad',
                         'authorize' => false,
                     ),
-                    'config-app' => array(
-                        'titulo' => 'Configuração das Aplicações',
-                        'rota' => '/admin/config-app',
-                        'icon' => 'pe-7s-config',
-                        'authorize' => false,
-                    ),
                     'type-app' => array(
                         'titulo' => 'Tipo de Aplicações',
                         'rota' => '/admin/type-app',
                         'icon' => 'pe-7s-airplay',
                         'authorize' => false,
                     ),
+                    'integration' => array(
+                        'titulo' => 'Integração',
+                        'rota' => '/admin/integration',
+                        'icon' => 'pe-7s-share',
+                        'authorize' => false,
+                    )
                 ),
             ),
             'site-cadastro' => array(
@@ -102,12 +146,12 @@ class GetMenu extends AbstractHelper implements ServiceLocatorAwareInterface{
                 'icon' => 'pe-7s-unlock',
                 'active'    => true,
                 'itens'     =>  array(
-                    'person' => array(
-                        'titulo' => 'Usuários',
-                        'rota' => '/admin/person',
-                        'icon' => 'pe-7s-users',
-                        'authorize' => false,
-                    ),
+//                    'person' => array(
+//                        'titulo' => 'Usuários',
+//                        'rota' => '/admin/person',
+//                        'icon' => 'pe-7s-users',
+//                        'authorize' => false,
+//                    ),
                     'perfil' => array(
                         'titulo' => 'Perfis',
                         'rota' => '/admin/profile',

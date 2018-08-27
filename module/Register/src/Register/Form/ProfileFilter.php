@@ -14,8 +14,13 @@ class ProfileFilter extends InputFilter
                 array('name'=>'StringTrim'),
             ),
             'validators' => array(
-                array('name'=>'NotEmpty','options'=>array('messages'=>array('isEmpty'=> $this->translate('Não pode estar em branco'))))
+                array('name'=>'NotEmpty','options'=>array('messages'=>array('isEmpty'=> 'Não pode estar em branco')))
             )
+        ));
+
+        $this->add(array(
+            'name' => 'profile',
+            'required'=>false
         ));
     }
 }

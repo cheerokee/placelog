@@ -29,11 +29,11 @@ class Module{
                 'App\Form\App' => function ($sm){
                     return new Form\App($sm->get('Doctrine\ORM\EntityManager'));
                 },
-                'App\Form\ConfigApp' => function ($sm){
-                    return new Form\ConfigApp($sm->get('Doctrine\ORM\EntityManager'));
-                },
                 'App\Form\TypeApp' => function ($sm){
                     return new Form\TypeApp($sm->get('Doctrine\ORM\EntityManager'));
+                },
+                'App\Form\Integration' => function ($sm){
+                    return new Form\Integration($sm->get('Doctrine\ORM\EntityManager'));
                 },
                 /**************/
                 /** SERVICES **/
@@ -43,13 +43,13 @@ class Module{
                 {
                     return new Service\App($sm->get('Doctrine\ORM\EntityManager'));
                 },
-                'App\Service\ConfigApp' => function ($sm)
-                {
-                    return new Service\ConfigApp($sm->get('Doctrine\ORM\EntityManager'));
-                },
                 'App\Service\TypeApp' => function ($sm)
                 {
                     return new Service\TypeApp($sm->get('Doctrine\ORM\EntityManager'));
+                },
+                'App\Service\Integration' => function ($sm)
+                {
+                    return new Service\Integration($sm->get('Doctrine\ORM\EntityManager'));
                 }
             )
         );

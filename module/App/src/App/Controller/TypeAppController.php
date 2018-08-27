@@ -49,6 +49,14 @@ class TypeAppController extends CrudController
                     'label' => 'Id',
                     'list' => true,
                 ),
+                'name'=>array(
+                    'label' => 'Nome',
+                    'list' => true,
+                ),
+                'key_value'=>array(
+                    'label' => 'Valor Chave',
+                    'list' => true,
+                ),
             ),
         );
     }

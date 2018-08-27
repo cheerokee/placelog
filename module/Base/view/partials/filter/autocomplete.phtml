@@ -1,0 +1,94 @@
+<?php
+$chave = $this->chave;
+$controller = $this->controller;
+$em = $this->em;
+$functions = new \Base\Controller\BaseFunctions();
+
+$vl = null;
+if(!isset($_POST[$controller . '_' . $chave])) {
+    $vl     = $_POST[$controller . '_' . $chave];
+    $vl_id  = $_POST[$controller . '_' . $chave . '_id'];
+}
+?>
+<div class="row">
+    <div class="col-md-12 form-group">
+        <label><?= $filter['label'] ?></label>
+        <input type="text" name="<?= $controller ?>_<?=$chave?>" id="<?= $controller?>_<?=$chave?>" class="form-control" value="<?= $vl ?>">
+        <input type="hidden" name="<?= $controller?>_<?=$chave?>_id" id="<?= $controller ?>_<?=$chave?>_id" value="<?= $vl_id?>">
+    </div>
+</div>
+<?php
+$db_login = $this->PersonIdentity('Person');
+
+switch($controller){
+    case 'administrator': // Listar qualquer pessoa
+        $db_entities = $em->getRepository($this->entity)->findAll();
+        break;
+    case 'company': // Listar funcionários que tenha o id do login
+        $db_entities = $em->getRepository($this->entity)->findAll();
+        break;
+    case 'employee': // Listar funcionários da mesma empresa
+        $db_entities = $em->getRepository($this->entity)->findByCompany($db_login->getId());
+        break;
+    case 'usuario' || 'person': // Listar funcionários da mesma empresa
+        $db_entities = $em->getRepository($this->entity)->findByCompany($db_login->getCompany());
+        break;
+    default:
+        echo 'CONFIGURE O FILTRO AUTOCOMPLETE PARA ESSE CONTROLLER';
+        break;
+}
+
+$names = array();
+if(!empty($db_entities)){
+    foreach ($db_entities as $db_entity) {
+        if($db_entity instanceof  $this->entity){
+            switch ( $controller )
+            {
+                case 'administrator' || 'company' || 'employee' || 'usuario' || 'person':
+                    $name = $db_entity->getName();
+                    $names[] = array('label' => $functions->formatarTexto($name), 'value' => $db_entity->getId());
+                    break;
+                default:
+                    $names[] = array('label' => $functions->formatarTexto($db_entity->getName()), 'value' => $db_entity->getId());
+                    break;
+            }
+        }
+    }
+}
+$names = json_encode($names);
+
+?>
+<script>
+    $(document).ready(function () {
+        <?php
+        if(isset($names) && $names != '')
+        {
+            ?>
+            let Json = '<?=$names?>';
+            var users = JSON.parse(Json);
+
+            $("#<?= $controller.'_'.$chave?>").autocomplete({
+                source: users,
+                open: function (event, ui) {
+                    $('#<?= $controller ."_".$chave."_id"?>').val('');
+                },
+                select: function (event, ui) {
+                    $('#<?= $controller."_".$chave?>').val(ui.item.label);
+                    $('#<?= $controller ."_".$chave."_id"?>').val(ui.item.value);
+                    return false;
+                }
+            }).blur(function () {
+                if ($('#<?= $controller."_".$chave?>').val() == '') {
+                    $('#<?= $controller."_".$chave?>').val('');
+                    $('#<?= $controller ."_".$chave."_id"?>').val('');
+                }
+
+                if ($('#<?= $controller ."_".$chave."_id"?>').val() == '') {
+                    $('#<?= $controller."_".$chave?>').val('');
+                }
+            });
+            <?php
+        }
+        ?>
+    });
+</script>

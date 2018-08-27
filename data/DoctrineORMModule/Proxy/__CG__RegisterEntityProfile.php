@@ -108,10 +108,10 @@ class Profile extends \Register\Entity\Profile implements \Doctrine\ORM\Proxy\Pr
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return ['__isInitialized__', 'id', 'name', 'chave', 'information'];
+            return ['__isInitialized__', 'id', 'name', '' . "\0" . 'Register\\Entity\\Profile' . "\0" . 'profile', 'chave', 'information'];
         }
 
-        return ['__isInitialized__', 'id'];
+        return ['__isInitialized__', 'id', '' . "\0" . 'Register\\Entity\\Profile' . "\0" . 'profile'];
     }
 
     /**
@@ -341,6 +341,28 @@ class Profile extends \Register\Entity\Profile implements \Doctrine\ORM\Proxy\Pr
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'setChave', [$chave]);
 
         return parent::setChave($chave);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getProfile()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getProfile', []);
+
+        return parent::getProfile();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setProfile($profile)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setProfile', [$profile]);
+
+        return parent::setProfile($profile);
     }
 
 }

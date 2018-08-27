@@ -12,7 +12,7 @@ class ProductController extends CrudController
     {
         $this->title = "Produto";
 
-        $this->table = 'product';
+        $this->table = 'Product';
         $this->entity = 'Catalog\Entity\\'.$this->table ;
         $this->service = 'Catalog\Service\\'.$this->table ;
         $this->form = 'Catalog\Form\\'.$this->table ;
@@ -26,6 +26,23 @@ class ProductController extends CrudController
             'controller' => $this->controller,
             'actions' => array(
                 'enable' =>true,
+                'customs' => array(
+                    'skus' => array(
+                        'rota' => 'sku-join',
+                        'title' => 'Skus',
+                        'appear-title' => true,
+                        'enable' => false,
+                        'class' => 'btn btn-info',
+                        'icon' => 'pe-7s-box2',
+                        'type'  => 'join',
+                        'join' => array(
+                            'entity'    => 'Catalog\Entity\Sku',
+                            'pk'        => 'id',
+                            'fk'        => 'product'
+                        ),
+                        'group' => false,
+                    ),
+                ),
                 'defaults' => array(
                     'edit' => array(
                         'enable' => true,
@@ -49,6 +66,14 @@ class ProductController extends CrudController
                     'label' => 'Id',
                     'list' => true,
                 ),
+                'name'=>array(
+                    'label' => 'Nome',
+                    'list' => true,
+                ),
+                'company' => array(
+                    'label' => 'Empresa',
+                    'list' => true
+                )
             ),
         );
     }

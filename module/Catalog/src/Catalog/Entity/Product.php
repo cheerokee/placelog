@@ -43,7 +43,7 @@ class Product
      *
      * @ORM\ManyToOne(targetEntity="Register\Entity\Person")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="company", referencedColumnName="id", nullable=false, onDelete="CASCADE")
+     *   @ORM\JoinColumn(name="company", referencedColumnName="id", nullable=true, onDelete="CASCADE")
      * })
      */
     private $company;
@@ -55,6 +55,13 @@ class Product
      */
     private $name;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="friendly_url", type="string", length=255, nullable=true)
+     */
+    private $friendly_url;
+
     public function __construct(array $options = array())
     {
         (new Hydrator\ClassMethods)->hydrate($options, $this);
@@ -62,6 +69,11 @@ class Product
         $this->createdAt = new \DateTime("now");
         $this->updatedAt = new \DateTime("now");
 
+    }
+
+    public function __toString()
+    {
+        return $this->getName();
     }
 
     /**
@@ -142,6 +154,22 @@ class Product
     public function setName($name)
     {
         $this->name = $name;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFriendlyUrl()
+    {
+        return $this->friendly_url;
+    }
+
+    /**
+     * @param string $friendly_url
+     */
+    public function setFriendlyUrl($friendly_url)
+    {
+        $this->friendly_url = $friendly_url;
     }
 
 }

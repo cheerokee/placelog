@@ -20,69 +20,83 @@ if(!empty($hasProfiles)){
 };
 
 ?>
-<br />
-<div class="row">
-	<div class="col-md-12">
-		<div class="col-md-12">
-			<form role="form" method="POST" action="<?=$this->url('person/default',array('controller'=>'person','action'=>'profile','id'=>$person->getId()));?>">
-			<div class="box box-warning">
-                <div class="box-header with-border">
-			  		<h3 class="box-title"><?=$this->translate("Seleção de perfil");?></h3>
-                </div><!-- /.box-header -->
-                <div class="box-body">
-                  	<div class="row">
-                  		<div class="col-md-12">
-                  			<table class="table">
-                  				<thead>
-                  					<tr>
-                  						<th><?=$this->translate("Nome");?></th>
-                  						<th><?=$this->translate("E-mail");?></th>
-                  						<th><?=$this->translate("Membro Desde");?></th>
-                  					</tr>
-                  				</thead>
-                  				<tbody>
-                  					<tr>
-                  						<td><?=$person->getName()?></td>
-                  						<td><?=$person->getEmail()?></td>
-                  						<td><?=$data?></td>
-                  					</tr>
-                  				</tbody>
-                  			</table>
-                  		</div>
-                  	</div>
-                    <div class="form-group">
-                    	<label><?=$this->translate("Perfis");?></label>
-                        <?php
-                        if(isset($profiles)) {
-							foreach ($profiles as $profile) {
-								?>
-								<div class="checkbox">
-									<label>
-										<input
-											name="profiles[]" <?=(in_array($profile,$arr_profiles)) ? 'checked' : ''; ?>
-											type="checkbox" value="<?= $profile->getId(); ?>">
-										<?= $profile->getName(); ?>
-									</label>
-								</div>
-								<?php
-							}
-						}
-                        ?>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <ol class="breadcrumb">
+                <li><a href="/admin"><i class="fa fa-dashboard"></i> Home</a></li>
+                <li class="active">Seleção de Perfis</li>
+            </ol>
+            <?php $this->getAdminFlashMessenger();?>
+        </div>
+        <form role="form" method="POST" action="<?=$this->url('person/default',array('controller'=>'person','action'=>'profile','id'=>$person->getId()));?>">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="header">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <h4 class="title">
+                                Seleção de Perfis
+                            </h4>
+                        </div>
                     </div>
-                  	<div class="box-footer">
-                    	<button type="submit" name="submit" class="btn btn-app" >
-                        	<i class="fa fa-save"></i> <?=$this->translate("Salvar");?>
+                </div>
+                <div class="content">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th><?=$this->translate("Nome");?></th>
+                                    <th><?=$this->translate("E-mail");?></th>
+                                    <th><?=$this->translate("Membro Desde");?></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td><?=$person->getName()?></td>
+                                    <td><?=$person->getEmail()?></td>
+                                    <td><?=$data?></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label><?=$this->translate("Perfis");?></label>
+                            <?php
+                            if(isset($profiles)) {
+                                foreach ($profiles as $profile) {
+                                    ?>
+                                    <div class="form-check">
+                                        <input class="form-check-input" name="profiles[]" <?=(in_array($profile,$arr_profiles)) ? 'checked' : ''; ?> type="checkbox" value="<?= $profile->getId(); ?>">
+                                        <label>
+                                            <?= $profile->getName(); ?>
+                                        </label>
+                                    </div>
+                                    <?php
+                                }
+                            }
+                            ?>
+                            <br/>
+                        </div>
+                    </div>
+                    <div>
+                        <button type="submit" name="submit" class="btn btn-success" >
+                            <i class="fa fa-save"></i> <?=$this->translate("Salvar");?>
                         </button>
-                        <button type="reset" name="submit" class="btn btn-app" >
-                        	<i class="fa fa-eraser"></i> <?=$this->translate("Limpar");?>
+                        <button type="reset" name="submit" class="btn btn-danger" >
+                            <i class="fa fa-eraser"></i> <?=$this->translate("Limpar");?>
                         </button>
-                        <a class="btn btn-app"  href="<?=$return?>">
-                        	<i class="fa fa-arrow-circle-o-left"></i> <?=$this->translate("Retornar");?>
+                        <a class="btn btn-info"  href="<?=$return?>">
+                            <i class="fa fa-arrow-circle-o-left"></i> <?=$this->translate("Retornar");?>
                         </a>
                     </div>
                 </div>
-              </div>
-          </form>
-		</div>
-	</div>
+            </div>
+        </div>
+        </form>
+    </div>
 </div>

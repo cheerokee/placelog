@@ -24,6 +24,7 @@ $type = $this->type;
 /** adicionar registro ou editar registro **/
 $acao = $this->acao;
 
+
 /** DECLARAÇÕES **/
 $person = $this->personIdentity('Person');
 $form = $this->form;
@@ -51,10 +52,29 @@ $form->setAttribute('action', $this->url($this->route, array(
     'action' => $type
 )))->prepare();
 
-$link['return'] = $this->url($this->route, array(
-    'controller' => $this->controller,
-    'action' => 'index'
-));
+if(isset($_GET['profile']))
+{
+    $link['return'] = $this->url($_GET['profile'].'/default', array(
+        'controller' => $this->controller,
+        'action' => $_GET['profile']
+    ));
+
+    $db_profile = $this->getEm()->getRepository('Register\Entity\Profile')->findOneByChave($_GET['profile']);
+}else{
+    $link['return'] = $this->url($this->route, array(
+        'controller' => $this->controller,
+        'action' => 'index'
+    ));
+}
+
+/**
+ * @var \Base\Controller\BaseFunctions $functions
+ */
+$functions = new \Base\Controller\BaseFunctions();
+if($this->fk != null && $this->fk_id != null)
+{
+    $link['return'] = $this->url($functions->strToFriendlyUrl($controller).'-join',array('fk' => $fk,'fk_id' => $fk_id));
+}
 
 /** REDIRECIONAMENTO **/
 if(!$this->personPermission('modulos',$chave,$type)){
@@ -68,7 +88,19 @@ if(!$this->personPermission('modulos',$chave,$type)){
         <div class="col-md-12">
             <ol class="breadcrumb">
                 <li><a href="<?=$this->url('admin')?>"><i class="fa fa-dashboard"></i> Home</a></li>
-                <li><a href="<?=$this->url($this->_listView['route']);?>"><i class="<?=$this->icon?>"></i> <?=$this->title?></a></li>
+                <?php
+                if(isset($_GET['profile']))
+                {
+                    ?>
+                    <li><a href="<?=$this->url($_GET['profile'].'/default',array('controller' => 'person','action' => $_GET['profile']))?>"><i class="<?=$this->icon?>"></i> <?=$this->title?></a></li>
+                    <?php
+                }else{
+                    ?>
+                    <li><a href="<?=$this->url($this->_listView['route']);?>"><i class="<?=$this->icon?>"></i> <?=$this->title?></a></li>
+                    <?php
+                }
+                ?>
+
                 <li class="active"><?=$acao?></li>
             </ol>
             <?php $this->getAdminFlashMessenger();?>
@@ -87,7 +119,20 @@ if(!$this->personPermission('modulos',$chave,$type)){
                 <div class="content">
                     <div class="row">
                         <div class="col-md-12">
+                            <?php
+                            if($fk != null && $fk_id != null) {
+                                $form->setAttribute('action', $this->url($functions->strToFriendlyUrl($controller) . '-join-' . $type, array('fk' => $fk, 'fk_id' => $fk_id, 'id' => $this->id)));
+                            }
+                            ?>
                             <?=$this->form()->openTag($form);?>
+                            <?php
+                            if($db_profile){
+                                ?>
+                                <input type="hidden" name="profile" value="<?=$db_profile->getChave()?>" />
+                                <?php
+                            }
+                            ?>
+
                             <div class="row">
                                 <?php
                                 $hidden = array(
@@ -96,6 +141,14 @@ if(!$this->personPermission('modulos',$chave,$type)){
                                 );
 
                                 foreach ($form as $element) {
+
+                                    //SE FOR JOIN
+                                    if($this->fk != null && $this->fk_id != null && $element->getName() == $this->fk)
+                                    {
+                                        $element->setAttribute('value',$this->fk_id);
+                                        $element->setAttribute('readonly','readonly');
+                                    }
+
                                     $element->setAttribute('form',$form->getName());
 
                                     $type = $element->getAttributes()['type'];

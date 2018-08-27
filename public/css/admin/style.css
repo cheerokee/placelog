@@ -17,3 +17,16 @@
 .main.dropdown-menu a:hover{
     background-color: #ad87e1;
 }
+
+.sidebar .sidebar-wrapper{
+    overflow: hidden;
+}
+
+.invalid-feedback.form-base{
+
+    position: absolute;
+}
+
+.modal-backdrop.in{
+    z-index: 1;
+}

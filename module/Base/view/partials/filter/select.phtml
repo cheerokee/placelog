@@ -1,0 +1,46 @@
+<?php
+$coluna = $this->chave;
+$controller = $this->controller;
+$em = $this->em;
+$functions = new \Base\Controller\BaseFunctions();
+$element = $this->element;
+
+$vl = null;
+if(!isset($_POST[$controller . '_' . $chave])) {
+    $vl = $_POST[$controller . '_' . $chave];
+}
+
+if($element instanceof Zend\Form\Element\Select) {
+    ?>
+    <div class="row">
+        <div class="col-md-12 form-group">
+            <label><?= $filter['label'] ?></label>
+            <select name="<?= $controller ?>_<?= $coluna ?>" class="form-control">
+                <option value="-1">Selecione...</option>
+                <?php
+                $options = $element->getValueOptions();
+                if(!empty($options))
+                {
+                    foreach($options as $k => $option)
+                    {
+                        ?>
+                        <option <?=($vl === $k)?'selected':''?> value="<?=$k?>"><?=$option?></option>
+                        <?php
+                    }
+                }
+                ?>
+            </select>
+        </div>
+    </div>
+    <?php
+}else{
+    ?>
+    <div class="row">
+        <div class="col-md-12 form-group">
+            <label><?= $filter['label'] ?></label>
+            <p><small>Esse campo não pertence a classe 'Zend\Form\Element\Select', coloca como tipo custom</small></p>
+        </div>
+    </div>
+    <?php
+}
+?>

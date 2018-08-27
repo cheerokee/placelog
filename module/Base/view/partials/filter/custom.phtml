@@ -1,0 +1,44 @@
+<div class="row">
+<?php
+$coluna = $this->chave;
+$controller = $this->controller;
+$em = $this->em;
+$functions = new \Base\Controller\BaseFunctions();
+
+$vl = null;
+if(!isset($_POST[$controller . '_' . $chave])) {
+    $vl = $_POST[$controller . '_' . $chave];
+}
+
+switch ($coluna){
+    case "document":
+        ?>
+        <div class="col-md-12 form-group">
+            <label><?= $filter['label'] ?></label>
+            <input type="text" name="<?= $controller ?>_<?=$chave?>" id="<?= $controller?>_<?=$chave?>" class="form-control" value="<?= $vl ?>">
+        </div>
+        <?php
+        break;
+    case "active":
+        ?>
+        <div class="col-md-12 form-group">
+            <label><?= $filter['label'] ?></label>
+            <select name="<?= $controller ?>_<?=$chave?>" id="<?= $controller?>_<?=$chave?>" class="form-control">
+                <option value="-1">Selecione...</option>
+                <option <?=($vl === 0)?'selected':'';?> value="0">Não</option>
+                <option <?=($vl === 1)?'selected':'';?> value="1">Sim</option>
+            </select>
+        </div>
+        <?php
+        break;
+    default:
+        ?>
+        <div class="col-md-12 form-group">
+            <label><?= $filter['label'] ?></label>
+            <p><small>Filtro Customizado não definido</small></p>
+        </div>
+        <?php
+}
+
+?>
+</div>

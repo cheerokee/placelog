@@ -1,0 +1,18 @@
+<?php
+$coluna = $this->chave;
+$controller = $this->controller;
+$em = $this->em;
+$functions = new \Base\Controller\BaseFunctions();
+
+$vl = null;
+if(!isset($_POST[$controller . '_' . $chave])) {
+    $vl = $_POST[$controller . '_' . $chave];
+}
+?>
+<div class="row">
+    <div class="col-md-12 form-group">
+        <label><?= $filter['label'] ?></label>
+        <input type="text" name="<?= $controller ?>_<?=$coluna?>" id="<?= $controller?>_<?=$coluna?>" class="form-control" value="<?= $_POST[$controller . '_' . $chave] ?>">
+        <input type="hidden" name="<?= $controller ?>_<?=$coluna?>_strategy" id="<?= $controller?>_<?=$coluna?>_strategy" class="form-control" value="<?= $filter['strategy'] ?>">
+    </div>
+</div>

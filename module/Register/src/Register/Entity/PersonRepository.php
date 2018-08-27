@@ -7,7 +7,8 @@ use Doctrine\ORM\Query\Expr\Join;
 
 class PersonRepository extends EntityRepository
 {
-    public function getByProfile($key,$limit = null,$rand = false){
+    public function getByProfile($key,$company = null,$limit = null,$rand = false){
+
         $alias = 'p';
         $tabela = 'Register\Entity\Person';
 
@@ -18,6 +19,11 @@ class PersonRepository extends EntityRepository
         $tabela_ij2 = 'Register\Entity\Profile';
 
         $where = "pr.chave LIKE '%".$key."%'";
+
+        if($company instanceof Person){
+            $where .= " AND p.company = ".$company->getId();
+        }
+
 
         $qb = $this->getEntityManager()->createQueryBuilder();
         $qb->select(array(

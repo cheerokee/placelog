@@ -29,6 +29,16 @@ class Profile
     public $name;
 
     /**
+     * @var \Register\Entity\Profile
+     *
+     * @ORM\ManyToOne(targetEntity="Register\Entity\Profile")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="profile_id", referencedColumnName="id", nullable=true, onDelete="CASCADE")
+     * })
+     */
+    private $profile;
+
+    /**
      * @var string
      *
      * @ORM\Column(name="chave", type="string", length=225, nullable=false)
@@ -125,6 +135,22 @@ class Profile
     public function setChave($chave)
     {
         $this->chave = $chave;
+    }
+
+    /**
+     * @return Profile
+     */
+    public function getProfile()
+    {
+        return $this->profile;
+    }
+
+    /**
+     * @param Profile $profile
+     */
+    public function setProfile($profile)
+    {
+        $this->profile = $profile;
     }
 }
 

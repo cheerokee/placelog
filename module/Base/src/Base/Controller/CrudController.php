@@ -1,6 +1,7 @@
 <?php
 namespace Base\Controller;
 
+use DoctrineModule\Form\Element\ObjectSelect;
 use Zend\I18n\Validator\DateTime;
 use Zend\Mvc\Controller\AbstractActionController,
     Zend\View\Model\ViewModel;
@@ -18,27 +19,74 @@ abstract class CrudController extends AbstractActionController{
     
     public function indexAction($list = null) {
 
+        $request = $this->getRequest();
+
+        if($request->isPost()) {
+            $data = $request->getPost()->toArray();
+            if(isset($data['filter-form']))
+            {
+                try{
+                    $this->getEm()->getRepository($this->entity)->findByFilter($data);
+                }catch (\Exception $e){
+                    echo "Ops, parece que a entidade não tem seu repositorio definido Ex: Entity/EntityRepository";
+                    die;
+                }
+            }
+        }
+
+        $fk_entity = null;
+
         if($list === null){
             $list = $this->getEm()->getRepository($this->entity)->findAll();
+
+            if($this->params()->fromRoute('fk',0))
+            {
+                /**
+                 * @var BaseFunctions $db_functions
+                 */
+                $db_functions = new BaseFunctions();
+                $fk = $db_functions->toCamelCase($this->params()->fromRoute('fk',0),true);
+                $find_method = 'findBy' . $fk;
+
+                $list = $this->getEm()->getRepository($this->entity)->$find_method($this->params()->fromRoute('fk_id',0));
+                $find_method = 'get' . $db_functions->toCamelCase( $fk , true);
+                $fk_entity = $list[0]->$find_method();
+            }
         }
-    
+
         $page = $this->params()->fromRoute('page');
-        
+
         $paginator = new Paginator(new ArrayAdapter($list));
         $paginator->setCurrentPageNumber($page)->setDefaultItemCountPerPage(10);
 
         $form = $this->getForm();
-        
+
+        $fk = $this->params()->fromRoute('fk',0);
+        $fk_id = $this->params()->fromRoute('fk_id',0);
+        if($fk != null && $fk_id != null){
+            $fk_route = str_replace(
+            $db_functions->strToFriendlyUrl($this->controller),
+            $db_functions->strToFriendlyUrl($fk),
+            $this->route);
+        }
+
         $view = new ViewModel(
             array(
-                'data'=>$paginator,
-                'form'=>$form,
-                'page'=>$page,
-                'controller' => $this->controller,
-                '_listView' => $this->_listView,
-                'route' => $this->route,
+                'em'            =>  $this->getEm(),
+                'data'          =>  $paginator,
+                'form'          =>  $form,
+                'page'          =>  $page,
+                'controller'    =>  $this->controller,
+                '_listView'     =>  $this->_listView,
+                'route'         =>  $this->route,
+                'entity'        =>  $this->entity,
+                'fk'            =>  $fk,
+                'fk_id'         =>  $fk_id,
+                'fk_entity'     =>  $fk_entity,
+                'fk_route'      =>  $fk_route
             )
         );
+
                 
         if($this->_listView){
             $view->setTemplate('base/crud/index');
@@ -77,7 +125,11 @@ abstract class CrudController extends AbstractActionController{
                 return $form;
     }
 
-    public function newAction($request = null,$form = null){
+    public function newAction($request = null,$form = null,$redirect = null){
+        /**
+         * @var BaseFunctions $functions
+         */
+        $functions = new BaseFunctions();
 
         $em = $this->getEm();
         $cities = $em->getRepository('Register\Entity\City')->findAll();
@@ -103,13 +155,40 @@ abstract class CrudController extends AbstractActionController{
                         $data[$element->getName()] = new \DateTime($data[$element->getName()]);
                     }
 
-                    if($element->getAttributes()['name'] == 'name')
+                    if($element->getName() == 'name')
                     {
                         if(isset($data['friendlyUrl']))
                         {
                             $data['friendlyUrl'] = $this->strToFriendlyUrl($element->getValue());
                         }
                     }
+
+                    if($element instanceof ObjectSelect){
+                        $field = $element->getName();
+                        $setObject = $element->getProxy()->getTargetClass();
+
+                        if($data[$field] != null){
+                            $db_obj = $em->getRepository($setObject)->findOneById($data[$field]);
+
+                            if($db_obj)
+                            {
+                                $data[$field] = $db_obj;
+                            }
+                        }
+                    }
+
+                    if($element->getName() == 'company')
+                    {
+                        if($this->getLogin()->hasThisProfile('company'))
+                        {
+                            $data['company'] = $this->getLogin();
+                        }else if(!($this->getLogin()->hasThisProfile('administrator') || $this->getLogin()->getIsAdmin())){
+                            $data['company'] = $this->getLogin()->getCompany();
+                        }else{
+                            $data['company'] = null;
+                        }
+                    }
+
                 }
 
                 $service = $this->getServiceLocator()->get($this->service);
@@ -133,7 +212,21 @@ abstract class CrudController extends AbstractActionController{
                 $this->flashMessenger()->addErrorMessage("Houve um erro na criação do registro!");
             }
 
-            return $this->redirect()->toRoute($this->route,array('controller' => $this->controller,'cidades' => $cities,'estados' => $states));
+            if($redirect === null){
+
+                if($this->params()->fromRoute('fk',0) != null && $this->params()->fromRoute('fk_id',0) != null)
+                {
+                    return $this->redirect()->toRoute($functions->strToFriendlyUrl($this->controller) . '-join',array(
+                        'fk' => $this->params()->fromRoute('fk',0),
+                        'fk_id' => $this->params()->fromRoute('fk_id',0)
+                    ));
+                }else{
+                    return $this->redirect()->toRoute($this->route,array('controller' => $this->controller,'page'=>1));
+                }
+            }else{
+                return $redirect;
+            }
+
         }
         
         $view = new ViewModel(array(
@@ -143,7 +236,9 @@ abstract class CrudController extends AbstractActionController{
             'route' => $this->route,
             'cities' => $cities,
             'states' => $states,
-            'em' => $this->getEm()
+            'em' => $this->getEm(),
+            'fk' => $this->params()->fromRoute('fk',0),
+            'fk_id' => $this->params()->fromRoute('fk_id',0)
         ));
 
         $view->setTemplate('base/crud/new.phtml');
@@ -151,7 +246,12 @@ abstract class CrudController extends AbstractActionController{
         return $view;
     }
     
-    public function editAction($request = null,$form = null){
+    public function editAction($request = null,$form = null,$redirect = null){
+        /**
+         * @var BaseFunctions $functions
+         */
+        $functions = new BaseFunctions();
+
         $em = $this->getEm();
         $cities = $em->getRepository('Register\Entity\City')->findAll();
         $states = $em->getRepository('Register\Entity\State')->findAll();
@@ -171,7 +271,7 @@ abstract class CrudController extends AbstractActionController{
         if(!empty($all_methods)){
             foreach($all_methods as $method){
                 if(strpos($method,'get') !== false) {
-                    if($entity->$method() instanceof \DateTime){
+                    if($method != 'getCreatedAt' && $method != 'getUpdatedAt' && $entity->$method() instanceof \DateTime){
                         $setmethod = 'set'.str_replace('get','',$method);
                         $entity->$setmethod($entity->$method()->format('Y-m-d'));
                     }
@@ -179,11 +279,12 @@ abstract class CrudController extends AbstractActionController{
             }
         }
 
+
         if($this->params()->fromRoute('id',0))
             $form->setData((new Hydrator\ClassMethods())->extract($entity));
 
         if($request->isPost()){
-            
+
             $form->setData($request->getPost());
 
             if($form->isValid())
@@ -203,6 +304,32 @@ abstract class CrudController extends AbstractActionController{
                             $data['friendlyUrl'] = $this->strToFriendlyUrl($element->getValue());
                         }
                     }
+
+                    if($element instanceof ObjectSelect){
+                        $field = $element->getName();
+                        $setObject = $element->getProxy()->getTargetClass();
+
+                        if($data[$field] != null){
+                            $db_obj = $em->getRepository($setObject)->findOneById($data[$field]);
+
+                            if($db_obj)
+                            {
+                                $data[$field] = $db_obj;
+                            }
+                        }
+                    }
+
+                    if($element->getName() == 'company')
+                    {
+                        if($this->getLogin()->hasThisProfile('company'))
+                        {
+                            $data['company'] = $this->getLogin();
+                        }else if(!($this->getLogin()->hasThisProfile('administrator') || $this->getLogin()->getIsAdmin())){
+                            $data['company'] = $this->getLogin()->getCompany();
+                        }else{
+                            $data['company'] = null;
+                        }
+                    }
                 }
 
                 $service = $this->getServiceLocator()->get($this->service);
@@ -211,7 +338,19 @@ abstract class CrudController extends AbstractActionController{
                 
                 $this->flashMessenger()->addSuccessMessage("Registro alterado com sucesso!");
 
-                return $this->redirect()->toRoute($this->route,array('controller'=>$this->controller,'page'=>2));
+                if($redirect === null){
+                    if($this->params()->fromRoute('fk',0) != null && $this->params()->fromRoute('fk_id',0) != null)
+                    {
+                        return $this->redirect()->toRoute($functions->strToFriendlyUrl($this->controller) . '-join',array(
+                            'fk' => $this->params()->fromRoute('fk',0),
+                            'fk_id' => $this->params()->fromRoute('fk_id',0)
+                        ));
+                    }else{
+                        return $this->redirect()->toRoute($this->route,array('controller' => $this->controller,'page'=>1));
+                    }
+                }else{
+                    return $redirect;
+                }
             }
         }
          
@@ -224,7 +363,9 @@ abstract class CrudController extends AbstractActionController{
             'entity' => $entity,
             'em' => $this->getEm(),
             'cities' => $cities,
-            'states' => $states
+            'states' => $states,
+            'fk'            => $this->params()->fromRoute('fk',0),
+            'fk_id'            => $this->params()->fromRoute('fk_id',0)
         ));
         
         $view->setTemplate('base/crud/edit.phtml');
@@ -261,7 +402,7 @@ abstract class CrudController extends AbstractActionController{
     }
 
     public function getLogin(){
-        $session = (array) $_SESSION['User'];
+        $session = (array) $_SESSION['Person'];
         /**
          * @var User $user
          */
@@ -270,7 +411,9 @@ abstract class CrudController extends AbstractActionController{
                 $login = $v['storage'];
         }
 
-        return $login;
+        $db_login = $this->getEm()->getRepository('Register\Entity\Person')->findOneById($login->getId());
+
+        return $db_login;
     }
     
     /**

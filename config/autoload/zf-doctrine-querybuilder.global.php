@@ -58,8 +58,8 @@ return [
             'ismemberof' => Filter\ORM\IsMemberOf::class,
             'orx'        => Filter\ORM\OrX::class,
             'andx'       => Filter\ORM\AndX::class,
-        //    'innerjoin'  => Filter\ORM\InnerJoin::class,
-        //    'leftjoin'  => Filter\ORM\LeftJoin::class,
+            'innerjoin'  => Filter\ORM\InnerJoin::class,
+            'leftjoin'  => Filter\ORM\LeftJoin::class,
         ],
         'factories' => [
             Filter\ORM\Equals::class              => InvokableFactory::class,

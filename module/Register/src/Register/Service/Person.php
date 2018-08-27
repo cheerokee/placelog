@@ -45,6 +45,30 @@ class Person extends AbstractService
     
     public function insert(array $data) {
         $entity = parent::insert($data);
+
+        if(isset($data['profile']))
+        {
+            $db_profile = $this->em->getRepository('Register\Entity\Profile')->findOneByChave($data['profile']);
+
+            /**
+             * @var PersonProfile $db_person_profile
+             */
+            $db_person_profile = $this->em->getRepository( 'Register\Entity\PersonProfile')->findOneBy(array(
+                'profile'   => $db_profile,
+                'person'    => $entity
+            ));
+
+            if(!$db_person_profile){
+                $db_person_profile = new PersonProfile();
+
+                $db_person_profile->setPerson($entity);
+                $db_person_profile->setProfile($db_profile);
+
+                $this->em->persist($db_person_profile);
+                $this->em->flush();
+            }
+        }
+
         $this->insertFile($entity,'image','public/img/person/');
         $dataEmail = array('name'=>$data['name'],'activationKey'=>$entity->getActivationKey());
 
@@ -244,5 +268,5 @@ class Person extends AbstractService
     
         return $result;
     }
-    
+
 }

@@ -3,164 +3,147 @@ use Register\Entity\Profile;
 $return = $this->url('profile/defaults',array('controller'=>'profile'));
 
 $profile = $this->entity;
+$profile_father = $profile->getProfile();
+
 $privileges = json_decode($profile->getInformation(),true);
-$cursos = $privileges['recursos']['cursos'];
+
+if($profile_father)
+$privileges_father = json_decode($profile_father->getInformation(),true);
+
 $modulos = $privileges['recursos']['modulos'];
+
+if($profile_father)
+$modulos_father = $privileges_father['recursos']['modulos'];
+
 $labels = $privileges['recursos']['label'];
 ?>
-<br />
- <div class="container">
-	<div class="row">
-        <div class="col-md-12 flashMessages">
-            <?php 
-             $flash  =  $this->flashMessenger (); 
-             echo  $flash -> render ( 'error' ,    array ( 'alert' ,  'alert-dismissible' ,  'alert-danger' )); 
-             echo  $flash -> render ( 'info' ,     array ( 'alert' ,  'alert-dismissible' ,  'alert-info' )); 
-             echo  $flash -> render ( 'default' ,  array ( 'alert' ,  'alert-dismissible' ,  'alert-warning' )); 
-             echo  $flash -> render ( 'success' ,  array ( 'alert' ,  'alert-dismissible' ,  'alert-success' ));
-             ?>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <ol class="breadcrumb">
+                <li><a href="/admin"><i class="fa fa-dashboard"></i> Home</a></li>
+                <li class="active">Permissões</li>
+            </ol>
+            <?php $this->getAdminFlashMessenger();?>
         </div>
-	</div>
-</div>
-<br />
-<div class="row">
-	<div class="col-md-12">
-		<div class="col-md-12">
-			<form role="form" method="POST" action="">
-			<div class="box box-warning">
-                <div class="box-header with-border">
-                  <h3 class="box-title"><?=$this->translate("Permissões");?></h3>
-                </div><!-- /.box-header -->
-                <div class="box-body">
-                  	<div class="row">
-                  		<div class="col-md-12">
-                  			<table class="table">
-                  				<thead>
-                  					<tr>
-                  						<th><?=$this->translate("Perfil");?></th>
-                  					</tr>
-                  				</thead>
-                  				<tbody>
-                  					<tr>
-                  						<td><?=$profile->getName()?></td>
-                  					</tr>
-                  				</tbody>
-                  			</table>
-                  		</div>
-                  	</div>
-					<div class="row">
-                    	<div class="col-md-12">
-                    		<table class="table">
-                    			<thead>
-                    				<tr>
-                    					<th>
-											<?=$this->translate("Recurso");?>
-                    					</th>
-                    					<th>
-											<?=$this->translate("Privilégios");?>
-                    					</th>
-                    				</tr>
-                    			</thead>
-                    			<tbody>
-                    				<?php 
-                    				foreach($modulos as $k=>$modulo){                    				
-                    				?>
-                    				<tr>
-                    					<td>
-                    						<?=$labels[$k]?>
-                    					</td>
-                    					<td>
-                    						<div class="form-group">
-                        						<?php 
-                        						$action = 'list';
-                        						if(isset($modulo[$action]))
-												{
-													?>
-													<div class="checkbox">
-														<label>
-															<input <?=($modulo[$action])?'checked':''?> name="privilege[<?=$k?>][<?=$action?>]" type="checkbox" value="1">
-															<?=$this->translate("Listar");?>
-														</label>
-													</div>
-													<?php
-                        						}
-
-                        						$action = 'listAll';
-                        						if(isset($modulo[$action]))
-												{
-													?>
-													<div class="checkbox">
-														<label>
-															<input <?=($modulo[$action])?'checked':''?> name="privilege[<?=$k?>][<?=$action?>]" type="checkbox" value="1">
-															<?=$this->translate("Listar Todos");?>
-														</label>
-													</div>
-                    						  		<?php
-                        						}
-                        						
-                        						$action = 'delete';
-                        						if(isset($modulo[$action]))
-												{
-													?>
-													<div class="checkbox">
-														<label>
-															<input <?=($modulo[$action])?'checked':''?> name="privilege[<?=$k?>][<?=$action?>]" type="checkbox" value="1">
-															<?=$this->translate("Deletar");?>
-														</label>
-													</div>
-                    						  		<?php
-                        						}
-                        						
-                        						$action = 'new';
-                        						if(isset($modulo[$action]))
-												{
-													?>
-											  		<div class="checkbox">
-														<label>
-															<input <?=($modulo[$action])?'checked':''?> name="privilege[<?=$k?>][<?=$action?>]" type="checkbox" value="1">
-															<?=$this->translate("Criar");?>
-														</label>
-											  		</div>
-                    						  		<?php
-                        						}
-                        						
-                        						$action = 'edit';
-                        						if(isset($modulo[$action]))
-												{
-													?>
-													<div class="checkbox">
-														<label>
-															<input <?=($modulo[$action])?'checked':''?> name="privilege[<?=$k?>][<?=$action?>]" type="checkbox" value="1">
-															<?=$this->translate("Editar");?>
-														</label>
-													</div>
-                    						  		<?php
-                        						}
-												?>
-                    						</div>	
-                    					</td>
-                    				</tr>
-                    				<?php 
-                    				}
-									?>
-                    			</tbody>
-                    		</table>
-                    	</div>
+        <form role="form" method="POST" action="">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="header">
+                        <div class="row">
+                            <div class="col-md-8">
+                                <h4 class="title">
+                                    <?=$this->translate("Permissões");?>
+                                </h4>
+                            </div>
+                        </div>
                     </div>
-                  	<div class="box-footer">
-                    	<button type="submit" name="submit" class="btn btn-app" >
-                        	<i class="fa fa-save"></i> <?=$this->translate("Salvar");?>
-                        </button>
-                        <button type="reset" name="submit" class="btn btn-app" >
-                        	<i class="fa fa-eraser"></i> <?=$this->translate("Limpar");?>
-                        </button>
-                        <a class="btn btn-app"  href="<?=$return?>">
-                        	<i class="fa fa-arrow-circle-o-left"></i> <?=$this->translate("Retornar");?>
-                        </a>
+                    <div class="content">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <table class="table">
+                                    <thead>
+                                    <tr>
+                                        <th><?=$this->translate("Perfil");?></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td><?=$profile->getName()?></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <table class="table">
+                                    <thead>
+                                    <tr>
+                                        <th>
+                                            <?=$this->translate("Recurso");?>
+                                        </th>
+                                        <th>
+                                            <?=$this->translate("Privilégios");?>
+                                        </th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <?php
+                                    foreach($modulos as $k=>$modulo){
+                                        if(isset($modulos_father[$k])) {
+                                            $modulo_father = $modulos_father[$k];
+                                        }
+                                        ?>
+                                        <tr>
+                                            <td>
+                                                <?= $labels[$k] ?>
+                                            </td>
+                                            <td>
+                                                <?php
+                                                $array_privileges = array(
+                                                    'list' => $this->translate('Listar - (Cadastros Próprios)'),
+                                                    'listAll' => $this->translate('Listar Todos - (Cadastros de Perfis Filhos)'),
+                                                    'new' => $this->translate('Criar'),
+                                                    'edit' => $this->translate('Editar'),
+                                                    'delete' => $this->translate('Deletar')
+                                                );
+
+                                                if (!empty($array_privileges)) {
+                                                    foreach ($array_privileges as $key_value => $privilege) {
+                                                        $action = $key_value;
+                                                        if (
+                                                            isset($modulo[$action]) && //Se Existir essa ação no módulo
+                                                            (
+                                                                $profile->getProfile() == null || //Se tiver um perfil pai ou
+                                                                (isset($modulo_father[$action]) && $modulo_father[$action] == 1) //Se a ação existe no pai e que esteja true
+                                                            )
+                                                        )
+                                                        {
+                                                            ?>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input"
+                                                                       id="privilege[<?= $k ?>][<?= $action ?>]"
+                                                                       name="privilege[<?= $k ?>][<?= $action ?>]"
+                                                                       type="checkbox"
+                                                                       value="1" <?= ($modulo[$action]) ? 'checked' : '' ?>>
+                                                                <label class="form-check-label"
+                                                                       for="privilege[<?= $k ?>][<?= $action ?>]">
+                                                                    <?= $privilege; ?>
+                                                                </label>
+                                                            </div>
+                                                            <?php
+                                                        }
+                                                    }
+                                                }
+                                                ?>
+                                            </td>
+                                        </tr>
+                                        <?php
+
+                                    }
+                                    ?>
+                                    </tbody>
+                                </table>
+                                <br/>
+                            </div>
+                        </div>
+                        <div>
+                            <button type="submit" name="submit" class="btn btn-success" >
+                                <i class="fa fa-save"></i> <?=$this->translate("Salvar");?>
+                            </button>
+                            <button type="reset" name="submit" class="btn btn-danger" >
+                                <i class="fa fa-eraser"></i> <?=$this->translate("Limpar");?>
+                            </button>
+                            <a class="btn btn-info"  href="<?=$return?>">
+                                <i class="fa fa-arrow-circle-o-left"></i> <?=$this->translate("Retornar");?>
+                            </a>
+                        </div>
                     </div>
                 </div>
-              </div>
-          </form>
-		</div>
-	</div>
+            </div>
+        </form>
+    </div>
 </div>
+
+

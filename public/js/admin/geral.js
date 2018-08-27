@@ -34,7 +34,7 @@ $(document).ready(function(){
 		});
 	});
 
-	$("#Inputcnpj").mask("99.999.999/9999-99");
+	//$("#Inputcnpj").mask("99.999.999/9999-99");
 
 	if($("#Inputtipo_pessoa").val()==1){
 		$("#Inputcnpj").parent().show();

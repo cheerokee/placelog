@@ -11,9 +11,9 @@ use Zend\Mail\Transport\Smtp as SmtpTransport,
 use Register\Auth\Adapter as AuthAdapter;
 
 class Module{
+
     public function init(ModuleManager $moduleManager){
         $sharedEvents = $moduleManager->getEventManager()->getSharedManager();
-
         $sharedEvents->attach('Zend\Mvc\Controller\AbstractActionController',
             MvcEvent::EVENT_DISPATCH,
             array($this,'validaAuth')
@@ -48,7 +48,7 @@ class Module{
             ),
         );
     }
-       
+
     public function getServiceConfig()
     {
         return array(

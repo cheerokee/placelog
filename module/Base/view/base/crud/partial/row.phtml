@@ -5,6 +5,7 @@ use Zend\Filter\Word\UnderscoreToCamelCase;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 
+$em = $this->em;
 $namingStrategy = new UnderscoreNamingStrategy();
 $filter = new UnderscoreToCamelCase();
 $entity = $this->entity;
@@ -177,14 +178,18 @@ if($this->_listView['actions']['enable'] == true){
                 continue;
             }
 
-            $link = $this->url($this->_listView['route'], array(
-                'controller' => $this->_listView['controller'],
-                'action' => $k,
-                'id' => $entity->$identifyMethod()
-            ));
+            if($this->fk != null && $this->fk_id != null)
+            {
+                $link = $this->url($this->controller.'-join-'.$k,array('fk' => $this->fk,'fk_id' => $this->fk_id,'id' => $entity->$identifyMethod()));
+            }else{
+                $link = $this->url($this->_listView['route'], array(
+                    'controller' => $this->_listView['controller'],
+                    'action' => $k,
+                    'id' => $entity->$identifyMethod()
+                ));
+            }
             ?>
-            <a href="<?= $link ?>" class="<?= $action['class'] ?> <?= ($action['action'] == 'delete') ? 'btnDeleteDecision' : ''; ?>"
-               rel="tooltip" title="<?= $action['label'] ?>" data-bb-example-key="confirm-button-text">
+            <a href="<?= $link ?>" class="<?= $action['class'] ?> <?= ($action['action'] == 'delete') ? 'btnDeleteDecision' : ''; ?>" rel="tooltip" title="<?= $action['label'] ?>" data-bb-example-key="confirm-button-text">
                 <i class="<?= $action['icon'] ?>"></i>
             </a>
             <?php
@@ -219,11 +224,14 @@ if($this->_listView['actions']['enable'] == true){
                     if ($action['group'] == true) { ?>
                         <li>
                             <?php
+
                             echo $this->partial('partial/button', array(
                                 'key' => $k,
                                 'action' => $action,
                                 'entity' => $entity,
-                                'identifyMethod' => $identifyMethod
+                                'identifyMethod' => $identifyMethod,
+                                'param' => $this->param,
+                                'em' => $em
                             ));
                             ?>
                         </li>
@@ -250,6 +258,7 @@ if($this->_listView['actions']['enable'] == true){
                     'action' => $action,
                     'entity' => $entity,
                     'identifyMethod' => $identifyMethod,
+                    'em' => $em
                 ));
             }
         }

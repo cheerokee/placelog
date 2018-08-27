@@ -40,6 +40,7 @@ return [
     'App',
     'Financial',
     'Relation',
+    'DataFrete',
     'api',
     'Admin',
 ];

@@ -1,5 +1,6 @@
+
 <tbody>
     <?php foreach($this->data as $k => $entity): ?>
-        <?php echo $this->partial('partial/row', array('key'=>$k,'entity'=>$entity));?>
+        <?php echo $this->partial('partial/row', array('controller' => $controller,'key'=>$k,'entity'=>$entity,'param' => $this->param,'em' => $this->em,'fk' => $this->fk,'fk_id' => $this->fk_id));?>
     <?php endforeach;?>
 </tbody>

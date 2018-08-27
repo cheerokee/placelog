@@ -116,7 +116,11 @@ return array(
         'template_map' => array(
             'error/404' => __DIR__ . '/../view/error/404.phtml',
             'error/index' => __DIR__ . '/../view/error/index.phtml',
-            //'submenu' => __DIR__ . '/../view/partials/submenu.phtml',
+            'filter-base' => __DIR__ . '/../view/partials/filter-base.phtml',
+            'filter/autocomplete' => __DIR__ . '/../view/partials/filter/autocomplete.phtml',
+            'filter/texto' => __DIR__ . '/../view/partials/filter/texto.phtml',
+            'filter/select' => __DIR__ . '/../view/partials/filter/select.phtml',
+            'filter/custom' => __DIR__ . '/../view/partials/filter/custom.phtml',
         ),
         'template_path_stack' => array(
             __DIR__ . '/../view'
