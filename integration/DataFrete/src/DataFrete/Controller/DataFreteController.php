@@ -71,4 +71,9 @@ class DataFreteController extends CrudController
         $service->getValorFrete();
         die;
     }
+
+    public function rastreioAction(){
+        $this->layout()->setTemplate('layout/layout-limpo.phtml');
+        return new ViewModel();
+    }
 }

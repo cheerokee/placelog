@@ -1,0 +1,38 @@
+<?php
+echo $this->doctype();
+?>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="description" content="Smart Envios" />
+        <meta name="keywords" content="Smart Envios" />
+        <meta name="author" content="freehtml5.co" />
+
+        <meta property="og:title" content=""/>
+        <meta property="og:image" content=""/>
+        <meta property="og:url" content=""/>
+        <meta property="og:site_name" content=""/>
+        <meta property="og:description" content=""/>
+        <meta name="twitter:title" content="" />
+        <meta name="twitter:image" content="" />
+        <meta name="twitter:url" content="" />
+        <meta name="twitter:card" content="" />
+
+        <link href="https://fonts.googleapis.com/css?family=Work+Sans:300,400,500,700,800" rel="stylesheet">
+
+        <?php
+
+		echo $this->headTitle($this->translate('Smart Envios'))
+			->setSeparator(' - ')->setAutoEscape(false);
+
+		echo $this->headMeta()
+            ->appendName('viewport', 'width=device-width, initial-scale=1.0')
+            ->appendHttpEquiv('X-UA-Compatible', 'IE=edge');
+
+
+		?>
+    </head>
+    <body>
+        <?php echo $this->content;?>
+	</body>
+</html>

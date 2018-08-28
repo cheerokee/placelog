@@ -59,6 +59,18 @@ foreach($def_routes as $k => $v)
         )
     );
 
+    $routes['rastreio'] =  array(
+        'type' => 'Literal',
+        'options' => array(
+            'route' => '/rastreio',
+            'defaults' => array(
+                '__NAMESPACE__' => __NAMESPACE__ . '\Controller',
+                'controller' => 'DataFrete',
+                'action' => 'rastreio'
+            )
+        )
+    );
+
     $invokables[ __NAMESPACE__ . '\Controller\\'.$v ] = __NAMESPACE__ . '\Controller\\'.$v.'Controller';
     $doctrine_paths[] = __DIR__ . '/../src/' . $v . '/Entity';
     //$doctrine_drivers[$v . '\Entity'] =  $v . '_driver';

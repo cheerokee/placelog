@@ -1,0 +1,719 @@
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width; initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+
+    <title>Título</title>
+    <link id="favicon" rel="shortcut icon" href="" />
+
+    <link href="https://netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css"/>
+
+    <style type="text/css">
+        @import "https://cdn.jsdelivr.net/fontawesome/4.5.0/css/font-awesome.min.css?ver=4.5.0";
+
+        .showHide {width: 100%;}
+        .shop-tracking-status .order-status {position:relative;width: 100%;margin: 40px auto !important;overflow: auto;}
+        .shop-tracking-status .order-status-timeline { height: 10px; border: 1px solid #E1E1E1; background: #F5F5F5; box-shadow:0px 0px 5px 0px #FFF inset; width: 78%; margin: 0 auto; position: relative; top: 58px; z-index: -1; }
+        .shop-tracking-status .order-status-timeline .order-status-timeline-completion { height: 8px; margin: 0px; border-radius: 0; background: #00861D; width: 0; }
+        .shop-tracking-status .order-status-timeline .order-status-timeline-completion.c1 { width: 25%;}
+        .shop-tracking-status .order-status-timeline .order-status-timeline-completion.c2 { width: 50% }
+        .shop-tracking-status .order-status-timeline .order-status-timeline-completion.c3 { width: 75% }
+        .shop-tracking-status .order-status-timeline .order-status-timeline-completion.c4 { width: 100%}
+        .shop-tracking-status .image-order-status { display: inline-block; width: 19.5%; text-align: center; position: relative; float: left; text-align: center; }
+        .shop-tracking-status .image-order-status.disabled { filter:url("data:image/svg+xml;utf8,<svg%20xmlns='http://www.w3.org/2000/svg'><filter%20id='grayscale'><feColorMatrix%20type='matrix'%20values='0.3333%200.3333%200.3333%200%200%200.3333%200.3333%200.3333%200%200%200.3333%200.3333%200.3333%200%200%200%200%200%201%200'/></filter></svg>#grayscale");filter:grayscale(100%);-webkit-filter:grayscale(100%);-moz-filter:grayscale(100%);-ms-filter:grayscale(100%);-o-filter:grayscale(100%);filter:gray; }
+        .shop-tracking-status .image-order-status.active .status { color: #A7A7A7; font-weight: bold; }
+        .shop-tracking-status .image-order-status.active .statusOk:after { font-family: 'FontAwesome'; color: #30B048; content:"\f00c"; padding-left:5px }
+        .shop-tracking-status .image-order-status .icon { height:40px; width:40px; background-color: #00712D; border-radius: 26px; padding: 11px 13px; width: 60px; height: 60px; border: 3px solid #FFF; margin: 0 auto; display: inline-block; line-height: normal; }
+        .shop-tracking-status .image-order-status .status { color:#333; top: 70px; display: block; margin: 0 0 15px 0; }
+        .shop-tracking-status .image-order-status-new .icon:before { content: "\f187"; color: white; font-size: 2.5em; font-family: 'FontAwesome'; }
+        .shop-tracking-status .image-order-status-active .icon:before { content: "\f017"; color: white; font-size: 3em; position: relative; font-family: 'FontAwesome'; }
+        .shop-tracking-status .image-order-status-intransit .icon:before { content: "\f0d1"; color: white; font-size: 3em; position: relative; font-family: 'FontAwesome'; display:inline-block; -moz-transform: scaleX(-1); -o-transform: scaleX(-1); -webkit-transform: scaleX(-1); transform: scaleX(-1); filter: FlipH; }
+        .shop-tracking-status .image-order-status-delivered .icon:before { content: "\f06b"; color: white; font-size: 3em; position: relative; font-family: 'FontAwesome'; }
+        .shop-tracking-status .image-order-status-delivered .status:before { display:none }
+        .shop-tracking-status .image-order-status-delivered .status:after { font-family: 'FontAwesome'; content:""; padding-left: 1px; vertical-align:middle }
+        .shop-tracking-status .image-order-status-completed .icon:before { content: "\f05d"; color: white; font-size: 3em; position: relative; font-family: 'FontAwesome'; }
+        .shop-tracking-status .image-order-status-completed .status { top:70px; left: 1px; text-align: center; }
+        .shop-tracking-status .image-order-status-completed .status:before { display:none; }
+        .shop-tracking-status .image-order-status-completed .status:after { font-family: 'FontAwesome'; content:""; padding-left:5px; vertical-align:middle }
+        .shop-tracking-status .bold{ font-weight: bold }
+        .shop-tracking-status .iconInactive { background-color: #C1C1C1 !important; }
+        #rastrearDiv {padding-top:24px;}
+        .well {
+            padding: 5px;
+        }
+        @media screen and (max-width: 990px) {
+            .shop-tracking-status .image-order-status-new .icon:before { font-size: 2.0em; }
+            .shop-tracking-status .image-order-status-active .icon:before { font-size: 2.2em; }
+            .shop-tracking-status .image-order-status-intransit .icon:before { font-size: 2.2em; }
+            .shop-tracking-status .image-order-status-delivered .icon:before { font-size: 2.2em; }
+            .shop-tracking-status .image-order-status-completed .icon:before { font-size: 2.2em; }
+            .shop-tracking-status .image-order-status .icon { height: 45px; width: 45px; border-radius: 16px; padding: 8px 9px; }
+            .shop-tracking-status .order-status { height: 90px; margin: 20px auto !important; }
+            .shop-tracking-status .order-status-timeline { top: 51px; }
+            #imgLogo {
+                width: auto;
+                height: auto;
+                display: block;
+                max-width: 100%;
+                margin: 0 auto;
+            }
+            #rastrearDiv {padding-top:10px;}
+        }
+
+        @media screen and (max-width: 600px) {
+            span.status { font-size: 12px; }
+            #imgLogo {
+                width: auto;
+                height: auto;
+                display: block;
+                max-width: 100%;
+                margin: 0 auto;
+            }
+            #rastrearDiv {padding-top:10px;}
+        }
+
+        @media screen and (max-width: 440px) {
+            .shop-tracking-status .image-order-status.active .statusOk:after {display:block;height:0px;position: relative;top: 5px;}
+            span.status { font-size: 10px; }
+            #imgLogo {
+                width: auto;
+                height: auto;
+                display: block;
+                max-width: 100%;
+                margin: 0 auto;
+            }
+            text-align: center;
+            #rastrearDiv {padding-top:10px;}
+        }
+
+        /* The Modal (background) */
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 1; /* Sit on top */
+            padding-top: 100px; /* Location of the box */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgb(0,0,0); /* Fallback color */
+            background-color: rgba(0,0,0,0.85); /* Black w/ opacity */
+        }
+
+        /* Modal Content (Image) */
+        .modal-content {
+            margin: auto;
+            display: block;
+            width: 80%;
+            max-width: 700px;
+        }
+
+        /* Add Animation - Zoom in the Modal */
+        .modal-content, #caption {
+            -webkit-animation-name: zoom;
+            -webkit-animation-duration: 0.6s;
+            animation-name: zoom;
+            animation-duration: 0.6s;
+        }
+
+        @-webkit-keyframes zoom {
+            from {-webkit-transform:scale(0)}
+            to {-webkit-transform:scale(1)}
+        }
+
+        @keyframes zoom {
+            from {transform:scale(0)}
+            to {transform:scale(1)}
+        }
+
+        /* The Close Button */
+        .close {
+            position: absolute;
+            top: 15px;
+            right: 35px;
+            color: #f1f1f1;
+            font-size: 40px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: #bbb;
+            text-decoration: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+<div class="shop-tracking-status" style="width: 100%">
+    <div style="width: 100%; float: left; background-color: transparent; border: none; display: block" class="col-sm-12">
+        <div class="form-horizontal" style="float: left; width: 90%">
+            <div class="form-group">
+                <div id="formNumeroControle" style="width: 100%">
+                    <div class="" style="margin-top: 2em">
+                        <form method="post" action="" id="rastrear_form" name="rastrear_form">
+                            <div class="col-md-12" >
+                                <img id="imgLogo" src="" />
+                                <div class="col-md-3 formCabecalho" >
+                                    <label for="tipo_documento">Tipo Documento</label>
+                                    <select class="form-control" id="tipo_documento" name="tipo_documento">
+                                        <option value='1'>CPF</option>
+                                        <option value='2'>CNPJ</option>
+                                        <option value='3'>Pedido</option>
+                                        <option value='4'>Nota Fiscal</option>
+                                        <option value='5'>Conhecimento de Transporte</option>
+                                        <option value='6'>Objeto CORREIOS</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-3 formCabecalho" >
+                                    <label for="numero_documento">Documento</label>
+                                    <input class="form-control" placeholder="Informe o número do documento" maxlength="25" type="text" id="numero_documento" name="numero_documento" required>
+                                </div>
+                                <div class="col-md-2 formCabecalho" id="rastrearDiv" >
+                                    <input type="submit" class="btn cssPedidoStatusFundoCor" value="Rastrear" style="background-color: #006A96; color: #FFF; font-weight: bold;" />
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="well col-sm-12" style="width: 100%; float: left; background-color: transparent; border-bottom: none; border-left: none; border-right: none;">
+        <ul class="list-group" style="line-height: 60%">
+            <li class="list-group-item" style="padding:0px;">
+                <button style="text-align: left" type="button" id="divSH0" class="showHide" data-toggle="collapse" data-target="#showHideDivOne" aria-expanded="true" aria-controls="#showHideDivOne">
+                    <h4 style="font-weight: bold; color: #333333"><span id="titulo_documento_descricao">Pedido</span><span style="float:right;" class="glyphicon glyphicon-minus"></span></h4>
+                </button>
+            </li>
+
+            <div id="showHideDivOne" style="border: 1px solid #d9d9d9; padding: 5px;margin-bottom: 5px;" class="collapse in">
+                <li class="list-group-item">
+                    <span class="prefix">Transportadora:</span>
+                    <span style="line-height: 100%" id="nome_transportador">-</span>
+                </li>
+
+                <li class="list-group-item">
+                    <span class="prefix">Última atualização em:</span>
+                    <span style="line-height: 100%" id="ultima_atualizacao_data">-</span>
+                </li>
+
+                <li class="list-group-item">
+                    <span class="prefix">Status:</span>
+                    <span style="line-height: 100%" id="ultima_atualizacao_status">-</span>
+                </li>
+
+                <li class="list-group-item">
+                    <span class="prefix">Local de destino:</span>
+                    <span style="line-height: 100%" id="destino">-</span>
+                </li>
+
+                <li class="list-group-item" style="display: none;" id="link_rastreio">
+                    <span class="prefix">Maiores informações sobre a entrega:</span>
+                    <span style="line-height: 100%"><a id="link_rastreio_anchor" href="" target="_blank">Rastreio transportadora</a></span>
+                </li>
+
+                <div class="order-status" style="margin-top: 80px; margin-bottom: 100px">
+                    <div class="order-status-timeline">
+                        <!-- c0 c1 c2 c3 e c4 -->
+                        <div class="order-status-timeline-completion c0" id="status-timeline"></div>
+                    </div>
+
+                    <div class="image-order-status image-order-status-new active img-circle status-div" style="font-size: 0.8em" id="status-0">
+                        <span class="status">Aprovado</span>
+                        <div style="background-size: 2.0em;" class="icon iconInactive"></div>
+                    </div>
+
+                    <div class="image-order-status image-order-status-active active img-circle status-div" style="font-size: 0.8em" id="status-1">
+                        <span class="status">Faturado</span>
+                        <div style="background-size: 3.2em;background-repeat:no-repeat" class="icon iconInactive"></div>
+                    </div>
+
+                    <div class="image-order-status image-order-status-intransit active img-circle status-div" style="font-size: 0.8em" id="status-2">
+                        <span class="status">Enviado</span>
+                        <div style="background-size: 2.0em;" class="icon iconInactive"></div>
+                    </div>
+
+                    <div class="image-order-status image-order-status-delivered active img-circle status-div" style="font-size: 0.8em" id="status-3">
+                        <span class="status">Entregue</span>
+                        <div style="background-size: 5.0em;" class="icon iconInactive"></div>
+                    </div>
+
+                    <div class="image-order-status image-order-status-completed active img-circle status-div" style="font-size: 0.8em" id="status-4">
+                        <span class="status">Completo</span>
+                        <div style="background-size: 5.0em;" class="icon iconInactive"></div>
+                    </div>
+                </div>
+
+                <button type="button" class="btn cssPedidoStatusFundoCor" style="margin-bottom: 6px; background-color: #006A96; color: #FFF; font-weight: bold;" data-toggle="collapse" data-target="#detalhes" >
+                    Visualizar Histórico
+                </button>
+
+                <button type="button" id="bt_download_xml" class="btn cssPedidoStatusFundoCor" style="display: none; margin-bottom: 6px; background-color: #006A96; color: #FFF; font-weight: bold;" >
+                    Download XML NF-e
+                </button>
+
+                <button type="button" id="bt_download_pdf" class="btn cssPedidoStatusFundoCor" style="display: none; margin-bottom: 6px; background-color: #006A96; color: #FFF; font-weight: bold;" >
+                    Download PDF NF-e
+                </button>
+
+                <div class="bs-example collapse in" id="detalhes">
+                    <div class="panel panel-default">
+                        <table class="table table-hover table-condensed table-striped" id="tabela_historico">
+                            <thead>
+                            <tr style="font-weight: bold; color: #919191">
+                                <th>Data/Hora</th>
+                                <th>Status</th>
+                                <th>Observação</th>
+                            </tr>
+                            </thead>
+                            <tbody id="tabela_historico_body">
+                            </tbody>
+                        </table>
+                        <div id="painel"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-12" id="outros_pedidos" style="padding:0px;"></div>
+
+            <li class="list-group-item col-sm-6" style="line-height: 170%; border: none">
+                <span class="prefix bold cssPedidoStatusTextoCor" style="color: #006A96; font-size: 1.2em">Informações adicionais</span><br />
+                <p id="informacoes_adicionais" style="display: none;"></p>
+
+                <div id="explicar_entrega_div" style="display: none;">
+                    <button type="button" class="btn cssPedidoStatusFundoCor" data-toggle="modal" id="bt_abrir_modal_entender_entrega" style="margin-bottom: 6px; margin-top: -6px; color: #FFF; font-weight: bold;">
+                        Entenda seu prazo de entrega
+                    </button>
+
+                    <div id="modal_entender_entrega" class="modal">
+                        <span class="close" onclick="document.getElementById('modal_entender_entrega').style.display='none'">&times;</span>
+                        <img class="modal-content" id="explicar_entrega_img" src="" />
+                        <div id="caption"></div>
+                    </div>
+                </div>
+            </li>
+
+            <li class="list-group-item col-sm-6" style="line-height: 170%; border-bottom: none; border-top: none; border-right: none">
+                <div class="col-sm-12">
+                    <span class="prefix bold cssPedidoStatusTextoCor" style="color: #006A96; font-size: 1.2em">Contato</span>
+                </div>
+
+                <div class="col-sm-6">
+                    <p>E-mail: <a id="emailAnchor" href="" class="cssPedidoStatusTextoCor" style="color: #006A96;">-</a></p>
+                    <p id="telefone">Telefone: -</p>
+                </div>
+
+                <div class="col-sm-6">
+                    <p id="atendimento1"></p>
+                    <p id="atendimento2"></p>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>
+</body>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.maskedinput/1.4.1/jquery.maskedinput.min.js"></script>
+<script src="https://netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+
+        var api_tracking_url = "https://gofrete.com.br/hortibras/api-tracking/";
+        var cor_texto = null;
+        var filial_id = 0;
+
+        $.urlParam = function(name){
+            var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
+            if(results) {
+                return results[1] || 0;
+            } else {
+                return null;
+            }
+        }
+
+        $("#tipo_documento").change(function() {
+            var val = $(this).val();
+            $("#numero_documento").val("");
+            if(val == 1) {
+                $("#numero_documento").mask("99999999999");
+            } else if(val == 2) {
+                $("#numero_documento").mask("99999999999999");
+            } else if(val == 3) {
+                $("#numero_documento").unmask();
+            } else if(val == 4) {
+                $("#numero_documento").unmask();
+            } else if(val == 5) {
+                $("#numero_documento").unmask();
+            } else if(val == 6) {
+                $("#numero_documento").mask("aa999999999aa");
+            }
+        });
+
+        $("#bt_abrir_modal_entender_entrega").on("click", function() {
+            $('#modal_entender_entrega').css("display", "block");
+        });
+
+        $(document).on("click", "#divSH0 , #divSH1 , #divSH2 , #divSH3 , #divSH4 , #divSH5", function() {
+            if($(this).find('span').hasClass("glyphicon-minus")) {
+                $(this).find(".glyphicon-minus").removeClass("glyphicon-minus").addClass("glyphicon-plus");
+            } else {
+                $(this).find(".glyphicon-plus").removeClass("glyphicon-plus").addClass("glyphicon-minus");
+            }
+        });
+
+        $("#rastrear_form").submit(function() {
+            rastrear();
+            return false;
+        });
+
+        buscarInformacoesConfig();
+
+        verificarParametros();
+
+        function buscarInformacoesConfig() {
+            $.ajax({
+                type: "GET",
+                dataType: "json",
+                url: api_tracking_url + "buscar-configuracoes?filial_id=" + filial_id,
+                success: function(resposta) {
+                    if(resposta.success) {
+                        atualizarCampos(resposta);
+                    }
+                },
+                error: function(response) {
+
+                }
+            });
+        }
+
+        function verificarParametros() {
+            var tipo_documento = $.urlParam('tpDoc');
+            var numero_documento = $.urlParam('cod');
+            if(tipo_documento && numero_documento) {
+                $("#tipo_documento").val(tipo_documento);
+                $("#numero_documento").val(numero_documento);
+                rastrear();
+            }
+        }
+
+        function atualizarCampos(resposta) {
+            document.title = resposta.titulo;
+            $("#imgLogo").attr("src", resposta.logo_url);
+            $("#imgLogo").addClass(resposta.logo_css_classe);
+            $("#emailAnchor").attr("href", "mailto:" + resposta.email);
+            $("#emailAnchor").text(resposta.email);
+            $("#telefone").text("Telefone: "+ resposta.telefone);
+            if(resposta.atendimento1) {
+                $("#atendimento1").text(resposta.atendimento1);
+            }
+            if(resposta.atendimento2) {
+                $("#atendimento2").text(resposta.atendimento2);
+            }
+
+            if(resposta.icone) {
+                $("#favicon").attr("href", resposta.icone);
+            }
+
+            var informacoes_adicionais = resposta.informacoes_adicionais;
+            if(informacoes_adicionais) {
+                var informacoes_adicionais_texto = "";
+                for (var i = 0; i < informacoes_adicionais.length; i++) {
+                    informacoes_adicionais_texto += "• " + informacoes_adicionais[i] + "<br />";
+                }
+                $("#informacoes_adicionais").html(informacoes_adicionais_texto);
+                $("#informacoes_adicionais").show();
+            } else {
+                $("#informacoes_adicionais").hide();
+                $("#informacoes_adicionais").html("");
+            }
+
+            if(resposta.explicar_entrega_url_img) {
+                $("#explicar_entrega_img").attr("src", resposta.explicar_entrega_url_img);
+                $("#explicar_entrega_div").show();
+            } else {
+                $("#explicar_entrega_div").hide();
+            }
+
+            if(resposta.cor_texto) {
+                cor_texto = resposta.cor_texto;
+                ajustarCor(cor_texto);
+            }
+        }
+
+        function rastrear() {
+            $("html,body").css("cursor", "wait");
+            var tipo_documento = $("#tipo_documento").val();
+            var numero_documento = $("#numero_documento").val();
+            $("#rastrear_form :input").prop("disabled", true);
+            $.ajax({
+                type: "POST",
+                dataType: "json",
+                data: { "tipo_documento" : tipo_documento, "numero_documento" : numero_documento, "filial_id" : filial_id }, //, "filial_id" : 0
+                url: api_tracking_url + "rastrear",
+                success: function(resposta) {
+                    $("#rastrear_form :input").prop("disabled", false);
+                    $("html,body").css("cursor", "default");
+                    if(resposta.dados) {
+                        var dados = resposta.dados;
+
+                        $("#titulo_documento_descricao").html(dados.tipo_documento_desc + " " + dados.numero_documento);
+                        $("#nome_transportador").html(dados.nome_transportador ? dados.nome_transportador : "-");
+                        $("#ultima_atualizacao_data").html(dados.ultima_atualizacao_data ? dados.ultima_atualizacao_data : "-");
+                        $("#ultima_atualizacao_status").html(dados.ultima_atualizacao_status ? dados.ultima_atualizacao_status : "-");
+                        $("#destino").html(dados.destino ? dados.destino : "-");
+                        if(dados.link_rastreio) {
+                            $("#link_rastreio_anchor").attr("href", dados.link_rastreio);
+                            $("#link_rastreio").show();
+                        } else {
+                            $("#link_rastreio_anchor").attr("href", "");
+                            $("#link_rastreio").hide();
+                        }
+
+                        ajustarIconesTimeline(dados);
+                        ajustarBotoesDownload(dados.nota_fiscal_id);
+                        ajustarTabelaHistorico(dados.historico);
+                        mostrarOutrosPedidos(dados.outros_pedidos);
+                        ajustarCor(cor_texto);
+                    } else {
+                        alert("Não foi possível encontrar os dados do documento.");
+                    }
+                },
+                error: function(response) {
+                    $("#rastrear_form :input").prop("disabled", false);
+                    $("html,body").css("cursor", "default");
+                    alert("Não foi possível encontrar os dados do documento.");
+                }
+            });
+        }
+
+        function ajustarIconesTimeline(dados) {
+            $("#status-timeline").removeClass("c0").removeClass("c1").removeClass("c2").removeClass("c3").removeClass("c4");
+            $(".status-div span").removeClass("statusOk");
+            $(".status-div div").addClass("iconInactive");
+
+            if(dados.status_codigo > -1) { // Aprovado
+                $("#status-0 span").addClass("statusOk");
+                $("#status-0 div").removeClass("iconInactive");
+                $("#status-timeline").addClass("c0");
+            }
+            if(dados.status_codigo > 0) { // Faturado
+                $("#status-1 span").addClass("statusOk");
+                $("#status-1 div").removeClass("iconInactive");
+                $("#status-timeline").addClass("c1");
+            }
+            if(dados.status_codigo > 1) { // Enviado
+                $("#status-2 span").addClass("statusOk");
+                $("#status-2 div").removeClass("iconInactive");
+                $("#status-timeline").addClass("c2");
+            }
+            if(dados.status_codigo > 2) { // Entregue
+                $("#status-3 span").addClass("statusOk");
+                $("#status-3 div").removeClass("iconInactive");
+                $("#status-timeline").addClass("c3");
+            }
+            if(dados.status_codigo > 3) { // Completo
+                $("#status-4 span").addClass("statusOk");
+                $("#status-4 div").removeClass("iconInactive");
+                $("#status-timeline").addClass("c4");
+            }
+        }
+
+        function ajustarBotoesDownload(nota_fiscal_id) {
+            if(nota_fiscal_id) {
+                $("#bt_download_xml").attr("nf_id", nota_fiscal_id);
+                $("#bt_download_pdf").attr("nf_id", nota_fiscal_id);
+                $("#bt_download_xml").show();
+                $("#bt_download_pdf").show();
+            } else {
+                $("#bt_download_xml").removeAttr("nf_id");
+                $("#bt_download_pdf").removeAttr("nf_id");
+                $("#bt_download_xml").hide();
+                $("#bt_download_pdf").hide();
+            }
+        }
+
+        function ajustarTabelaHistorico(historico) {
+            $("#tabela_historico_body").html("");
+            if(historico) {
+                var item_historico;
+                for(var i = 0; i < historico.length; i++) {
+                    item_historico = historico[i];
+                    var linha = "<tr><td>" + item_historico.dataHora + "</td><td>"
+                        + item_historico.status + "</td><td>"
+                        + item_historico.observacao + "</td></tr>";
+                    $('#tabela_historico_body').append(linha);
+                }
+            }
+        }
+
+        function ajustarCor(cor) {
+            if(cor) {
+                $(".cssPedidoStatusTextoCor").each(function() {
+                    $(this).css('color', cor);
+                });
+                $(".cssPedidoStatusFundoCor").each(function() {
+                    $(this).css('background-color', cor);
+                });
+            }
+        }
+
+        function exportar_documento(nota_fiscal_id, tipo_arquivo) {
+            if(nota_fiscal_id) {
+                $("html,body").css("cursor", "wait");
+                $.ajax({
+                    type: "POST",
+                    dataType: "json",
+                    data: { "tipo_documento" : tipo_arquivo, "nota_fiscal_id" : nota_fiscal_id, "filial_id" : filial_id },
+                    url: api_tracking_url + "pode-exportar-documento",
+                    success: function(resposta) {
+                        if(resposta.success) {
+                            window.open(api_tracking_url + 'download-documento/?tipo_arquivo='+tipo_arquivo+"&nota_fiscal_id="+nota_fiscal_id+"&filial_id="+filial_id, '_blank');
+                        } else {
+                            alert("Documento não está disponível para download.");
+                        }
+                        $("html,body").css("cursor","default");
+                    },
+                    error: function(response) {
+                        alert("Falha na requisição. Tente novamente");
+                        $("html,body").css("cursor","default");
+                    }
+                });
+            } else {
+                alert("Documento não está disponível para download.");
+            }
+        }
+
+        $(document).on('click', "#bt_download_xml", function() {
+            exportar_documento($(this).attr("nf_id"), "XML");
+        });
+
+        $(document).on('click', "#bt_download_pdf", function() {
+            exportar_documento($(this).attr("nf_id"), "PDF");
+        });
+
+        function mostrarOutrosPedidos(pedidos) {
+            var body = "";
+            if(pedidos) {
+                var count = 1;
+                for (i = 0; i < pedidos.length; i++) {
+                    var infoHtml = "";
+                    var title = "";
+
+                    if(pedidos[i].tipo_documento == 3) {
+                        title = "Pedido " + pedidos[i]["numero_documento"];
+                    } else if(pedidos[i].tipo_documento == 4) {
+                        title = "Nota Fiscal " + pedidos[i]["numero_documento"];
+                    }
+
+                    body +=
+                        '<li class="list-group-item" style="padding:0px;">'
+                        +'<button style="text-align: left;" type="button" id="divSH'+count+'" class="showHide" data-toggle="collapse" data-target="#divShowHide'+count+'" aria-expanded="true" aria-controls="#showHideDiv'+count+'">'
+                        +'<h4 style="font-weight: bold; color: #333333; text-aling:left;">'
+                        + '<span>' + title + '</span>'
+                        +'<span style="float:right;" class="glyphicon glyphicon-plus"></span>'
+                        +'</h4>'
+                        +'</button>'
+                        +'</li>'
+                        +'<div id="divShowHide' + count + '" style="border: 1px solid #d9d9d9; padding: 5px; margin-bottom: 5px;" class="accordion-body collapse">';
+
+                    var arrayTitle = ["Transportadora", "Última atualização em", "Status", "Local de destino"];
+                    var arrayVar = ["nome_transportador", "ultima_atualizacao_hora", "ultima_atualizacao_status", "destino"];
+                    for (j = 0; j < arrayTitle.length; j++) {
+                        if(pedidos[i][arrayVar[j]]) {
+                            var paramsVal = typeof pedidos[i][arrayVar[j]] != "undefined" ? pedidos[i][arrayVar[j]] : "" ;
+                            infoHtml +=
+                                '<li class="list-group-item showHideDiv' + count + '">'
+                                +'<span class="prefix">' + arrayTitle[j] + ': </span>'
+                                +'<span style="line-height: 100%">' + paramsVal + '</span>'
+                                +'</li>';
+                        }
+                    }
+
+                    if(pedidos[i]["link_rastreio"]) {
+                        infoHtml +=
+                            '<li class="list-group-item showHideDiv'+count+'">'
+                            +'<span class="prefix">Maiores informações sobre a entrega: </span>'
+                            +'<span style="line-height: 100%"><a href="'+ pedidos[i]["link_rastreio"] + '" target="_blank">Rastreio transportadora</a></span>'
+                            +'</li>';
+                    }
+
+                    body += infoHtml;
+
+                    body += '<div class="order-status" style="margin-top: 80px; margin-bottom: 100px">';
+                    body += '<div class="order-status-timeline">';
+                    body += '<div class="order-status-timeline-completion c'+pedidos[i]["status_codigo"]+'"></div>';
+                    body += '</div>';
+
+                    var statusImg = ["image-order-status-new", "image-order-status-active", "image-order-status-intransit", "image-order-status-delivered", "image-order-status-completed"];
+                    var statusLabel = ["Aprovado", "Faturado", "Enviado", "Entregue", "Completo"];
+                    var statusStyle = ["", 'style="background-size: 2.0em;"', 'style="background-size: 3.2em;background-repeat:no-repeat"', 'style="background-size: 2.0em;"', 'style="background-size: 5.0em;"', 'tyle="background-size: 5.0em;"'];
+                    for (var x = 0; x < statusImg.length; x++) {
+                        var isOk = pedidos[i]["status_codigo"] < x ? 'status' : 'status statusOk';
+                        var isActive = pedidos[i]["status_codigo"] >= x ? 'icon' : 'icon iconInactive';
+
+                        body += '<div class="image-order-status '+statusImg[x]+' active img-circle" style="font-size: 0.8em">';
+                        body += '<span class="'+ isOk +'">'+statusLabel[x]+'</span>';
+                        body += '<div '+statusStyle[x]+' class="'+ isActive +'"></div>';
+                        body += '</div>';
+                    };
+                    body += '</div>';
+
+                    body += '<div>';
+                    body += '<button type="button" class="btn cssPedidoStatusFundoCor" style="background-color: #006A96; margin-bottom: 6px; margin-top: -6px; color: #FFF; font-weight: bold;" data-toggle="collapse" data-target="#collapseExample'+count+'" aria-expanded="false" aria-controls="#collapseExample'+count+'">'
+                    body += 'Visualizar Histórico';
+                    body += '</button>';
+
+                    if(pedidos[i]["nota_fiscal_id"]) {
+                        body += '<button type="button" class="btn cssPedidoStatusFundoCor" id="bt_download_xml" nf_id="'+ pedidos[i]["nota_fiscal_id"] +'" style="background-color: #006A96; margin-bottom: 6px; margin-top: -6px; margin-left: 0.3%; color: #FFF; font-weight: bold;">'
+                        body += 'Download XML da NF-e';
+                        body += '</button>';
+                        body += '<button type="button" class="btn cssPedidoStatusFundoCor" id="bt_download_pdf" nf_id="'+ pedidos[i]["nota_fiscal_id"] +'" style="background-color: #006A96; margin-bottom: 6px; margin-top: -6px;  margin-left: 0.3%; color: #FFF; font-weight: bold;">'
+                        body += 'Download PDF da NF-e';
+                        body += '</button>';
+                    }
+                    body += '</div>';
+
+                    body += '<div class="bs-example collapse in" id="collapseExample' + count + '">';
+                    body += '<div class="panel panel-default">';
+                    body += '<table class="table table-hover table-condensed table-striped">';
+                    body += '<thead>';
+                    body += '<tr style="font-weight: bold; color: #919191">';
+                    body += '<th>Data/Hora</th>';
+                    body += '<th>Status</th>';
+                    body += '<th>Observação</th>';
+                    body += '</tr>';
+                    body += '</thead>';
+
+                    body += '<tbody>';
+                    for (j = 0; j < pedidos[i]["historico"].length; j++) {
+                        var historico = pedidos[i]["historico"][j];
+                        body += "<tr>";
+                        body += "<td>" + historico['dataHora'] + "</td>";
+                        body += "<td>" + historico['status'] + "</td>";
+                        body += "<td>" + historico['observacao'] + "</td>";
+                        body += "</tr>";
+                    };
+                    body += '</tbody>';
+                    body += '</table>';
+                    body += '</div>';
+                    body += '</div>';
+
+                    body += '</div>';
+                    body += '</div>';
+                    count++;
+                }
+            }
+            $("#outros_pedidos").html(body);
+        }
+    });
+</script>
+</html>
