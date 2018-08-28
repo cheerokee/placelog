@@ -14,21 +14,28 @@
                 <div class="col-md-12">
                     <div class="row">
                         <div class="col-md-3 form-group">
-                            <labe>CEP Origem *</labe>
-                            <input class="form-control" ng-model="cepOrigem">
+                            <label>CEP Origem *</label>
+                            <input class="form-control cep" ng-model="cepOrigem">
                         </div>
                         <div class="col-md-3 form-group">
-                            <labe>CEP Destino *</labe>
-                            <input class="form-control" ng-model="cepOrigem">
+                            <label>CEP Destino *</label>
+                            <input class="form-control cep" ng-model="cepDestino">
                         </div>
-                        <div class="col-md-6 form-group">
-                            <labe>Documento do Destinatário <i title="INFORMAÇÃO QUE AJUDARÁ A IDENTIFICAR POSSÍVEIS TAXAS ADICIONAIS (TRT, TDE OU TDA)" class="pe-7s-info"></i></labe>
-                            <input class="form-control" ng-model="docDest">
+                        <div class="col-md-3 form-group">
+                            <label>Tipo Pessoa Destinatário</label>
+                            <select class="form-control" ng-model="tipo" ng-value="tipo" ng-change="changeType()" >
+                                <option value="0" selected>Física</option>
+                                <option value="1">Jurídica</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3 form-group">
+                            <label>Documento do Destinatário <i title="INFORMAÇÃO QUE AJUDARÁ A IDENTIFICAR POSSÍVEIS TAXAS ADICIONAIS (TRT, TDE OU TDA)" class="pe-7s-info"></i></label>
+                            <input class="form-control" ng-blur="validaDoc()" ng-model="docDest" >
+<!--                            ng-class="tipo ? 'cnpj' : 'cpf'"-->
                         </div>
                     </div>
                     <hr />
                 </div>
-
                 <div class="col-md-12">
                     <div class="row">
                         <div class="col-md-6 form-group">
@@ -121,12 +128,17 @@
 </div>
 
 <script>
-    angular.module('consulta-frete-interface', []).controller('ConsultaFreteController', ['$scope','$http', function($scope,$http) {
+    angular.module('consulta-frete-interface', []).controller('ConsultaFreteController', ['$scope','$http','$timeout', function($scope,$http,$timeout) {
         $scope.cepOrigem    = '';
         $scope.cepDestino   = '';
         $scope.docDest      = '';
         $scope.exibeRes     = 0;
         $scope.ordenar      = 0;
+        $timeout(function () {
+            $scope.tipo         = 0;
+            $scope.changeType();
+        },300);
+
 
         $scope.produtoFind = '';
         $scope.produtoFindId = -1;
@@ -226,6 +238,16 @@
             $scope.data.splice($scope.data.indexOf(sku), 1);
         };
 
+        $scope.changeType = function() {
+            $scope.docDest = '';
+
+            if($scope.tipo == 1){
+                $(".cnpj").mask("99.999.999/9999/99");
+            }else{
+                $(".cpf").mask("999.999.999-99");
+            }
+        };
+
         var typingTimer;
         var doneTypingInterval = 100;
 
@@ -238,6 +260,109 @@
 
         function doneTyping() {
             $scope.loadSkus();
+        }
+
+        $scope.validaDoc = function () {
+            var doc = $scope.docDest;
+            console.log(doc);
+            var result = true;
+            if($scope.tipo == 1){
+                result =  $scope.validaCnpj(doc);
+            }else{
+                result =  $scope.validaCpf(doc);
+            }
+
+            var tipoDoc = ($scope.tipo == 1)?'CNPJ':'CPF';
+            if(!result) {
+                $.notify({
+                    icon: 'pe-7s-close',
+                    message: "Documento preenchido incorretamente, deve ser preenchido com "+tipoDoc+" do destinatário!"
+                }, {
+                    type: 'danger',
+                    timer: 4000
+                });
+
+                $scope.docDest = '';
+            }
+        }
+
+        $scope.validaCpf = function (cpf) {
+            exp = /\.|\-/g;
+            cpf = cpf.toString().replace( exp, "" );
+
+            var digitoDigitado = eval(cpf.charAt(9)+cpf.charAt(10));
+            var soma1=0, soma2=0;
+            var vlr =11;
+
+            for(i=0;i<9;i++){
+                soma1+=eval(cpf.charAt(i)*(vlr-1));
+                soma2+=eval(cpf.charAt(i)*vlr);
+                vlr--;
+            }
+            soma1 = (((soma1*10)%11)==10 ? 0:((soma1*10)%11));
+            soma2=(((soma2+(2*soma1))*10)%11);
+
+            var digitoGerado=(soma1*10)+soma2;
+
+            if(digitoGerado!=digitoDigitado) {
+                return false;
+            }else{
+                return true;
+            }
+        }
+
+        $scope.validaCnpj = function (cnpj) {
+
+            cnpj = cnpj.replace(/[^\d]+/g,'');
+
+            if(cnpj == '') return false;
+
+            if (cnpj.length != 14)
+                return false;
+
+            // Elimina CNPJs invalidos conhecidos
+            if (cnpj == "00000000000000" ||
+                cnpj == "11111111111111" ||
+                cnpj == "22222222222222" ||
+                cnpj == "33333333333333" ||
+                cnpj == "44444444444444" ||
+                cnpj == "55555555555555" ||
+                cnpj == "66666666666666" ||
+                cnpj == "77777777777777" ||
+                cnpj == "88888888888888" ||
+                cnpj == "99999999999999")
+                return false;
+
+            // Valida DVs
+            tamanho = cnpj.length - 2
+            numeros = cnpj.substring(0,tamanho);
+            digitos = cnpj.substring(tamanho);
+            soma = 0;
+            pos = tamanho - 7;
+            for (i = tamanho; i >= 1; i--) {
+                soma += numeros.charAt(tamanho - i) * pos--;
+                if (pos < 2)
+                    pos = 9;
+            }
+            resultado = soma % 11 < 2 ? 0 : 11 - soma % 11;
+            if (resultado != digitos.charAt(0))
+                return false;
+
+            tamanho = tamanho + 1;
+            numeros = cnpj.substring(0,tamanho);
+            soma = 0;
+            pos = tamanho - 7;
+            for (i = tamanho; i >= 1; i--) {
+                soma += numeros.charAt(tamanho - i) * pos--;
+                if (pos < 2)
+                    pos = 9;
+            }
+            resultado = soma % 11 < 2 ? 0 : 11 - soma % 11;
+            if (resultado != digitos.charAt(1))
+                return false;
+
+            return true;
+
         }
     }]);
 </script>

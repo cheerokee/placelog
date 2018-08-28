@@ -41,6 +41,7 @@ echo $this->doctype(); ?>
     <script src="<?=$this->basePath('/assets/js/demo.js');?>"></script>
     <script src="<?=$this->basePath('/js/admin/geral.js')?>"></script>
     <script src="<?=$this->basePath('/js/admin/bootbox.js')?>"></script>
+    <script src="<?=$this->basePath('/js/admin/jquery.maskedinput.js')?>"></script>
 
     <?php
     $person = $this->getEm()->getRepository('Register\Entity\Person')->find($this->personIdentity('Person')->getId());
