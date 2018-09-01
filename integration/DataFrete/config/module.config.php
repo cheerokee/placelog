@@ -60,9 +60,12 @@ foreach($def_routes as $k => $v)
     );
 
     $routes['rastreio'] =  array(
-        'type' => 'Literal',
+        'type' => 'Segment',
         'options' => array(
-            'route' => '/rastreio',
+            'route' => '/rastreio/[:company]',
+            'constraints' => array(
+                'company' => '[a-zA-Z][a-zA-Z0-9_-]*',
+            ),
             'defaults' => array(
                 '__NAMESPACE__' => __NAMESPACE__ . '\Controller',
                 'controller' => 'DataFrete',

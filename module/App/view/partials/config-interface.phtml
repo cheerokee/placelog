@@ -1,14 +1,22 @@
 <?php
+/**
+ * @var \Base\Controller\BaseFunctions $function
+ */
+$function = new \Base\Controller\BaseFunctions();
+
 if($this->app){
     $db_app = $this->app;
 }
 
-$title = $this->title;
+$title  =   $this->title;
+$key    =   $function->strToFriendlyUrl($title);
+
 $form = $this->form;
 $form->setAttribute('action', $this->url($this->route, array(
     'controller' => $this->controller,
     'action' => $type
 )))->prepare();
+
 ?>
 <script src="/js/admin/angular.min.js"></script>
 
@@ -46,6 +54,7 @@ $form->setAttribute('action', $this->url($this->route, array(
                                 foreach ($form as $element) {
                                     $element->setAttribute('form',$form->getName());
                                     $type = $element->getAttributes()['type'];
+
                                     switch ($type){
                                         case ($element instanceof \Zend\Form\Element\Textarea):
                                             $column = "col-md-12";
@@ -167,7 +176,10 @@ $form->setAttribute('action', $this->url($this->route, array(
                                     );
 
                                     $continue_fields_name = array(
-                                        'end_point'
+                                        'end_point',
+                                        'environment',
+                                        'token',
+                                        'active'
                                     );
 
                                     foreach ($form as $element)
@@ -272,7 +284,7 @@ $form->setAttribute('action', $this->url($this->route, array(
             $scope.load = function()
             {
                 $http({
-                    url: '/api/data-frete/config',
+                    url: '/api/<?=$key?>/config',
                     async: false,
                     method: "GET"
                 }).then(function(response) {
@@ -357,7 +369,7 @@ $form->setAttribute('action', $this->url($this->route, array(
 
                 if($scope.has_error < 1){
                     $http({
-                        url: '/api/data-frete/config',
+                        url: '/api/<?=$key?>/config',
                         method: "POST",
                         data: $scope.data
                     }).then(function(response) {
@@ -404,7 +416,7 @@ $form->setAttribute('action', $this->url($this->route, array(
 
                 if($scope.has_error < 1){
                     $http({
-                        url: '/api/data-frete/config/'+id,
+                        url: '/api/<?=$key?>/config/'+id,
                         method: "PUT",
                         data: $scope.data
                     }).then(function(response) {
@@ -449,7 +461,7 @@ $form->setAttribute('action', $this->url($this->route, array(
 
             $scope.edit = function(id) {
                 $http({
-                    url: '/api/data-frete/config/'+id,
+                    url: '/api/<?=$key?>/config/'+id,
                     async: false,
                     method: "GET"
                 }).then(function(response) {
@@ -534,7 +546,7 @@ $form->setAttribute('action', $this->url($this->route, array(
                             this.modal('hide');
                         }else{
                             $http({
-                                url: '/api/data-frete/config/'+id,
+                                url: '/api/<?=$key?>/config/'+id,
                                 method: "DELETE"
                             }).then(function(response) {
                                     // success

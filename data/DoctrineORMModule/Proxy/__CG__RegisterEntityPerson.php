@@ -64,10 +64,10 @@ class Person extends \Register\Entity\Person implements \Doctrine\ORM\Proxy\Prox
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return ['__isInitialized__', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'id', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'type_person', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'document', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'name', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'email', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'phone', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'celphone', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'password', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'salt', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'active', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'firstAccess', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'activationKey', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'updatedAt', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'createdAt', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'isAdmin', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'company', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'person_profiles'];
+            return ['__isInitialized__', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'id', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'type_person', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'document', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'name', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'email', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'phone', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'celphone', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'password', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'salt', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'active', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'firstAccess', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'activationKey', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'updatedAt', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'createdAt', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'isAdmin', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'company', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'person_profiles', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'friendlyUrl'];
         }
 
-        return ['__isInitialized__', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'id', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'type_person', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'document', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'name', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'email', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'phone', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'celphone', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'password', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'salt', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'active', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'firstAccess', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'activationKey', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'updatedAt', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'createdAt', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'isAdmin', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'company', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'person_profiles'];
+        return ['__isInitialized__', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'id', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'type_person', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'document', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'name', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'email', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'phone', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'celphone', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'password', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'salt', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'active', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'firstAccess', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'activationKey', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'updatedAt', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'createdAt', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'isAdmin', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'company', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'person_profiles', '' . "\0" . 'Register\\Entity\\Person' . "\0" . 'friendlyUrl'];
     }
 
     /**
@@ -604,6 +604,28 @@ class Person extends \Register\Entity\Person implements \Doctrine\ORM\Proxy\Prox
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'hasThisProfile', [$profile]);
 
         return parent::hasThisProfile($profile);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getFriendlyUrl()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getFriendlyUrl', []);
+
+        return parent::getFriendlyUrl();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setFriendlyUrl($friendlyUrl)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setFriendlyUrl', [$friendlyUrl]);
+
+        return parent::setFriendlyUrl($friendlyUrl);
     }
 
 }

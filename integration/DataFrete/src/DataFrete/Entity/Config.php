@@ -100,6 +100,13 @@ class Config
      */
     private $environment;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="id_external", type="string", length=255, nullable=true)
+     */
+    private $id_external;
+
     public function __construct(array $options = array())
     {
         (new Hydrator\ClassMethods)->hydrate($options, $this);
@@ -301,4 +308,19 @@ class Config
         $this->end_point = $end_point;
     }
 
+    /**
+     * @return string
+     */
+    public function getIdExternal()
+    {
+        return $this->id_external;
+    }
+
+    /**
+     * @param string $id_external
+     */
+    public function setIdExternal($id_external)
+    {
+        $this->id_external = $id_external;
+    }
 }

@@ -189,7 +189,7 @@ if($this->_listView['actions']['enable'] == true){
                 ));
             }
             ?>
-            <a href="<?= $link ?>" class="<?= $action['class'] ?> <?= ($action['action'] == 'delete') ? 'btnDeleteDecision' : ''; ?>" rel="tooltip" title="<?= $action['label'] ?>" data-bb-example-key="confirm-button-text">
+            <a href="<?= $link ?><?=($param)?'?'.$param:'';?>" class="<?= $action['class'] ?> <?= ($action['action'] == 'delete') ? 'btnDeleteDecision' : ''; ?>" rel="tooltip" title="<?= $action['label'] ?>" data-bb-example-key="confirm-button-text">
                 <i class="<?= $action['icon'] ?>"></i>
             </a>
             <?php

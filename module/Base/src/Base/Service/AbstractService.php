@@ -49,7 +49,7 @@ abstract class AbstractService
 
         $entity = $this->em->getReference($this->entity,$data['id']);
         (new Hydrator\ClassMethods())->hydrate($data, $entity);
-     
+
         $this->em->persist($entity);
         $this->em->flush();
         $entity->setId($data['id']);

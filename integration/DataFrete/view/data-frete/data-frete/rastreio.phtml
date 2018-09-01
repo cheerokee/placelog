@@ -150,6 +150,21 @@
 </head>
 
 <body>
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="<?=$this->url('admin');?>">
+                <img style="height: 25px" id="imgLogo" class="img-responsive" src="/<?=$this->getConfiguration('LOGOIMG');?>" />
+            </a>
+        </div>
+    </div>
+</nav>
 <div class="shop-tracking-status" style="width: 100%">
     <div style="width: 100%; float: left; background-color: transparent; border: none; display: block" class="col-sm-12">
         <div class="form-horizontal" style="float: left; width: 90%">
@@ -329,7 +344,7 @@
 
         var api_tracking_url = "http://datafrete.com.br/placelog/api-tracking/";
         var cor_texto = null;
-        var filial_id = 1;
+        var filial_id = 3;
 
         $.urlParam = function(name){
             var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);

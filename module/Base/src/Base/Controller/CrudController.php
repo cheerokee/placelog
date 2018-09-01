@@ -62,6 +62,7 @@ abstract class CrudController extends AbstractActionController{
         $form = $this->getForm();
 
         $fk = $this->params()->fromRoute('fk',0);
+
         $fk_id = $this->params()->fromRoute('fk_id',0);
         if($fk != null && $fk_id != null){
             $fk_route = str_replace(
@@ -142,6 +143,7 @@ abstract class CrudController extends AbstractActionController{
         if($request == null)$request = $this->getRequest();
 
         if($request->isPost()){
+
             $form->setData($request->getPost());
 
             if($form->isValid()){
@@ -284,7 +286,6 @@ abstract class CrudController extends AbstractActionController{
             $form->setData((new Hydrator\ClassMethods())->extract($entity));
 
         if($request->isPost()){
-
             $form->setData($request->getPost());
 
             if($form->isValid())
@@ -297,15 +298,19 @@ abstract class CrudController extends AbstractActionController{
                         $data[$element->getName()] = new \DateTime($data[$element->getName()]);
                     }
 
+
                     if($element->getAttributes()['name'] == 'name')
                     {
+
                         if(isset($data['friendlyUrl']))
                         {
                             $data['friendlyUrl'] = $this->strToFriendlyUrl($element->getValue());
                         }
+
                     }
 
                     if($element instanceof ObjectSelect){
+
                         $field = $element->getName();
                         $setObject = $element->getProxy()->getTargetClass();
 
@@ -333,7 +338,7 @@ abstract class CrudController extends AbstractActionController{
                 }
 
                 $service = $this->getServiceLocator()->get($this->service);
-                
+
                 $alterado = $service->update($data);
                 
                 $this->flashMessenger()->addSuccessMessage("Registro alterado com sucesso!");
@@ -353,7 +358,7 @@ abstract class CrudController extends AbstractActionController{
                 }
             }
         }
-         
+
         $view = new ViewModel(array(
             'form' => $form,
             'controller' => $this->controller,
@@ -365,11 +370,12 @@ abstract class CrudController extends AbstractActionController{
             'cities' => $cities,
             'states' => $states,
             'fk'            => $this->params()->fromRoute('fk',0),
-            'fk_id'            => $this->params()->fromRoute('fk_id',0)
+            'fk_id'            => $this->params()->fromRoute('fk_id',0),
+            'action'    => 'edit'
         ));
         
         $view->setTemplate('base/crud/edit.phtml');
-        
+
         return $view;
     }
     

@@ -140,7 +140,7 @@ class Person extends AbstractService
 
         if(empty($data['password']))
             unset($data['password']);
-        
+
         (new Hydrator\ClassMethods())->hydrate($data, $entity);
         if($entity->getActive() != null && $entity->getActive() != '') {
             $entity->setActive(1);

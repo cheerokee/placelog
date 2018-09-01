@@ -72,8 +72,38 @@ class DataFreteController extends CrudController
         die;
     }
 
+    public function panelAction(){
+        if(isset($_SESSION['company'])){
+            $db_company = $this->getEm()->getRepository('Register\Entity\Person')->findOneById($_SESSION['company']);
+        }else{
+            $db_company = $this->getEm()->getRepository('Register\Entity\Person')->findOneById($this->getLogin());
+        }
+
+        return new ViewModel(array('company' => $db_company));
+    }
+
     public function rastreioAction(){
         $this->layout()->setTemplate('layout/layout-limpo.phtml');
-        return new ViewModel();
+
+        if($this->params()->fromRoute('company',0) != '') {
+            $friendlyUrl = $this->params()->fromRoute('company', 0);
+
+            $db_companies = $this->getEm()->getRepository('Register\Entity\Person')->findBy(array('friendlyUrl' => $friendlyUrl));
+
+            if(!empty($db_companies) && count($db_companies) > 1)
+            {
+                echo "<div class='alert alert-danger'>Foi encontrado mais de uma empresa com esse endereço, contacte o administrador do sistema!</div>";
+                die;
+            }else if(count($db_companies) === 0){
+                echo "<div class='alert alert-danger'>O Endereço acessado não corresponde a nenhuma empresa!</div>";
+                die;
+            }else{
+                return new ViewModel(array('company' => $db_companies[0]));
+            }
+
+        }else{
+            echo "<div class='alert alert-danger'>O Endereço acessado não corresponde a nenhuma empresa!</div>";
+            die;
+        }
     }
 }

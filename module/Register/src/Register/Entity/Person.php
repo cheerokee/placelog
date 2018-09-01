@@ -141,7 +141,12 @@ class Person
      */
     private $person_profiles;
 
-
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="friendly_url", type="string", length=255, nullable=true)
+     */
+    private $friendlyUrl;
 
     /**
      * @return string
@@ -438,4 +443,21 @@ class Person
 
         return false;
     }
+
+    /**
+     * @return string
+     */
+    public function getFriendlyUrl()
+    {
+        return $this->friendlyUrl;
+    }
+
+    /**
+     * @param string $friendly_url
+     */
+    public function setFriendlyUrl($friendlyUrl)
+    {
+        $this->friendlyUrl = $friendlyUrl;
+    }
+
 }

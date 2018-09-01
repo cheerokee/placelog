@@ -67,6 +67,13 @@ class Config extends FormBase{
             )
         ));
 
+        $field = new \Zend\Form\Element\Text("id_external");
+        $field->setLabel($this->translate("Filial Cod.: "))
+            ->setAttribute('type','text')
+            ->setAttribute('required','required')
+            ->setAttribute('class','form-control');
+        $this->add($field);
+
         $field = new \Zend\Form\Element\Text("login");
         $field->setLabel($this->translate("Usuário: "))
             ->setAttribute('type','text')

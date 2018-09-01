@@ -40,13 +40,6 @@ class GetMenu extends AbstractHelper implements ServiceLocatorAwareInterface{
         $this->authService = new AuthenticationService;
         $this->authService->setStorage($sessionStorage);
         return array(
-            'minha_informacao' => array(
-                'titulo'    =>  'Meu Cadastro',
-                'active'    => false,
-                'icon' => 'pe-7s-user',
-                'rota'  => '/admin/person/edit/'.$this->getAuthService()->getIdentity()->getId(),
-                'itens'     =>  array()
-            ),
             'cadastro' => array(
                 'titulo'    =>  'Cadastros',
                 'active'    => true,
@@ -141,25 +134,6 @@ class GetMenu extends AbstractHelper implements ServiceLocatorAwareInterface{
                     )
                 ),
             ),
-            'autorizacao' => array(
-                'titulo'    =>  'Autorizações',
-                'icon' => 'pe-7s-unlock',
-                'active'    => true,
-                'itens'     =>  array(
-//                    'person' => array(
-//                        'titulo' => 'Usuários',
-//                        'rota' => '/admin/person',
-//                        'icon' => 'pe-7s-users',
-//                        'authorize' => false,
-//                    ),
-                    'perfil' => array(
-                        'titulo' => 'Perfis',
-                        'rota' => '/admin/profile',
-                        'icon' => 'pe-7s-id',
-                        'authorize' => false,
-                    ),
-                )
-            ),
             'configuracoes' => array(
                 'titulo'    =>  'Configurações',
                 'active'    => false,
@@ -171,22 +145,14 @@ class GetMenu extends AbstractHelper implements ServiceLocatorAwareInterface{
                         'icon' => 'pe-7s-settings',
                         'authorize' => false,
                     ),
+                    'perfil' => array(
+                        'titulo' => 'Perfis',
+                        'rota' => '/admin/profile',
+                        'icon' => 'pe-7s-id',
+                        'authorize' => false,
+                    ),
                 ),
-            ),
-            'site' => array(
-                'titulo'    =>  'Site',
-                'active'    => false,
-                'icon' => 'pe-7s-monitor',
-                'rota'  => '/home',
-                'itens'     =>  array()
-            ),
-            'deslogar' => array(
-                'titulo'    =>  'Deslogar',
-                'active'    => false,
-                'icon' => 'pe-7s-next-2',
-                'rota'  => '/auth/logout',
-                'itens'     =>  array()
-            ),
+            )
         );
     }
 

@@ -1,4 +1,10 @@
 <?
+if(isset($this->route) && isset($this->controller) && isset($this->action) && isset($this->id))
+{
+    $action = $this->url($this->route,array('controller' => $this->controller,'action' => $this->action,'id' => $this->id));
+}
+
+
 $cities = $this->cities;
 $states = $this->states;
 
@@ -122,6 +128,10 @@ if(!$this->personPermission('modulos',$chave,$type)){
                             <?php
                             if($fk != null && $fk_id != null) {
                                 $form->setAttribute('action', $this->url($functions->strToFriendlyUrl($controller) . '-join-' . $type, array('fk' => $fk, 'fk_id' => $fk_id, 'id' => $this->id)));
+                            }
+
+                            if(isset($action)){
+                                $form->setAttribute('action',$action);
                             }
                             ?>
                             <?=$this->form()->openTag($form);?>

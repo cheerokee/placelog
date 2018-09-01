@@ -19,6 +19,9 @@ class Person  extends FormBase
         
         $id = new \Zend\Form\Element\Hidden('id');
         $this->add($id);
+
+        $field = new \Zend\Form\Element\Hidden('friendlyUrl');
+        $this->add($field);
         
         $criteria = Criteria::create();
         $criteria->where($criteria->expr()->neq('name', 'superadmin'));
