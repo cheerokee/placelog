@@ -1,6 +1,6 @@
 <?php
 
-namespace Catalog\Entity;
+namespace Acl\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Zend\Stdlib\Hydrator;
@@ -9,11 +9,11 @@ use Doctrine\Common\Collections\Collection;
 /**
  * Person
  *
- * @ORM\Table(name="product")
+ * @ORM\Table(name="resources")
  * @ORM\Entity
  * @ORM\HasLifecycleCallbacks
  */
-class Product
+class Resource
 {
     /**
      * @var integer
@@ -39,28 +39,11 @@ class Product
     private $createdAt;
 
     /**
-     * @var \Register\Entity\Person
-     *
-     * @ORM\ManyToOne(targetEntity="Register\Entity\Person")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="company", referencedColumnName="id", nullable=true, onDelete="CASCADE")
-     * })
-     */
-    private $company;
-
-    /**
      * @var string
      *
      * @ORM\Column(name="name", type="string", length=255, nullable=false)
      */
     private $name;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="friendly_url", type="string", length=255, nullable=true)
-     */
-    private $friendly_url;
 
     public function __construct(array $options = array())
     {
@@ -68,7 +51,6 @@ class Product
 
         $this->createdAt = new \DateTime("now");
         $this->updatedAt = new \DateTime("now");
-
     }
 
     public function __toString()
@@ -125,22 +107,6 @@ class Product
     }
 
     /**
-     * @return \Register\Entity\Person
-     */
-    public function getCompany()
-    {
-        return $this->company;
-    }
-
-    /**
-     * @param \Register\Entity\Person $company
-     */
-    public function setCompany($company)
-    {
-        $this->company = $company;
-    }
-
-    /**
      * @return string
      */
     public function getName()
@@ -155,26 +121,4 @@ class Product
     {
         $this->name = $name;
     }
-
-    /**
-     * @return string
-     */
-    public function getFriendlyUrl()
-    {
-        return $this->friendly_url;
-    }
-
-    /**
-     * @param string $friendly_url
-     */
-    public function setFriendlyUrl($friendly_url)
-    {
-        $this->friendly_url = $friendly_url;
-    }
-
-    public function getArrayCopy()
-    {
-        return get_object_vars($this);
-    }
-
 }

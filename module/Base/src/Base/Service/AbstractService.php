@@ -18,6 +18,7 @@ abstract class AbstractService
 
     public function insert(array $data)
     {
+
         if(!empty($data)){
             foreach($data as $k => $value){
                 if($value == '')
@@ -26,9 +27,9 @@ abstract class AbstractService
             }
         }
 
-        $entity = new $this->entity($data);
+        $entity= new $this->entity();
 
-        (new Hydrator\ClassMethods())->hydrate($data, $entity);
+        (new Hydrator\ClassMethods())->hydrate($data,$entity);
 
         $this->em->persist($entity);
         $this->em->flush();

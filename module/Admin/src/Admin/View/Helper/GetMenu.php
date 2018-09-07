@@ -134,6 +134,31 @@ class GetMenu extends AbstractHelper implements ServiceLocatorAwareInterface{
                     )
                 ),
             ),
+            'authorize' => array(
+                'titulo'    =>  'Autorização',
+                'active'    => false,
+                'icon' => 'pe-7s-unlock',
+                'itens'     =>  array(
+                    'roles' => array(
+                        'titulo' => 'Perfis',
+                        'rota' => '/admin/roles',
+                        'icon' => 'pe-7s-id',
+                        'authorize' => true,
+                    ),
+                    'resources' => array(
+                        'titulo' => 'Recursos',
+                        'rota' => '/admin/resources',
+                        'icon' => 'pe-7s-share',
+                        'authorize' => true,
+                    ),
+                    'privileges' => array(
+                        'titulo' => 'Privilégios',
+                        'rota' => '/admin/privileges',
+                        'icon' => 'pe-7s-keypad',
+                        'authorize' => true,
+                    ),
+                ),
+            ),
             'configuracoes' => array(
                 'titulo'    =>  'Configurações',
                 'active'    => false,

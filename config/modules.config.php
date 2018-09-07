@@ -41,6 +41,7 @@ return [
     'Financial',
     'Relation',
     'DataFrete',
+    'Acl',
     'api',
     'Admin',
 ];
