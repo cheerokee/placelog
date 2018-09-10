@@ -16,12 +16,6 @@ class Privilege extends FormBase{
         $id = new \Zend\Form\Element\Hidden('id');
         $this->add($id);
 
-        $field = new \Zend\Form\Element\Text("name");
-        $field->setLabel($this->translate("Nome: *"))
-            ->setAttribute('class','form-control')
-            ->setAttribute('required','required');
-        $this->add($field);
-
         $this->add(array(
             'name' => 'role',
             'type' => 'DoctrineModule\Form\Element\ObjectSelect',
@@ -75,6 +69,12 @@ class Privilege extends FormBase{
                 'class' => 'form-control',
             )
         ));
+
+        $field = new \Zend\Form\Element\Text("name");
+        $field->setLabel($this->translate("Nome: *"))
+            ->setAttribute('class','form-control')
+            ->setAttribute('required','required');
+        $this->add($field);
 
         $this->add(array(
             'name' => 'submit',

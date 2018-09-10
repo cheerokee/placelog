@@ -1,77 +1,28 @@
-<?
+<?php
 if(isset($this->route) && isset($this->controller) && isset($this->action) && isset($this->id))
 {
-    $action = $this->url($this->route,array('controller' => $this->controller,'action' => $this->action,'id' => $this->id));
+    $action = $this->url($this->route,array(
+        'controller' => $this->controller,
+        'action' => $this->action,
+        'id' => $this->id
+    ));
 }
-
-
-$cities = $this->cities;
-$states = $this->states;
-
-$count = 0;
-foreach($cities as $city){
-    if($count>1)
-        continue;
-    $citiesNames[] = $city->getName().' - '.$city->getState()->getUf();
-}
-$citiesJson = json_encode($citiesNames);
-?>
-<script>
-    $(document).ready(function(){
-        $( "input[name=city]" ).autocomplete({
-            source: <?=$citiesJson?>
-        });
-    });
-</script>
-<?
-
-/** new ou edit **/
-$type = $this->type;
-/** adicionar registro ou editar registro **/
-$acao = $this->acao;
-
 
 /** DECLARAÇÕES **/
 $person = $this->personIdentity('Person');
 $form = $this->form;
 $chave = ($this->controller == 'people')?'person':$this->controller;
 
-if($entity instanceof \Register\Entity\Person){
-    $especilidade = false;
-    $db_person_profiles = $this->em->getRepository('Register\Entity\PersonProfile')->findByPerson($entity);
-    if(!empty($db_person_profiles))
-    {
-        foreach($db_person_profiles as $db_person_profile)
-        {
-            switch ($db_person_profile->getProfile()->getName())
-            {
-                case 'Professor':
-                    $especilidade = true;
-                    break;
-            }
-        }
-    }
-}
+/** new ou edit **/
+$type = $this->type;
+
+/** adicionar registro ou editar registro **/
+$acao = $this->acao;
 
 $form->setAttribute('action', $this->url($this->route, array(
     'controller' => $this->controller,
     'action' => $type
 )))->prepare();
-
-if(isset($_GET['profile']))
-{
-    $link['return'] = $this->url($_GET['profile'].'/default', array(
-        'controller' => $this->controller,
-        'action' => $_GET['profile']
-    ));
-
-    $db_profile = $this->getEm()->getRepository('Register\Entity\Profile')->findOneByChave($_GET['profile']);
-}else{
-    $link['return'] = $this->url($this->route, array(
-        'controller' => $this->controller,
-        'action' => 'index'
-    ));
-}
 
 /**
  * @var \Base\Controller\BaseFunctions $functions
@@ -82,10 +33,16 @@ if($this->fk != null && $this->fk_id != null)
     $link['return'] = $this->url($functions->strToFriendlyUrl($controller).'-join',array('fk' => $fk,'fk_id' => $fk_id));
 }
 
-/** REDIRECIONAMENTO **/
-if(!$this->personPermission('modulos',$chave,$type)){
-    header('Location: '.$this->route);
-    exit();
+if($fk != null && $fk_id != null) {
+    $form->setAttribute('action', $this->url($functions->strToFriendlyUrl($controller) . '-join-' . $type, array('fk' => $fk, 'fk_id' => $fk_id, 'id' => $this->id)));
+}
+
+if(isset($action)){
+    $form->setAttribute('action',$action);
+}
+
+if($link['return'] == '') {
+    $link['return'] = $this->url();
 }
 ?>
 
@@ -97,8 +54,16 @@ if(!$this->personPermission('modulos',$chave,$type)){
                 <?php
                 if(isset($_GET['profile']))
                 {
+                    $url = $this->url($_GET['profile'].'/default',array(
+                        'controller' => 'person',
+                        'action' => $_GET['profile']
+                    ));
                     ?>
-                    <li><a href="<?=$this->url($_GET['profile'].'/default',array('controller' => 'person','action' => $_GET['profile']))?>"><i class="<?=$this->icon?>"></i> <?=$this->title?></a></li>
+                    <li>
+                        <a href="<?=$url?>">
+                            <i class="<?=$this->icon?>"></i> <?=$this->title?>
+                        </a>
+                    </li>
                     <?php
                 }else{
                     ?>
@@ -125,24 +90,7 @@ if(!$this->personPermission('modulos',$chave,$type)){
                 <div class="content">
                     <div class="row">
                         <div class="col-md-12">
-                            <?php
-                            if($fk != null && $fk_id != null) {
-                                $form->setAttribute('action', $this->url($functions->strToFriendlyUrl($controller) . '-join-' . $type, array('fk' => $fk, 'fk_id' => $fk_id, 'id' => $this->id)));
-                            }
-
-                            if(isset($action)){
-                                $form->setAttribute('action',$action);
-                            }
-                            ?>
                             <?=$this->form()->openTag($form);?>
-                            <?php
-                            if($db_profile){
-                                ?>
-                                <input type="hidden" name="profile" value="<?=$db_profile->getChave()?>" />
-                                <?php
-                            }
-                            ?>
-
                             <div>
                                 <?php
                                 $hidden = array(
@@ -181,7 +129,6 @@ if(!$this->personPermission('modulos',$chave,$type)){
                                     {
                                         $column = "col-md-8";
                                     }
-
                                     ?>
                                     <div id="<?=$id?>" style="<?=$style?>" class="<?=$column?>">
                                         <div class="form-group">

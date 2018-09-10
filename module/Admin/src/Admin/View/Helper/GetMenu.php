@@ -71,6 +71,49 @@ class GetMenu extends AbstractHelper implements ServiceLocatorAwareInterface{
                     )
                 )
             ),
+            'authorize' => array(
+                'titulo'    =>  'Autorização',
+                'active'    => false,
+                'icon' => 'pe-7s-unlock',
+                'itens'     =>  array(
+                    'painel-authorize' => array(
+                        'titulo' => 'Painel de Autorização',
+                        'rota' => '/admin/panel-authorize',
+                        'icon' => 'pe-7s-monitor',
+                        'authorize' => true,
+                    ),
+                    'roles' => array(
+                        'titulo' => 'Perfis',
+                        'rota' => '/admin/roles',
+                        'icon' => 'pe-7s-id',
+                        'authorize' => true,
+                    ),
+                    'resources' => array(
+                        'titulo' => 'Recursos',
+                        'rota' => '/admin/resources',
+                        'icon' => 'pe-7s-share',
+                        'authorize' => true,
+                    ),
+                    'actions' => array(
+                        'titulo' => 'Ações',
+                        'rota' => '/admin/actions',
+                        'icon' => 'pe-7s-share',
+                        'authorize' => true,
+                    ),
+                    'possibilities' => array(
+                        'titulo' => 'Possibilidades',
+                        'rota' => '/admin/possibilities',
+                        'icon' => 'pe-7s-share',
+                        'authorize' => true,
+                    ),
+                    'privileges' => array(
+                        'titulo' => 'Privilégios',
+                        'rota' => '/admin/privileges',
+                        'icon' => 'pe-7s-keypad',
+                        'authorize' => true,
+                    ),
+                ),
+            ),
             'catalog' => array(
                 'titulo'    =>  'Catálogo',
                 'active'    => true,
@@ -134,31 +177,6 @@ class GetMenu extends AbstractHelper implements ServiceLocatorAwareInterface{
                     )
                 ),
             ),
-            'authorize' => array(
-                'titulo'    =>  'Autorização',
-                'active'    => false,
-                'icon' => 'pe-7s-unlock',
-                'itens'     =>  array(
-                    'roles' => array(
-                        'titulo' => 'Perfis',
-                        'rota' => '/admin/roles',
-                        'icon' => 'pe-7s-id',
-                        'authorize' => true,
-                    ),
-                    'resources' => array(
-                        'titulo' => 'Recursos',
-                        'rota' => '/admin/resources',
-                        'icon' => 'pe-7s-share',
-                        'authorize' => true,
-                    ),
-                    'privileges' => array(
-                        'titulo' => 'Privilégios',
-                        'rota' => '/admin/privileges',
-                        'icon' => 'pe-7s-keypad',
-                        'authorize' => true,
-                    ),
-                ),
-            ),
             'configuracoes' => array(
                 'titulo'    =>  'Configurações',
                 'active'    => false,
@@ -168,12 +186,6 @@ class GetMenu extends AbstractHelper implements ServiceLocatorAwareInterface{
                         'titulo' => 'Configuração Geral',
                         'rota' => '/admin/configuration',
                         'icon' => 'pe-7s-settings',
-                        'authorize' => false,
-                    ),
-                    'perfil' => array(
-                        'titulo' => 'Perfis',
-                        'rota' => '/admin/profile',
-                        'icon' => 'pe-7s-id',
                         'authorize' => false,
                     ),
                 ),

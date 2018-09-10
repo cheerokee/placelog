@@ -51,16 +51,16 @@ class PrivilegesController extends CrudController
                     'label' => 'Id',
                     'list' => true,
                 ),
-                'name'=>array(
-                    'label' => 'Nome',
-                    'list' => true,
-                ),
                 'role'=>array(
                     'label' => 'Perfis',
                     'list' => true,
                 ),
                 'resource'=>array(
                     'label' => 'Recurso',
+                    'list' => true,
+                ),
+                'name'=>array(
+                    'label' => 'Nome',
                     'list' => true,
                 ),
             ),

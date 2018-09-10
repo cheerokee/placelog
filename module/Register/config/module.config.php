@@ -50,10 +50,10 @@ $rotas = array(
                 )
             )
         ),
-        'person-profile' => array(
+        'person-role' => array(
             'type' => 'Segment',
             'options' => array(
-                'route'=>'/admin/person-profile[/:id]',
+                'route'=>'/admin/person-role[/:id]',
                 'constraints' => array(
                     'id' => '\d+'
                 ),
@@ -263,64 +263,6 @@ $rotas = array(
                 'defaults' => array(
                     'controller' => 'Register\Controller\AuthController',
                     'action' => 'lostpassword'
-                )
-            )
-        ),
-        'permission' => array(
-            'type' => 'Segment',
-            'options' => array(
-                'route' => '/permission[/:id]',
-                'constraints' => array(
-                    'id' => '\d+',
-                ),
-                'defaults' => array(
-                    '__NAMESPACE__' => 'Register\Controller',
-                    'controller' => 'Profile',
-                    'action' => 'permissao',
-                )
-            )
-        ),
-        'profile' => array(
-            'type' => 'Literal',
-            'options' => array(
-                'route' => '/admin/profile',
-                'defaults' => array(
-                    '__NAMESPACE__' => 'Register\Controller',
-                    'controller' => 'Profile',
-                    'action' => 'index'
-                )
-            ),
-            'may_terminate' => true,
-            'child_routes' => array(
-                'defaults' => array(
-                    'type' => 'Segment',
-                    'options' => array(
-                        'route' => '/[:controller[/:action[/:id]]]',
-                        'constraints' => array(
-                            'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
-                            'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
-                            'id' => '\d+'
-                        ),
-                        'defaults' => array(
-                            '__NAMESPACE__' => 'Register\Controller',
-                            'controller' => 'profile'
-                        )
-                    )
-                ),
-                'paginator' => array(
-                    'type' => 'Segment',
-                    'options' => array(
-                        'route' => '/[:controller[/page/:page]]',
-                        'constraints' => array(
-                            'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
-                            'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
-                            'page' => '\d+'
-                        ),
-                        'defaults' => array(
-                            '__NAMESPACE__' => 'Register\Controller',
-                            'controller' => 'profile'
-                        )
-                    )
                 )
             )
         ),

@@ -49,7 +49,7 @@ class RolesController extends CrudController
                     'label' => 'Nome',
                     'list' => true,
                 ),
-                'parent'=>array(
+                'parentName'=>array(
                     'label' => 'Herança',
                     'list' => true,
                 ),

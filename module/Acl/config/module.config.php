@@ -145,14 +145,132 @@ return array(
                     )
                 )
             ),
+            'actions' => array(
+                'type' => 'Literal',
+                'options' => array(
+                    'route' => '/admin',
+                    'defaults' => array(
+                        '__NAMESPACE__' => 'Acl\Controller',
+                        'controller' => 'Index',
+                        'action' => 'index'
+                    )
+                ),
+                'may_terminate' => true,
+                'child_routes' => array(
+                    'default' => array(
+                        'type' => 'Segment',
+                        'options' => array(
+                            'route' => '/actions[/:action[/:id]][/page/:page][/order_by/:order_by][/:order]',
+                            'constraints' => array(
+                                'action' => '(?!\bpage\b)(?!\border_by\b)[a-zA-Z][a-zA-Z0-9_-]*',
+                                'id' => '\d+',
+                                'page' => '\d+',
+                                'order_by' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                                'order' => 'ASC|DESC',
+                            ),
+                            'defaults' => array(
+                                '__NAMESPACE__' => __NAMESPACE__ . '\Controller',
+                                'controller' => 'Actions',
+                                'action' => 'index'
+                            )
+                        )
+                    ),
+                    'paginator' => array(
+                        'type' => 'Segment',
+                        'options' => array(
+                            'route' => '/[/:controller[/page/:page]]',
+                            'constraints' => array(
+                                'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                                'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                                'page' => '\d+'
+                            ),
+                            'defaults' => array(
+                                '__NAMESPACE__' => __NAMESPACE__ . '\Controller',
+                                'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                            )
+                        )
+                    )
+                )
+            ),
+            'possibilities' => array(
+                'type' => 'Literal',
+                'options' => array(
+                    'route' => '/admin',
+                    'defaults' => array(
+                        '__NAMESPACE__' => 'Acl\Controller',
+                        'controller' => 'Index',
+                        'action' => 'index'
+                    )
+                ),
+                'may_terminate' => true,
+                'child_routes' => array(
+                    'default' => array(
+                        'type' => 'Segment',
+                        'options' => array(
+                            'route' => '/possibilities[/:action[/:id]][/page/:page][/order_by/:order_by][/:order]',
+                            'constraints' => array(
+                                'action' => '(?!\bpage\b)(?!\border_by\b)[a-zA-Z][a-zA-Z0-9_-]*',
+                                'id' => '\d+',
+                                'page' => '\d+',
+                                'order_by' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                                'order' => 'ASC|DESC',
+                            ),
+                            'defaults' => array(
+                                '__NAMESPACE__' => __NAMESPACE__ . '\Controller',
+                                'controller' => 'Possibilities',
+                                'action' => 'index'
+                            )
+                        )
+                    ),
+                    'paginator' => array(
+                        'type' => 'Segment',
+                        'options' => array(
+                            'route' => '/[/:controller[/page/:page]]',
+                            'constraints' => array(
+                                'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                                'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                                'page' => '\d+'
+                            ),
+                            'defaults' => array(
+                                '__NAMESPACE__' => __NAMESPACE__ . '\Controller',
+                                'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                            )
+                        )
+                    )
+                )
+            ),
+            'possibilities' => array(
+                'type' => 'Literal',
+                'options' => array(
+                    'route' => '/admin/panel-authorize',
+                    'defaults' => array(
+                        '__NAMESPACE__' => 'Acl\Controller',
+                        'controller' => 'Index',
+                        'action' => 'index'
+                    )
+                )
+            ),
+            'get-possibilities' => array(
+                'type' => 'Literal',
+                'options' => array(
+                    'route' => '/admin/get-possibilities',
+                    'defaults' => array(
+                        '__NAMESPACE__' => 'Acl\Controller',
+                        'controller' => 'Possibilities',
+                        'action' => 'get-possibilities'
+                    )
+                )
+            )
         ),
     ),
     'controllers' => array(
         'invokables' => array(
-            __NAMESPACE__ . '\Controller\Index'         => __NAMESPACE__ . '\Controller\IndexController',
-            __NAMESPACE__ . '\Controller\Roles'         => __NAMESPACE__ . '\Controller\RolesController',
-            __NAMESPACE__ . '\Controller\Resources'     => __NAMESPACE__ . '\Controller\ResourcesController',
-            __NAMESPACE__ . '\Controller\Privileges'    => __NAMESPACE__ . '\Controller\PrivilegesController',
+            __NAMESPACE__ . '\Controller\Index'             => __NAMESPACE__ . '\Controller\IndexController',
+            __NAMESPACE__ . '\Controller\Roles'             => __NAMESPACE__ . '\Controller\RolesController',
+            __NAMESPACE__ . '\Controller\Resources'         => __NAMESPACE__ . '\Controller\ResourcesController',
+            __NAMESPACE__ . '\Controller\Privileges'        => __NAMESPACE__ . '\Controller\PrivilegesController',
+            __NAMESPACE__ . '\Controller\Actions'           => __NAMESPACE__ . '\Controller\ActionsController',
+            __NAMESPACE__ . '\Controller\Possibilities'     => __NAMESPACE__ . '\Controller\PossibilitiesController',
         )
     ),
     'view_manager' => array(
@@ -164,6 +282,8 @@ return array(
         'template_map' => array(
             'error/404' => __DIR__ . '/../view/error/404.phtml',
             'error/index' => __DIR__ . '/../view/error/index.phtml',
+            'auth-possibility' => __DIR__ . '/../view/partials/auth-possibility.phtml',
+            'auth-privileges' => __DIR__ . '/../view/partials/auth-privileges.phtml',
         ),
         'template_path_stack' => array(
             __DIR__ . '/../view',

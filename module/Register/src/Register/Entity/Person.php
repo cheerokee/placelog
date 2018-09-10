@@ -2,6 +2,7 @@
 
 namespace Register\Entity;
 
+use Acl\Entity\Role;
 use Doctrine\ORM\Mapping as ORM;
 use Zend\Stdlib\Hydrator;
 use Doctrine\Common\Collections\Collection;
@@ -135,11 +136,11 @@ class Person
 
     /**
      * @var \Doctrine\Common\Collections\Collection
-     * @ORM\OneToMany(targetEntity="Register\Entity\PersonProfile",
+     * @ORM\OneToMany(targetEntity="Register\Entity\PersonRole",
      *      cascade={"persist", "remove","merge","refresh"},
      *      mappedBy="person", orphanRemoval=true)
      */
-    private $person_profiles;
+    private $person_roles;
 
     /**
      * @var string
@@ -409,32 +410,32 @@ class Person
     /**
      * @return Collection
      */
-    public function getPersonProfiles()
+    public function getPersonRoles()
     {
-        return $this->person_profiles;
+        return $this->person_roles;
     }
 
     /**
-     * @param Collection $person_profiles
+     * @param Collection $person_roles
      */
-    public function setPersonProfiles($person_profiles)
+    public function setPersonRoles($person_roles)
     {
-        $this->person_profiles = $person_profiles;
+        $this->person_roles = $person_roles;
     }
 
-    public function hasThisProfile($profile) {
+    public function hasThisRole($role) {
         /**
-         * @var PersonProfile[] $personProfiles
-         * @var Profile $db_profile
+         * @var PersonRole[] $personRoles
+         * @var Role $db_role
          */
-        $personProfiles = $this->getPersonProfiles()->getValues();
+        $personRoles = $this->getPersonRoles()->getValues();
 
-        if(!empty($personProfiles))
+        if(!empty($personRoles))
         {
-            foreach($personProfiles as $personProfile)
+            foreach($personRoles as $personRole)
             {
-                $db_profile = $personProfile->getProfile();
-                if($db_profile->getChave() == $profile)
+                $db_role = $personRole->getRole();
+                if($db_role->getChave() == $role)
                 {
                     return true;
                 }

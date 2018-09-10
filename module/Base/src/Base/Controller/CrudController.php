@@ -18,7 +18,7 @@ abstract class CrudController extends AbstractActionController{
     public function __construct(){}
     
     public function indexAction($list = null) {
-
+        ///not-have-permission
         $request = $this->getRequest();
 
         if($request->isPost()) {
@@ -179,17 +179,17 @@ abstract class CrudController extends AbstractActionController{
                         }
                     }
 
-                    if($element->getName() == 'company')
-                    {
-                        if($this->getLogin()->hasThisProfile('company'))
-                        {
-                            $data['company'] = $this->getLogin();
-                        }else if(!($this->getLogin()->hasThisProfile('administrator') || $this->getLogin()->getIsAdmin())){
-                            $data['company'] = $this->getLogin()->getCompany();
-                        }else{
-                            $data['company'] = null;
-                        }
-                    }
+//                    if($element->getName() == 'company')
+//                    {
+//                        if($this->getLogin()->hasThisRole('company'))
+//                        {
+//                            $data['company'] = $this->getLogin();
+//                        }else if(!($this->getLogin()->hasThisProfile('administrator') || $this->getLogin()->getIsAdmin())){
+//                            $data['company'] = $this->getLogin()->getCompany();
+//                        }else{
+//                            $data['company'] = null;
+//                        }
+//                    }
 
                 }
 
@@ -324,17 +324,17 @@ abstract class CrudController extends AbstractActionController{
                         }
                     }
 
-                    if($element->getName() == 'company')
-                    {
-                        if($this->getLogin()->hasThisProfile('company'))
-                        {
-                            $data['company'] = $this->getLogin();
-                        }else if(!($this->getLogin()->hasThisProfile('administrator') || $this->getLogin()->getIsAdmin())){
-                            $data['company'] = $this->getLogin()->getCompany();
-                        }else{
-                            $data['company'] = null;
-                        }
-                    }
+//                    if($element->getName() == 'company')
+//                    {
+//                        if($this->getLogin()->hasThisProfile('company'))
+//                        {
+//                            $data['company'] = $this->getLogin();
+//                        }else if(!($this->getLogin()->hasThisProfile('administrator') || $this->getLogin()->getIsAdmin())){
+//                            $data['company'] = $this->getLogin()->getCompany();
+//                        }else{
+//                            $data['company'] = null;
+//                        }
+//                    }
                 }
 
                 $service = $this->getServiceLocator()->get($this->service);

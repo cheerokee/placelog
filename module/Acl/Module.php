@@ -41,6 +41,12 @@ class Module
                 'Acl\Form\Privilege' => function ($sm){
                     return new Form\Privilege($sm->get('Doctrine\ORM\EntityManager'));
                 },
+                'Acl\Form\Action' => function ($sm){
+                    return new Form\Action($sm->get('Doctrine\ORM\EntityManager'));
+                },
+                'Acl\Form\Possibility' => function ($sm){
+                    return new Form\Possibility($sm->get('Doctrine\ORM\EntityManager'));
+                },
                 /**************/
                 /** SERVICES **/
                 /**************/
@@ -70,7 +76,16 @@ class Module
                     $privileges = $repoPrivilege->findAll();
 
                     return new Permissions\Acl($roles , $resources , $privileges);
-                }
+                },
+                'Acl\Service\Action' => function ($sm)
+                {
+                    return new Service\Action($sm->get('Doctrine\ORM\EntityManager'));
+                },
+                'Acl\Service\Possibility' => function ($sm)
+                {
+                    return new Service\Possibility($sm->get('Doctrine\ORM\EntityManager'));
+                },
+
             )
         );
     }

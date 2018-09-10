@@ -19,7 +19,21 @@
 }
 
 .sidebar .sidebar-wrapper{
-    overflow: hidden;
+    direction: rtl;
+}
+
+.sidebar .sidebar-wrapper::-webkit-scrollbar {
+    width:10px;
+    background:#e3e0d6;
+}
+
+.sidebar .sidebar-wrapper::-webkit-scrollbar-track {
+    background: rgba(0,0,0,0.1);
+}
+
+.sidebar .sidebar-wrapper::-webkit-scrollbar-thumb {
+    border-radius:10px;
+    background:#8b8778;
 }
 
 .invalid-feedback.form-base{

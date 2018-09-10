@@ -119,6 +119,51 @@ return [
                     ],
                 ],
             ],
+            'api.rest.doctrine.role' => [
+                'type' => 'Segment',
+                'options' => [
+                    'route' => '/api/role[/:role_id]',
+                    'defaults' => [
+                        'controller' => 'api\\V1\\Rest\\Role\\Controller',
+                    ],
+                ],
+            ],
+            'api.rest.doctrine.resource' => [
+                'type' => 'Segment',
+                'options' => [
+                    'route' => '/api/resource[/:resource_id]',
+                    'defaults' => [
+                        'controller' => 'api\\V1\\Rest\\Resource\\Controller',
+                    ],
+                ],
+            ],
+            'api.rest.doctrine.action' => [
+                'type' => 'Segment',
+                'options' => [
+                    'route' => '/api/action[/:action_id]',
+                    'defaults' => [
+                        'controller' => 'api\\V1\\Rest\\Action\\Controller',
+                    ],
+                ],
+            ],
+            'api.rest.doctrine.privilege' => [
+                'type' => 'Segment',
+                'options' => [
+                    'route' => '/api/privilege[/:privilege_id]',
+                    'defaults' => [
+                        'controller' => 'api\\V1\\Rest\\Privilege\\Controller',
+                    ],
+                ],
+            ],
+            'api.rest.doctrine.possibility' => [
+                'type' => 'Segment',
+                'options' => [
+                    'route' => '/api/possibility[/:possibility_id]',
+                    'defaults' => [
+                        'controller' => 'api\\V1\\Rest\\Possibility\\Controller',
+                    ],
+                ],
+            ],
         ],
     ],
     'zf-versioning' => [
@@ -136,6 +181,11 @@ return [
             10 => 'api.rest.doctrine.app',
             11 => 'api.rest.doctrine.sku',
             12 => 'api.rest.doctrine.product',
+            13 => 'api.rest.doctrine.role',
+            14 => 'api.rest.doctrine.resource',
+            16 => 'api.rest.doctrine.action',
+            17 => 'api.rest.doctrine.privilege',
+            18 => 'api.rest.doctrine.possibility',
         ],
     ],
     'zf-rest' => [
@@ -438,6 +488,121 @@ return [
             'collection_class' => \api\V1\Rest\Product\ProductCollection::class,
             'service_name' => 'Product',
         ],
+        'api\\V1\\Rest\\Role\\Controller' => [
+            'listener' => \api\V1\Rest\Role\RoleResource::class,
+            'route_name' => 'api.rest.doctrine.role',
+            'route_identifier_name' => 'role_id',
+            'entity_identifier_name' => 'id',
+            'collection_name' => 'role',
+            'entity_http_methods' => [
+                0 => 'GET',
+                1 => 'PATCH',
+                2 => 'PUT',
+                3 => 'DELETE',
+            ],
+            'collection_http_methods' => [
+                0 => 'GET',
+                1 => 'POST',
+            ],
+            'collection_query_whitelist' => [],
+            'page_size' => 25,
+            'page_size_param' => null,
+            'entity_class' => \Acl\Entity\Role::class,
+            'collection_class' => \api\V1\Rest\Role\RoleCollection::class,
+            'service_name' => 'Role',
+        ],
+        'api\\V1\\Rest\\Resource\\Controller' => [
+            'listener' => \api\V1\Rest\Resource\ResourceResource::class,
+            'route_name' => 'api.rest.doctrine.resource',
+            'route_identifier_name' => 'resource_id',
+            'entity_identifier_name' => 'id',
+            'collection_name' => 'resource',
+            'entity_http_methods' => [
+                0 => 'GET',
+                1 => 'PATCH',
+                2 => 'PUT',
+                3 => 'DELETE',
+            ],
+            'collection_http_methods' => [
+                0 => 'GET',
+                1 => 'POST',
+            ],
+            'collection_query_whitelist' => [],
+            'page_size' => 25,
+            'page_size_param' => null,
+            'entity_class' => \Acl\Entity\Resource::class,
+            'collection_class' => \api\V1\Rest\Resource\ResourceCollection::class,
+            'service_name' => 'Resource',
+        ],
+        'api\\V1\\Rest\\Action\\Controller' => [
+            'listener' => \api\V1\Rest\Action\ActionResource::class,
+            'route_name' => 'api.rest.doctrine.action',
+            'route_identifier_name' => 'action_id',
+            'entity_identifier_name' => 'id',
+            'collection_name' => 'action',
+            'entity_http_methods' => [
+                0 => 'GET',
+                1 => 'PATCH',
+                2 => 'PUT',
+                3 => 'DELETE',
+            ],
+            'collection_http_methods' => [
+                0 => 'GET',
+                1 => 'POST',
+            ],
+            'collection_query_whitelist' => [],
+            'page_size' => 25,
+            'page_size_param' => null,
+            'entity_class' => \Acl\Entity\Action::class,
+            'collection_class' => \api\V1\Rest\Action\ActionCollection::class,
+            'service_name' => 'Action',
+        ],
+        'api\\V1\\Rest\\Privilege\\Controller' => [
+            'listener' => \api\V1\Rest\Privilege\PrivilegeResource::class,
+            'route_name' => 'api.rest.doctrine.privilege',
+            'route_identifier_name' => 'privilege_id',
+            'entity_identifier_name' => 'id',
+            'collection_name' => 'privilege',
+            'entity_http_methods' => [
+                0 => 'GET',
+                1 => 'PATCH',
+                2 => 'PUT',
+                3 => 'DELETE',
+            ],
+            'collection_http_methods' => [
+                0 => 'GET',
+                1 => 'POST',
+            ],
+            'collection_query_whitelist' => [],
+            'page_size' => 25,
+            'page_size_param' => null,
+            'entity_class' => \Acl\Entity\Privilege::class,
+            'collection_class' => \api\V1\Rest\Privilege\PrivilegeCollection::class,
+            'service_name' => 'Privilege',
+        ],
+        'api\\V1\\Rest\\Possibility\\Controller' => [
+            'listener' => \api\V1\Rest\Possibility\PossibilityResource::class,
+            'route_name' => 'api.rest.doctrine.possibility',
+            'route_identifier_name' => 'possibility_id',
+            'entity_identifier_name' => 'id',
+            'collection_name' => 'possibility',
+            'entity_http_methods' => [
+                0 => 'GET',
+                1 => 'PATCH',
+                2 => 'PUT',
+                3 => 'DELETE',
+            ],
+            'collection_http_methods' => [
+                0 => 'GET',
+                1 => 'POST',
+            ],
+            'collection_query_whitelist' => [],
+            'page_size' => 25,
+            'page_size_param' => null,
+            'entity_class' => \Acl\Entity\Possibility::class,
+            'collection_class' => \api\V1\Rest\Possibility\PossibilityCollection::class,
+            'service_name' => 'Possibility',
+        ],
     ],
     'zf-content-negotiation' => [
         'controllers' => [
@@ -454,6 +619,11 @@ return [
             'api\\V1\\Rest\\App\\Controller' => 'HalJson',
             'api\\V1\\Rest\\Sku\\Controller' => 'HalJson',
             'api\\V1\\Rest\\Product\\Controller' => 'HalJson',
+            'api\\V1\\Rest\\Role\\Controller' => 'HalJson',
+            'api\\V1\\Rest\\Resource\\Controller' => 'HalJson',
+            'api\\V1\\Rest\\Action\\Controller' => 'HalJson',
+            'api\\V1\\Rest\\Privilege\\Controller' => 'HalJson',
+            'api\\V1\\Rest\\Possibility\\Controller' => 'HalJson',
         ],
         'accept_whitelist' => [
             'api\\V1\\Rest\\City\\Controller' => [
@@ -521,6 +691,31 @@ return [
                 1 => 'application/hal+json',
                 2 => 'application/json',
             ],
+            'api\\V1\\Rest\\Role\\Controller' => [
+                0 => 'application/vnd.api.v1+json',
+                1 => 'application/hal+json',
+                2 => 'application/json',
+            ],
+            'api\\V1\\Rest\\Resource\\Controller' => [
+                0 => 'application/vnd.api.v1+json',
+                1 => 'application/hal+json',
+                2 => 'application/json',
+            ],
+            'api\\V1\\Rest\\Action\\Controller' => [
+                0 => 'application/vnd.api.v1+json',
+                1 => 'application/hal+json',
+                2 => 'application/json',
+            ],
+            'api\\V1\\Rest\\Privilege\\Controller' => [
+                0 => 'application/vnd.api.v1+json',
+                1 => 'application/hal+json',
+                2 => 'application/json',
+            ],
+            'api\\V1\\Rest\\Possibility\\Controller' => [
+                0 => 'application/vnd.api.v1+json',
+                1 => 'application/hal+json',
+                2 => 'application/json',
+            ],
         ],
         'content_type_whitelist' => [
             'api\\V1\\Rest\\City\\Controller' => [
@@ -572,6 +767,26 @@ return [
                 1 => 'application/json',
             ],
             'api\\V1\\Rest\\Product\\Controller' => [
+                0 => 'application/vnd.api.v1+json',
+                1 => 'application/json',
+            ],
+            'api\\V1\\Rest\\Role\\Controller' => [
+                0 => 'application/vnd.api.v1+json',
+                1 => 'application/json',
+            ],
+            'api\\V1\\Rest\\Resource\\Controller' => [
+                0 => 'application/vnd.api.v1+json',
+                1 => 'application/json',
+            ],
+            'api\\V1\\Rest\\Action\\Controller' => [
+                0 => 'application/vnd.api.v1+json',
+                1 => 'application/json',
+            ],
+            'api\\V1\\Rest\\Privilege\\Controller' => [
+                0 => 'application/vnd.api.v1+json',
+                1 => 'application/json',
+            ],
+            'api\\V1\\Rest\\Possibility\\Controller' => [
                 0 => 'application/vnd.api.v1+json',
                 1 => 'application/json',
             ],
@@ -722,6 +937,61 @@ return [
                 'route_name' => 'api.rest.doctrine.product',
                 'is_collection' => true,
             ],
+            \Acl\Entity\Role::class => [
+                'route_identifier_name' => 'role_id',
+                'entity_identifier_name' => 'id',
+                'route_name' => 'api.rest.doctrine.role',
+                'hydrator' => 'api\\V1\\Rest\\Role\\RoleHydrator',
+            ],
+            \api\V1\Rest\Role\RoleCollection::class => [
+                'entity_identifier_name' => 'id',
+                'route_name' => 'api.rest.doctrine.role',
+                'is_collection' => true,
+            ],
+            \Acl\Entity\Resource::class => [
+                'route_identifier_name' => 'resource_id',
+                'entity_identifier_name' => 'id',
+                'route_name' => 'api.rest.doctrine.resource',
+                'hydrator' => 'api\\V1\\Rest\\Resource\\ResourceHydrator',
+            ],
+            \api\V1\Rest\Resource\ResourceCollection::class => [
+                'entity_identifier_name' => 'id',
+                'route_name' => 'api.rest.doctrine.resource',
+                'is_collection' => true,
+            ],
+            \Acl\Entity\Action::class => [
+                'route_identifier_name' => 'action_id',
+                'entity_identifier_name' => 'id',
+                'route_name' => 'api.rest.doctrine.action',
+                'hydrator' => 'api\\V1\\Rest\\Action\\ActionHydrator',
+            ],
+            \api\V1\Rest\Action\ActionCollection::class => [
+                'entity_identifier_name' => 'id',
+                'route_name' => 'api.rest.doctrine.action',
+                'is_collection' => true,
+            ],
+            \Acl\Entity\Privilege::class => [
+                'route_identifier_name' => 'privilege_id',
+                'entity_identifier_name' => 'id',
+                'route_name' => 'api.rest.doctrine.privilege',
+                'hydrator' => 'api\\V1\\Rest\\Privilege\\PrivilegeHydrator',
+            ],
+            \api\V1\Rest\Privilege\PrivilegeCollection::class => [
+                'entity_identifier_name' => 'id',
+                'route_name' => 'api.rest.doctrine.privilege',
+                'is_collection' => true,
+            ],
+            \Acl\Entity\Possibility::class => [
+                'route_identifier_name' => 'possibility_id',
+                'entity_identifier_name' => 'id',
+                'route_name' => 'api.rest.doctrine.possibility',
+                'hydrator' => 'api\\V1\\Rest\\Possibility\\PossibilityHydrator',
+            ],
+            \api\V1\Rest\Possibility\PossibilityCollection::class => [
+                'entity_identifier_name' => 'id',
+                'route_name' => 'api.rest.doctrine.possibility',
+                'is_collection' => true,
+            ],
         ],
     ],
     'zf-apigility' => [
@@ -777,6 +1047,26 @@ return [
             \api\V1\Rest\Product\ProductResource::class => [
                 'object_manager' => 'doctrine.entitymanager.orm_default',
                 'hydrator' => 'api\\V1\\Rest\\Product\\ProductHydrator',
+            ],
+            \api\V1\Rest\Role\RoleResource::class => [
+                'object_manager' => 'doctrine.entitymanager.orm_default',
+                'hydrator' => 'api\\V1\\Rest\\Role\\RoleHydrator',
+            ],
+            \api\V1\Rest\Resource\ResourceResource::class => [
+                'object_manager' => 'doctrine.entitymanager.orm_default',
+                'hydrator' => 'api\\V1\\Rest\\Resource\\ResourceHydrator',
+            ],
+            \api\V1\Rest\Action\ActionResource::class => [
+                'object_manager' => 'doctrine.entitymanager.orm_default',
+                'hydrator' => 'api\\V1\\Rest\\Action\\ActionHydrator',
+            ],
+            \api\V1\Rest\Privilege\PrivilegeResource::class => [
+                'object_manager' => 'doctrine.entitymanager.orm_default',
+                'hydrator' => 'api\\V1\\Rest\\Privilege\\PrivilegeHydrator',
+            ],
+            \api\V1\Rest\Possibility\PossibilityResource::class => [
+                'object_manager' => 'doctrine.entitymanager.orm_default',
+                'hydrator' => 'api\\V1\\Rest\\Possibility\\PossibilityHydrator',
             ],
         ],
     ],
@@ -872,6 +1162,41 @@ return [
             'strategies' => [],
             'use_generated_hydrator' => true,
         ],
+        'api\\V1\\Rest\\Role\\RoleHydrator' => [
+            'entity_class' => \Acl\Entity\Role::class,
+            'object_manager' => 'doctrine.entitymanager.orm_default',
+            'by_value' => true,
+            'strategies' => [],
+            'use_generated_hydrator' => true,
+        ],
+        'api\\V1\\Rest\\Resource\\ResourceHydrator' => [
+            'entity_class' => \Acl\Entity\Resource::class,
+            'object_manager' => 'doctrine.entitymanager.orm_default',
+            'by_value' => true,
+            'strategies' => [],
+            'use_generated_hydrator' => true,
+        ],
+        'api\\V1\\Rest\\Action\\ActionHydrator' => [
+            'entity_class' => \Acl\Entity\Action::class,
+            'object_manager' => 'doctrine.entitymanager.orm_default',
+            'by_value' => true,
+            'strategies' => [],
+            'use_generated_hydrator' => true,
+        ],
+        'api\\V1\\Rest\\Privilege\\PrivilegeHydrator' => [
+            'entity_class' => \Acl\Entity\Privilege::class,
+            'object_manager' => 'doctrine.entitymanager.orm_default',
+            'by_value' => true,
+            'strategies' => [],
+            'use_generated_hydrator' => true,
+        ],
+        'api\\V1\\Rest\\Possibility\\PossibilityHydrator' => [
+            'entity_class' => \Acl\Entity\Possibility::class,
+            'object_manager' => 'doctrine.entitymanager.orm_default',
+            'by_value' => true,
+            'strategies' => [],
+            'use_generated_hydrator' => true,
+        ],
     ],
     'zf-content-validation' => [
         'api\\V1\\Rest\\City\\Controller' => [
@@ -912,6 +1237,21 @@ return [
         ],
         'api\\V1\\Rest\\Product\\Controller' => [
             'input_filter' => 'api\\V1\\Rest\\Product\\Validator',
+        ],
+        'api\\V1\\Rest\\Role\\Controller' => [
+            'input_filter' => 'api\\V1\\Rest\\Role\\Validator',
+        ],
+        'api\\V1\\Rest\\Resource\\Controller' => [
+            'input_filter' => 'api\\V1\\Rest\\Resource\\Validator',
+        ],
+        'api\\V1\\Rest\\Action\\Controller' => [
+            'input_filter' => 'api\\V1\\Rest\\Action\\Validator',
+        ],
+        'api\\V1\\Rest\\Privilege\\Controller' => [
+            'input_filter' => 'api\\V1\\Rest\\Privilege\\Validator',
+        ],
+        'api\\V1\\Rest\\Possibility\\Controller' => [
+            'input_filter' => 'api\\V1\\Rest\\Possibility\\Validator',
         ],
     ],
     'input_filter_specs' => [
@@ -1791,6 +2131,121 @@ return [
                         ],
                     ],
                 ],
+            ],
+        ],
+        'api\\V1\\Rest\\Role\\Validator' => [
+            0 => [
+                'name' => 'name',
+                'required' => true,
+                'filters' => [],
+                'validators' => [],
+            ],
+            1 => [
+                'name' => 'isAdmin',
+                'required' => true,
+                'filters' => [],
+                'validators' => [],
+            ],
+            2 => [
+                'name' => 'createdAt',
+                'required' => true,
+                'filters' => [],
+                'validators' => [],
+            ],
+            3 => [
+                'name' => 'updatedAt',
+                'required' => true,
+                'filters' => [],
+                'validators' => [],
+            ],
+        ],
+        'api\\V1\\Rest\\Resource\\Validator' => [
+            0 => [
+                'name' => 'updatedAt',
+                'required' => true,
+                'filters' => [],
+                'validators' => [],
+            ],
+            1 => [
+                'name' => 'createdAt',
+                'required' => true,
+                'filters' => [],
+                'validators' => [],
+            ],
+            2 => [
+                'name' => 'name',
+                'required' => true,
+                'filters' => [
+                    0 => [
+                        'name' => \Zend\Filter\StringTrim::class,
+                    ],
+                    1 => [
+                        'name' => \Zend\Filter\StripTags::class,
+                    ],
+                ],
+                'validators' => [
+                    0 => [
+                        'name' => \Zend\Validator\StringLength::class,
+                        'options' => [
+                            'min' => 1,
+                            'max' => 255,
+                        ],
+                    ],
+                ],
+            ],
+        ],
+        'api\\V1\\Rest\\Action\\Validator' => [
+            0 => [
+                'name' => 'name',
+                'required' => true,
+                'filters' => [],
+                'validators' => [],
+            ],
+            1 => [
+                'name' => 'createdAt',
+                'required' => true,
+                'filters' => [],
+                'validators' => [],
+            ],
+            2 => [
+                'name' => 'updatedAt',
+                'required' => true,
+                'filters' => [],
+                'validators' => [],
+            ],
+        ],
+        'api\\V1\\Rest\\Privilege\\Validator' => [
+            0 => [
+                'name' => 'name',
+                'required' => true,
+                'filters' => [],
+                'validators' => [],
+            ],
+            1 => [
+                'name' => 'createdAt',
+                'required' => true,
+                'filters' => [],
+                'validators' => [],
+            ],
+            2 => [
+                'name' => 'updatedAt',
+                'required' => true,
+                'filters' => [],
+                'validators' => [],
+            ],
+        ],
+        'api\\V1\\Rest\\Possibility\\Validator' => [
+            0 => [
+                'name' => 'createdAt',
+                'required' => false,
+                'filters' => [],
+                'validators' => [],
+            ],
+            1 => [
+                'name' => 'updatedAt',
+                'required' => false,
+                'filters' => [],
+                'validators' => [],
             ],
         ],
     ],

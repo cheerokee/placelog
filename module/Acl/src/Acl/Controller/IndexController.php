@@ -8,4 +8,13 @@ use Zend\Mvc\Controller\AbstractActionController,
 class IndexController extends AbstractActionController
 {
 
+    public function __construct()
+    {
+
+    }
+
+    public function indexAction()
+    {
+        return new ViewModel(array());
+    }
 }

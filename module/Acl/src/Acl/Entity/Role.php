@@ -80,6 +80,17 @@ class Role
         return $this->parent;
     }
 
+    public function getParentName()
+    {
+        if($this->parent){
+            return $this->parent->getName();
+        }else{
+            return null;
+        }
+
+    }
+
+
     /**
      * @param mixed $parent
      */

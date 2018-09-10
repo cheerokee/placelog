@@ -1,0 +1,476 @@
+<div ng-app="panel-authorize" ng-controller="AuthorizeController as auth" class="col-md-12">
+    <div class="card">
+        <div class="header">
+            <div class="row">
+                <div class="col-md-8">
+                    <h4 class="title">Gerenciador de Possibilidades</h4>
+                    <p class="category text-justify">
+                        Selecione quais as ações possíveis a um determinado recurso
+                    </p>
+                </div>
+                <div class="col-md-4">
+                    <button class="btn btn-link pull-right" type="button" data-toggle="collapse" data-target="#collapsePossibility" aria-expanded="true" aria-controls="collapsePossibility">
+                        Exibir/Esconder Formulário
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="content">
+            <div class="row">
+                <div class="accordion col-md-12" id="accordionPossibilityForm">
+                    <div id="collapsePossibility" class="row collapse  in" aria-expanded="true">
+                        <div class="col-md-12">
+                            <div class="row">
+                                <div class="col-md-6 form-group">
+                                    <label>Recurso *</label>
+                                    <select class="form-control" ng-model="resource" ng-value="resource">
+                                        <option value="">Selecione...</option>
+                                        <option ng-repeat="resource in resources" value="{{ resource.id }}">
+                                            {{ resource.name }}
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6 form-group">
+                                    <label>Ações</label>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <select class="form-control" ng-model="action" ng-value="action">
+                                                <option value="">Selecione...</option>
+                                                <option ng-repeat="action in actions" value="{{ action.id }}">
+                                                    {{ action.name }}
+                                                </option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <button ng-click="addPossibility()" class="form-control btn btn-success">
+                                                <i class="pe-7s-upload"></i>&nbsp;Adicionar a ação à lista
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12 form-group">
+                                    <label>Lista de Ações</label>
+                                    <table class="table table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th>Id</th>
+                                                <th>Nome</th>
+                                                <th>Remover</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="act in acts">
+                                                <td>{{ act.id }}</td>
+                                                <td>{{ act.name }}</td>
+                                                <td><button ng-click="rmv(act)" class="btn btn-danger"><i class="pe-7s-close-circle"></i></button></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <button type="button" ng-if="btnadd" ng-click="add()" class="btn btn-success pull-right">
+                                Adicionar
+                            </button>
+                            <button type="button" ng-if="btnedit" ng-click="save(id)" class="btn btn-primary pull-right">
+                                Atualizar
+                            </button>
+                            <button ng-click="clear()" class="btn btn-danger pull-right">
+                                Cancelar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <hr/>
+            </div>
+            <div class="row">
+                <hr/>
+                <div class="col-md-8">
+                    <h4 class="title">
+                        Listagem de Registros</small>
+                    </h4>
+                </div>
+                <div class="col-md-4">
+                    <div style="float: right;" class="btn-group">
+                        <button ng-click="clear()" type="button" class="btn btn-success">
+                            <i class="fa fa-plus"></i> Novo
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <table class="table table-hover">
+                        <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Recurso</th>
+                            <th>Ações</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="possibility in possibilities">
+                                <td>{{ possibility.id }}</td>
+                                <td>{{ possibility.name }}</td>
+                                <td>
+                                    <button class="btn btn-link pull-right form-control" type="button" data-toggle="collapse" data-target="#collapseAction{{ possibility.id }}" aria-expanded="false" aria-controls="collapseAction{{ possibility.id }}">
+                                        {{ possibility.actions.length }} Disponíveis&nbsp;<i class="pe-7s-angle-down"></i>
+                                    </button>
+                                    <div class="accordion col-md-12" id="accordionPossibilityForm{{ possibility.id }}">
+                                        <div id="collapseAction{{ possibility.id }}" class="table-full-width collapse" aria-expanded="false">
+                                            <table class="table">
+                                                <tbody>
+                                                    <tr ng-repeat="action in possibility.actions">
+                                                        <td>{{ action.name }}</td>
+                                                        <td class="td-actions text-right">
+                                                            <button ng-click="del(possibility.id,action.id)" type="button" rel="tooltip" title="" class="btn btn-danger btn-simple btn-xs" data-original-title="Remove">
+                                                                <i class="fa fa-times"></i>
+                                                            </button>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+angular.module('panel-authorize', [])
+.controller('AuthorizeController', ['$scope','$http','$timeout', function($scope,$http,$timeout) {
+    $scope.data             =   {};
+
+    $scope.resources        =   [];
+    $scope.actions          =   [];
+    $scope.acts             =   [];
+    $scope.possibilities    =   [];
+
+    $scope.resource         =   null;
+    $scope.action           =   null;
+
+    $scope.btnadd           =   true;
+    $scope.btnedit          =   false;
+    $scope.has_error        =   false;
+
+    $http({
+        url: "/api/resource",
+        async: false,
+        type: "GET",
+        dataType: "json"
+    }).then(function successCallback(response) {
+        $scope.resources = response.data._embedded.resource;
+    }, function errorCallback(response) {
+        $.notify({
+            icon: 'pe-7s-close-circle',
+            message: "Ops, houve um erro ao consultar os recursos!"
+        },{
+            type: 'info',
+            timer: 4000
+        });
+    });
+
+    $http({
+        url: "/api/action",
+        async: false,
+        type: "GET",
+        dataType: "json"
+    }).then(function successCallback(response) {
+        $scope.actions = response.data._embedded.action;
+    }, function errorCallback(response) {
+        $.notify({
+            icon: 'pe-7s-close-circle',
+            message: "Ops, houve um erro ao consultar as ações!"
+        },{
+            type: 'info',
+            timer: 4000
+        });
+    });
+
+    $scope.load = function () {
+        $http({
+            url: "/admin/get-possibilities",
+            async: false,
+            type: "GET",
+            dataType: "json"
+        }).then(function successCallback(response) {
+            $scope.possibilities = response.data;
+        }, function errorCallback(response) {
+            $.notify({
+                icon: 'pe-7s-close-circle',
+                message: "Ops, houve um erro ao consultar as possibilidades!"
+            },{
+                type: 'info',
+                timer: 4000
+            });
+        });
+    };
+
+    $scope.load();
+
+    $scope.addPossibility = function () {
+        var error = false;
+
+        $.ajax({
+            url: "/api/possibility",
+            type: "GET",
+            data: {
+                'filter'    :   [
+                    {
+                        'type' : 'andx',
+                        'conditions' : [
+                            {'field' :'action', 'type':'eq', 'value' : $scope.action},
+                            {'field' :'resource', 'type':'eq', 'value' : $scope.resource},
+                        ],
+                        'where'  :  'and'
+                    }
+                ]
+            },
+            dataType: "json",
+            success: function (response) {
+                //Não pode ser definida a ação mais de uma vez para o mesmo recurso.
+                if(response.total_items > 0)
+                {
+                    $.notify({
+                        icon: 'pe-7s-close-circle',
+                        message: "Ops, já foi definida essa ação para o recurso!"
+                    }, {
+                        type: 'danger',
+                        timer: 4000
+                    });
+                    error = true;
+                }
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                console.log(textStatus, errorThrown);
+            }
+        });
+
+        $timeout(function () {
+            if(error === false) {
+                $http({
+                    url: "/api/action/" + $scope.action,
+                    async: false,
+                    type: "GET",
+                    dataType: "json"
+                }).then(function successCallback(response) {
+                    for(var j = 0;j < $scope.acts.length; j++)
+                    {
+                        let act = $scope.acts[j];
+
+                        if(act.id == response.data.id){
+                            $.notify({
+                                icon: 'pe-7s-close-circle',
+                                message: "Ops, você não pode incluir a mesma ação mais de uma vez!"
+                            }, {
+                                type: 'danger',
+                                timer: 4000
+                            });
+                            return false;
+                        }
+                    }
+                    $scope.acts.push(response.data);
+                    $scope.action = '';
+                }, function errorCallback(response) {
+                    console.log(response.status);
+                    $.notify({
+                        icon: 'pe-7s-close-circle',
+                        message: "Ops, houve um erro ao consultar a ação!"
+                    }, {
+                        type: 'info',
+                        timer: 4000
+                    });
+                });
+            }
+        },300);
+    };
+
+    $scope.rmv = function (action) {
+        $scope.acts.splice($scope.acts.indexOf(action), 1);
+    };
+
+    $scope.del = function (resource,action) {
+        bootbox.confirm({
+            message: "Deseja excluir esse item?",
+            buttons: {
+                cancel: {
+                    label: 'Não',
+                    className: 'btn-danger'
+                },
+                confirm: {
+                    label: 'Sim',
+                    className: 'btn-success btnConfirm',
+                }
+            },
+            callback: function (result) {
+                if(!result){
+                    this.modal('hide');
+                }else{
+
+                    $.ajax({
+                        url: "/api/possibility",
+                        type: "GET",
+                        data: {
+                            'filter'    :   [
+                                {
+                                    'type' : 'andx',
+                                    'conditions' : [
+                                        {'field' :'action', 'type':'eq', 'value' : action},
+                                        {'field' :'resource', 'type':'eq', 'value' : resource},
+                                    ],
+                                    'where'  :  'and'
+                                }
+                            ]
+                        },
+                        dataType: "json",
+                        success: function (response) {
+                            let possibilities = response._embedded.possibility;
+
+                            $http({
+                                url: '/api/possibility/'+possibilities[0].id,
+                                method: "DELETE"
+                            }).then(function(response) {
+                                // success
+                                $.notify({
+                                    icon: 'pe-7s-smile',
+                                    message: "Registro deletado com sucesso!"
+                                },{
+                                    type: 'success',
+                                    timer: 4000
+                                });
+
+                                $scope.load();
+                            },
+                            function(response) {
+                                // failed
+                                if(response.status == 422)
+                                {
+                                    $.notify({
+                                        icon: 'pe-7s-close-circle',
+                                        message: "Houve erro na exclusão do cadastro, erro: "+response.statusText
+                                    },{
+                                        type: 'danger',
+                                        timer: 4000
+                                    });
+                                }
+                            });
+                        },
+                        error: function(jqXHR, textStatus, errorThrown) {
+                            console.log(textStatus, errorThrown);
+                        }
+                    });
+
+                }
+            }
+        });
+    };
+
+    $scope.add = function () {
+        var actions = $scope.acts;
+
+        if($scope.resource == null || $scope.resource == '' || $scope.acts.length < 1){
+            $scope.has_error = true;
+        }
+
+        var resource = null;
+
+        if($scope.resource != null && $scope.resource != ''){
+            resource = $scope.getResource($scope.resource);
+            if(resource === null)
+                $scope.has_error = true;
+        }
+
+        if(!$scope.has_error) {
+            if (actions.length > 0) {
+                for (var i = 0; i < actions.length; i++) {
+                    var action = actions[i];
+                    $scope.data = {};
+                    $scope.data.resource = resource.id;
+                    $scope.data.action  = action.id;
+
+                    $http({
+                        url: '/api/possibility',
+                        method: "POST",
+                        data: $scope.data
+                    }).then(function (response) {
+                        // success
+                        $.notify({
+                            icon: 'pe-7s-smile',
+                            message: "Possibilidades cadastrada com sucesso!"
+                        }, {
+                            type: 'success',
+                            timer: 4000
+                        });
+
+                        $scope.load();
+                        $scope.clear();
+                    },
+                    function (response) {
+                        // failed
+                        if (response.status == 422) {
+                            $.notify({
+                                icon: 'pe-7s-close-circle',
+                                message: "Houve erro na inclusão do cadastro erro: " + response.statusText
+                            }, {
+                                type: 'danger',
+                                timer: 4000
+                            });
+                        }
+                    });
+                }
+            }
+        }
+    };
+
+    $scope.edit = function(id) {
+
+    };
+
+    $scope.clear = function() {
+        $scope.id       =   null;
+        $scope.resouce  =   '';
+        $scope.action   =   '';
+        $scope.acts     =   [];
+    };
+
+    $scope.getAction = function(id)
+    {
+        var data = null;
+
+        $.ajax({
+            url: "/api/action/" + id,
+            async: false,
+            type: "GET",
+            dataType: "json"
+        }).done(function(response) {
+            var data = response;
+        });
+
+        return data;
+    };
+
+    $scope.getResource = function(id)
+    {
+        var data = null;
+        $.ajax({
+            url: "/api/resource/" + id,
+            async: false,
+            type: "GET",
+            dataType: "json"
+        }).done(function(response) {
+            data = response;
+            return response;
+        });
+
+        return data;
+    };
+}]);
+</script>

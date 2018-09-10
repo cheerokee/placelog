@@ -1,0 +1,56 @@
+<?php
+/**
+ * @var \Base\Controller\BaseFunctions $function
+ */
+$function = new \Base\Controller\BaseFunctions();
+
+$title  =   "Painel de Authorizações";
+$key    =   $function->strToFriendlyUrl($title);
+
+$form = $this->form;
+
+?>
+<script src="/js/admin/angular.min.js"></script>
+
+<div class="container-fluid">
+    <div class="row">
+        <ol class="breadcrumb">
+            <li><a href="<?=$this->url('admin');?>"><i class="pe-7s-graph"></i>&nbsp;Dashboard</a></li>
+            <li class="active">Painel de Autorização</li>
+        </ol>
+        <div class="col-md-12">
+            <h2 style="margin: 0px 0px 20px 0px;"><?=$title?> <small>- Gerencie as Autorizações</small></h2>
+        </div>
+        <div class="col-md-12">
+            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                <li class="item active">
+                    <a class="nav-link active" id="possibility-tab" data-toggle="tab" href="#possibility" role="tab" aria-controls="possibility" aria-selected="false">
+                        Gerenciador de Possibilidades
+                    </a>
+                </li>
+                <li class="item">
+                    <a class="nav-link" id="privileges-tab" data-toggle="tab" href="#privileges" role="tab" aria-controls="privileges" aria-selected="false">
+                        Gerenciador de Privilégios
+                    </a>
+                </li>
+            </ul>
+            <div class="tab-content" id="myTabContent">
+                <div class="tab-pane fade active in" id="possibility" role="tabpanel" aria-labelledby="possibility-tab">
+                    <div class="row">
+                        <?=$this->partial('auth-possibility');?>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="privileges" role="tabpanel" aria-labelledby="privileges-tab">
+                    <div class="card">
+                        <div class="header">
+                            <h4 class="title">Gerenciador de Privilégios</h4>
+                        </div>
+                        <div class="content">
+                            <?//=$this->partial('auth-possibility');?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

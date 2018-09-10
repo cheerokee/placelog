@@ -6,10 +6,10 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * PersonProfile
  *
- * @ORM\Table(name="person_profile", indexes={@ORM\Index(name="fk_profile", columns={"profile_id"}),@ORM\Index(name="fk_person", columns={"person_id"})})
+ * @ORM\Table(name="person_role", indexes={@ORM\Index(name="fk_role", columns={"role_id"}),@ORM\Index(name="fk_person", columns={"person_id"})})
  * @ORM\Entity
  */
-class PersonProfile
+class PersonRole
 {
     /**
      * @var integer
@@ -34,14 +34,14 @@ class PersonProfile
     private $person;
     
     /**
-     * @var \Register\Entity\Profile
+     * @var \Acl\Entity\Role
      *
-     * @ORM\ManyToOne(targetEntity="Register\Entity\Profile")
+     * @ORM\ManyToOne(targetEntity="Acl\Entity\Role")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="profile_id", referencedColumnName="id", nullable=false)
+     *   @ORM\JoinColumn(name="role_id", referencedColumnName="id", nullable=false)
      * })
      */
-    private $profile;
+    private $role;
     
     /**
      * @return the $id
@@ -57,14 +57,6 @@ class PersonProfile
     public function getPerson()
     {
         return $this->person;
-    }
-
-    /**
-     * @return the $profile
-     */
-    public function getProfile()
-    {
-        return $this->profile;
     }
 
     /**
@@ -84,11 +76,19 @@ class PersonProfile
     }
 
     /**
-     * @param \Register\Entity\Profile $profile
+     * @return \Acl\Entity\Role
      */
-    public function setProfile($profile)
+    public function getRole()
     {
-        $this->profile = $profile;
+        return $this->role;
+    }
+
+    /**
+     * @param \Acl\Entity\Role $role
+     */
+    public function setRole($role)
+    {
+        $this->role = $role;
     }
 }
 

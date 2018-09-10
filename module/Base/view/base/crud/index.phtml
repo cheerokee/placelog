@@ -1,13 +1,6 @@
 <?php
-/**
- * @var \Base\Controller\BaseFunctions $functions
- */
 $functions = new \Base\Controller\BaseFunctions();
-
-function camel2dashed($className) {
-    return strtolower(preg_replace('/([^A-Z-])([A-Z])/', '$1-$2', $className));
-}
-$controller = camel2dashed($this->_listView['controller']);
+$controller = $functions->camel2dashed($this->_listView['controller']);
 
 $link['new'] = $this->url($this->_listView['route'], array(
     'controller' => $controller,
@@ -16,30 +9,11 @@ $link['new'] = $this->url($this->_listView['route'], array(
 
 $chave = $this->_listView['controller'];
 
-//Preferencia de redirecionamento
-if(isset($goto[$chave])){
-	if(!$this->personPermission('modulos',$this->_listView['controller'],'listAll')) {
-		header('Location: '.$goto[$chave]);
-		exit();
-	}
-}else{
-	if(!$this->personPermission('modulos',$this->_listView['controller'],'listAll')) {
-		header('Location: /not-have-permission');
-		exit();
-	}
-}
-
-$db_profile = $this->getEm()->getRepository('Register\Entity\Profile')->findOneByChave($chave);
-if($db_profile instanceof \Register\Entity\Profile)
-{
-    $param = 'profile=' . $db_profile->getChave();
-}
-
 $entity = $this->entity;
 $em = $this->getEm();
 
-$fk = $this->fk;
-$fk_id = $this->fk_id;
+$fk     = $this->fk;
+$fk_id  = $this->fk_id;
 
 $url_new = null;
 if($fk != null && $fk_id != null)
@@ -66,8 +40,8 @@ if($fk != null && $fk_id != null)
             'listView' => $this->_listView,
             'entity' => $this->entity,
             'form'  => $this->form,
-        ));?>
-        <?php
+        ));
+
         if($fk != null && $fk_id != null){
             ?>
             <div class="col-md-12">

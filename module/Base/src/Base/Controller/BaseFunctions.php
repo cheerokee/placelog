@@ -52,4 +52,8 @@ class BaseFunctions
         if (substr($str, -1) == '-') $str = substr($str, 0, -1);
         return $str;
     }
+
+    function camel2dashed($str) {
+        return strtolower(preg_replace('/([^A-Z-])([A-Z])/', '$1-$2', $str));
+    }
 }

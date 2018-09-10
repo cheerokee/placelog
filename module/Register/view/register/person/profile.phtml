@@ -1,24 +1,33 @@
-<?php 
-use Register\Entity\Person;
-use Register\Entity\Profile;
-$return = $this->url('person/default',array('controller'=>'person'));
+<?php
 
-/**
- * @var \Register\Entity\PersonProfile[] $hasProfiles
- */
-$person = $this->person;
-$profiles = $this->profiles;
-$hasProfiles = $this->personProfiles;
-$time = time($person->getCreatedAt());
-$data = date('d/m/Y',$time);
+$db_person          = $this->db_person;
+$db_roles           = $this->db_roles;
+$db_person_roles = $this->db_person_roles;
 
-$arr_profiles = array();
-if(!empty($hasProfiles)){
-    foreach($hasProfiles as $hasProfile){
-		$arr_profiles[] = $hasProfile->getProfile();
+$arr_roles = array();
+if(!empty($db_person_roles))
+{
+    foreach($db_person_roles as $db_person_role)
+    {
+        $arr_roles[] = $db_person_role->getRole()->getId();
     }
-};
+}
 
+$return = $this->url(
+    'person/default',
+    array(
+        'controller'=>'person'
+    )
+);
+
+$action = $this->url(
+    'person/default',
+    array(
+        'controller'    =>  'person',
+        'action'        =>  'profile',
+        'id'            =>  $db_person->getId()
+    )
+);
 ?>
 
 <div class="container-fluid">
@@ -30,73 +39,63 @@ if(!empty($hasProfiles)){
             </ol>
             <?php $this->getAdminFlashMessenger();?>
         </div>
-        <form role="form" method="POST" action="<?=$this->url('person/default',array('controller'=>'person','action'=>'profile','id'=>$person->getId()));?>">
-        <div class="col-md-12">
-            <div class="card">
-                <div class="header">
-                    <div class="row">
-                        <div class="col-md-8">
-                            <h4 class="title">
-                                Seleção de Perfis
-                            </h4>
+        <form role="form" method="POST" action="<?=$action?>">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="header">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <h4 style="margin-top: 0; text-transform: uppercase" class="text-info"><strong><?=$db_person->getName()?></strong></h4>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-8">
+                                <h5 class="title">
+                                    Seleção de Perfis
+                                </h5>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="content">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <table class="table">
-                                <thead>
-                                <tr>
-                                    <th><?=$this->translate("Nome");?></th>
-                                    <th><?=$this->translate("E-mail");?></th>
-                                    <th><?=$this->translate("Membro Desde");?></th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tr>
-                                    <td><?=$person->getName()?></td>
-                                    <td><?=$person->getEmail()?></td>
-                                    <td><?=$data?></td>
-                                </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <label><?=$this->translate("Perfis");?></label>
-                            <?php
-                            if(isset($profiles)) {
-                                foreach ($profiles as $profile) {
-                                    ?>
-                                    <div class="form-check">
-                                        <input class="form-check-input" name="profiles[]" <?=(in_array($profile,$arr_profiles)) ? 'checked' : ''; ?> type="checkbox" value="<?= $profile->getId(); ?>">
-                                        <label>
-                                            <?= $profile->getName(); ?>
-                                        </label>
-                                    </div>
-                                    <?php
+                    <div class="content">
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <label><?=$this->translate("Perfis");?></label>
+                                <?php
+                                if(!empty($db_roles)) {
+                                    foreach ($db_roles as $db_role) {
+                                        ?>
+                                        <div class="form-check">
+                                            <input class="form-check-input"
+                                                name="roles[]"
+                                                <?=(in_array($db_role->getId(),$arr_roles)) ? 'checked' : ''; ?>
+                                                type="checkbox"
+                                                value="<?= $db_role->getId(); ?>">
+                                            <label>
+                                                <?= $db_role->getName(); ?>
+                                            </label>
+                                        </div>
+                                        <?php
+                                    }
                                 }
-                            }
-                            ?>
-                            <br/>
+                                ?>
+                                <br/>
+                            </div>
                         </div>
-                    </div>
-                    <div>
-                        <button type="submit" name="submit" class="btn btn-success" >
-                            <i class="fa fa-save"></i> <?=$this->translate("Salvar");?>
-                        </button>
-                        <button type="reset" name="submit" class="btn btn-danger" >
-                            <i class="fa fa-eraser"></i> <?=$this->translate("Limpar");?>
-                        </button>
-                        <a class="btn btn-info"  href="<?=$return?>">
-                            <i class="fa fa-arrow-circle-o-left"></i> <?=$this->translate("Retornar");?>
-                        </a>
+                        <div>
+                            <button type="submit" name="submit" class="btn btn-success" >
+                                <i class="fa fa-save"></i> <?=$this->translate("Salvar");?>
+                            </button>
+                            <button type="reset" name="submit" class="btn btn-danger" >
+                                <i class="fa fa-eraser"></i> <?=$this->translate("Limpar");?>
+                            </button>
+                            <a class="btn btn-info"  href="<?=$return?>">
+                                <i class="fa fa-arrow-circle-o-left"></i> <?=$this->translate("Retornar");?>
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
         </form>
     </div>
 </div>

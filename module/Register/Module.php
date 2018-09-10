@@ -151,8 +151,7 @@ class Module{
         return array(
             'invokables' => array(
                 'getConfiguration'  => __NAMESPACE__ . '\View\Helper\GetConfiguration',
-                'PersonIdentity'    => __NAMESPACE__ . '\View\Helper\PersonIdentity',
-                'PersonPermission'  => __NAMESPACE__ . '\View\Helper\PersonPermission',
+                'PersonIdentity'    => __NAMESPACE__ . '\View\Helper\PersonIdentity'
             )
         );
     }

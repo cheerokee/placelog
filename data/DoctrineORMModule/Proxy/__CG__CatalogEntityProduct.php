@@ -320,4 +320,15 @@ class Product extends \Catalog\Entity\Product implements \Doctrine\ORM\Proxy\Pro
         return parent::setFriendlyUrl($friendly_url);
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    public function getArrayCopy()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getArrayCopy', []);
+
+        return parent::getArrayCopy();
+    }
+
 }
