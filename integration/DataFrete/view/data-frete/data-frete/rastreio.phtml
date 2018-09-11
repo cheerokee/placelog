@@ -160,7 +160,7 @@ $db_config  =   $this->config;
 
 $url_img = '';
 
-if($db_company->getImage() != '' && file_exists("public/img/person/".$db_company->getImage())){
+if(isset($db_company) && $db_company->getImage() != '' && file_exists("public/img/person/".$db_company->getImage())){
     $url_img = "/img/person/".$db_company->getImage();
 }else{
     $url_img = "/img/person/sem_imagem.jpg";

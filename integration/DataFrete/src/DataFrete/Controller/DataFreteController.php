@@ -98,11 +98,7 @@ class DataFreteController extends CrudController
                 echo "<div class='alert alert-danger'>O Endereço acessado não corresponde a nenhuma empresa!</div>";
                 die;
             }else{
-                if(isset($_SESSION['empresa'])){
-                    $db_config  =   $this->getEm()->getRepository('DataFrete\Entity\Config')->findOneByCompany($db_companies[0]->getId());
-                }else{
-                    $db_config  =   null;
-                }
+                $db_config  =   $this->getEm()->getRepository('DataFrete\Entity\Config')->findOneByCompany($db_companies[0]->getId());
 
                 return new ViewModel(array(
                     'company'   =>  $db_companies[0],
