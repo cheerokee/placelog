@@ -19,14 +19,6 @@ echo $this->doctype(); ?>
         'href' => $this->basePath() . '/img/icons/favicon.ico'
     ));
 
-
-    $person = $this->personIdentity('Person');
-
-    if(!($person instanceof \Register\Entity\Person)){
-        header('Location: /auth');
-        die;
-    }
-
     $logo = $this->getConfiguration('LOGO');
     $logoAbreviado = $this->getConfiguration('LOGOMINI');
     ?>
