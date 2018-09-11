@@ -99,7 +99,7 @@ class DataFreteController extends CrudController
                 die;
             }else{
                 if(isset($_SESSION['empresa'])){
-                    $db_config  =   $this->getEm()->getRepository('DataFrete\Entity\Config')->findOneByCompany($_SESSION['empresa']);
+                    $db_config  =   $this->getEm()->getRepository('DataFrete\Entity\Config')->findOneByCompany($db_companies[0]->getId());
                 }else{
                     $db_config  =   null;
                 }

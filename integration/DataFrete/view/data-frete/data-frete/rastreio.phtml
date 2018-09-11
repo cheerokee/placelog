@@ -366,7 +366,7 @@ if($db_company->getImage() != '' && file_exists("public/img/person/".$db_company
 
         var api_tracking_url = "http://datafrete.com.br/placelog/api-tracking/";
         var cor_texto = null;
-        var filial_id = 3;
+        var filial_id = <?=$db_config->getIdExternal()?>;
 
         $.urlParam = function(name){
             var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
