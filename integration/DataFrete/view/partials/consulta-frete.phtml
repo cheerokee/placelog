@@ -153,7 +153,7 @@
                 data: {
                     'filter': [
                         <?php
-                        if(isset($_SESSION['company']) && $_SESSION['company'] != null){
+                        if(isset($_SESSION['empresa']) && $_SESSION['empresa'] != null){
                             ?>
                             {
                                 'type' : 'innerjoin',
@@ -164,7 +164,7 @@
                                 'type' : 'eq',
                                 'alias' : 'p',
                                 'field' : 'company',
-                                'value' : '<?=$_SESSION['company']?>'
+                                'value' : '<?=$_SESSION['empresa']?>'
                             }
                             <?php
                         }

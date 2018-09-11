@@ -116,6 +116,11 @@ class Person  extends FormBase
 //            )
 //        ));
 
+        $field = new \Zend\Form\Element\File("image");
+        $field  ->setLabel('Foto: ')
+                ->setAttribute('placeholder','Altere a imagem');
+        $this->add($field);
+
         $active = new \Zend\Form\Element\Hidden('active');
         $active->setAttribute('value','1');
         $this->add($active);

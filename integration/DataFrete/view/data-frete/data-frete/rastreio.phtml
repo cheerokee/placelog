@@ -9,7 +9,7 @@
     <link id="favicon" rel="shortcut icon" href="" />
 
     <link href="https://netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css"/>
-
+    <link href="<?=$this->basePath('/css/admin/style.css');?>" rel="stylesheet" />
     <style type="text/css">
         @import "https://cdn.jsdelivr.net/fontawesome/4.5.0/css/font-awesome.min.css?ver=4.5.0";
 
@@ -148,20 +148,42 @@
         }
     </style>
 </head>
-
 <body>
+<?php
+
+/**
+ * @var \Register\Entity\Person     $db_company
+ * @var \DataFrete\Entity\Config    $db_config
+ */
+$db_company =   $this->company;
+$db_config  =   $this->config;
+
+$url_img = '';
+
+if($db_company->getImage() != '' && file_exists("public/img/person/".$db_company->getImage())){
+    $url_img = "/img/person/".$db_company->getImage();
+}else{
+    $url_img = "/img/person/sem_imagem.jpg";
+}
+?>
 <nav class="navbar navbar-default">
     <div class="container-fluid">
-        <div class="navbar-header">
+        <div class="navbar-header col-md-12">
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
                 <span class="sr-only">Toggle navigation</span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="<?=$this->url('admin');?>">
-                <img style="height: 25px" id="imgLogo" class="img-responsive" src="/<?=$this->getConfiguration('LOGOIMG');?>" />
-            </a>
+            <div class="row">
+            <div class="col-md-2">
+                <a class="navbar-brand brand-rastreio" href="<?=$this->url('admin');?>" style="background-image: url(<?=$url_img?>);">
+                </a>
+            </div>
+            <div class="col-md-10">
+                <h2><?=$db_company->getName();?></h2>
+            </div>
+            </div>
         </div>
     </div>
 </nav>

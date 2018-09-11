@@ -145,6 +145,13 @@ class Person
     /**
      * @var string
      *
+     * @ORM\Column(name="image", type="string", length=255, nullable=true)
+     */
+    private $image;
+
+    /**
+     * @var string
+     *
      * @ORM\Column(name="friendly_url", type="string", length=255, nullable=true)
      */
     private $friendlyUrl;
@@ -435,7 +442,7 @@ class Person
             foreach($personRoles as $personRole)
             {
                 $db_role = $personRole->getRole();
-                if($db_role->getChave() == $role)
+                if($db_role->getFriendlyUrl() == $role)
                 {
                     return true;
                 }
@@ -459,6 +466,22 @@ class Person
     public function setFriendlyUrl($friendlyUrl)
     {
         $this->friendlyUrl = $friendlyUrl;
+    }
+
+    /**
+     * @return string
+     */
+    public function getImage()
+    {
+        return $this->image;
+    }
+
+    /**
+     * @param string $image
+     */
+    public function setImage($image)
+    {
+        $this->image = $image;
     }
 
 }

@@ -48,6 +48,13 @@ class Role
      */
     protected $updatedAt;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="friendly_url", type="string", length=255, nullable=true)
+     */
+    private $friendlyUrl;
+
     public function __construct($options = array())
     {
         //(new Hydrator\ClassMethods)->hydrate($options,this);
@@ -172,6 +179,22 @@ class Role
     {
         $this->updatedAt = new \DateTime('now');
         return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFriendlyUrl()
+    {
+        return $this->friendlyUrl;
+    }
+
+    /**
+     * @param string $friendlyUrl
+     */
+    public function setFriendlyUrl($friendlyUrl)
+    {
+        $this->friendlyUrl = $friendlyUrl;
     }
 
     public function __toString()

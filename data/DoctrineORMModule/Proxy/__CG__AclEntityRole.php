@@ -64,10 +64,10 @@ class Role extends \Acl\Entity\Role implements \Doctrine\ORM\Proxy\Proxy
     public function __sleep()
     {
         if ($this->__isInitialized__) {
-            return ['__isInitialized__', 'id', 'parent', 'name', 'isAdmin', 'createdAt', 'updatedAt'];
+            return ['__isInitialized__', 'id', 'parent', 'name', 'isAdmin', 'createdAt', 'updatedAt', '' . "\0" . 'Acl\\Entity\\Role' . "\0" . 'friendlyUrl'];
         }
 
-        return ['__isInitialized__', 'id', 'parent', 'name', 'isAdmin', 'createdAt', 'updatedAt'];
+        return ['__isInitialized__', 'id', 'parent', 'name', 'isAdmin', 'createdAt', 'updatedAt', '' . "\0" . 'Acl\\Entity\\Role' . "\0" . 'friendlyUrl'];
     }
 
     /**
@@ -213,6 +213,17 @@ class Role extends \Acl\Entity\Role implements \Doctrine\ORM\Proxy\Proxy
     /**
      * {@inheritDoc}
      */
+    public function getParentName()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getParentName', []);
+
+        return parent::getParentName();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function setParent($parent)
     {
 
@@ -318,6 +329,28 @@ class Role extends \Acl\Entity\Role implements \Doctrine\ORM\Proxy\Proxy
         $this->__initializer__ && $this->__initializer__->__invoke($this, 'setUpdatedAt', []);
 
         return parent::setUpdatedAt();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getFriendlyUrl()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getFriendlyUrl', []);
+
+        return parent::getFriendlyUrl();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function setFriendlyUrl($friendlyUrl)
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'setFriendlyUrl', [$friendlyUrl]);
+
+        return parent::setFriendlyUrl($friendlyUrl);
     }
 
     /**

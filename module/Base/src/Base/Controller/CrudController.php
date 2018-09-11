@@ -14,10 +14,15 @@ use Zend\Stdlib\Hydrator;
 
 abstract class CrudController extends AbstractActionController{
     protected $em,$service,$entity,$form,$route,$controller;
+    public $functions;
     
-    public function __construct(){}
+    public function __construct(){
+
+    }
     
     public function indexAction($list = null) {
+        $this->functions = new BaseFunctions();
+
         ///not-have-permission
         $request = $this->getRequest();
 
@@ -41,15 +46,11 @@ abstract class CrudController extends AbstractActionController{
 
             if($this->params()->fromRoute('fk',0))
             {
-                /**
-                 * @var BaseFunctions $db_functions
-                 */
-                $db_functions = new BaseFunctions();
-                $fk = $db_functions->toCamelCase($this->params()->fromRoute('fk',0),true);
+                $fk = $this->functions->toCamelCase($this->params()->fromRoute('fk',0),true);
                 $find_method = 'findBy' . $fk;
 
                 $list = $this->getEm()->getRepository($this->entity)->$find_method($this->params()->fromRoute('fk_id',0));
-                $find_method = 'get' . $db_functions->toCamelCase( $fk , true);
+                $find_method = 'get' . $this->functions->toCamelCase( $fk , true);
                 $fk_entity = $list[0]->$find_method();
             }
         }
@@ -66,9 +67,10 @@ abstract class CrudController extends AbstractActionController{
         $fk_id = $this->params()->fromRoute('fk_id',0);
         if($fk != null && $fk_id != null){
             $fk_route = str_replace(
-            $db_functions->strToFriendlyUrl($this->controller),
-            $db_functions->strToFriendlyUrl($fk),
-            $this->route);
+                $this->functions->strToFriendlyUrl($this->controller),
+                $this->functions->strToFriendlyUrl($fk),
+                $this->route
+            );
         }
 
         $view = new ViewModel(
@@ -127,11 +129,7 @@ abstract class CrudController extends AbstractActionController{
     }
 
     public function newAction($request = null,$form = null,$redirect = null){
-        /**
-         * @var BaseFunctions $functions
-         */
-        $functions = new BaseFunctions();
-
+        $this->functions = new BaseFunctions();
         $em = $this->getEm();
         $cities = $em->getRepository('Register\Entity\City')->findAll();
         $states = $em->getRepository('Register\Entity\State')->findAll();
@@ -161,7 +159,7 @@ abstract class CrudController extends AbstractActionController{
                     {
                         if(isset($data['friendlyUrl']))
                         {
-                            $data['friendlyUrl'] = $this->strToFriendlyUrl($element->getValue());
+                            $data['friendlyUrl'] = $this->functions->strToFriendlyUrl($element->getValue());
                         }
                     }
 
@@ -218,7 +216,7 @@ abstract class CrudController extends AbstractActionController{
 
                 if($this->params()->fromRoute('fk',0) != null && $this->params()->fromRoute('fk_id',0) != null)
                 {
-                    return $this->redirect()->toRoute($functions->strToFriendlyUrl($this->controller) . '-join',array(
+                    return $this->redirect()->toRoute($this->functions->strToFriendlyUrl($this->controller) . '-join',array(
                         'fk' => $this->params()->fromRoute('fk',0),
                         'fk_id' => $this->params()->fromRoute('fk_id',0)
                     ));
@@ -249,11 +247,7 @@ abstract class CrudController extends AbstractActionController{
     }
     
     public function editAction($request = null,$form = null,$redirect = null){
-        /**
-         * @var BaseFunctions $functions
-         */
-        $functions = new BaseFunctions();
-
+        $this->functions = new BaseFunctions();
         $em = $this->getEm();
         $cities = $em->getRepository('Register\Entity\City')->findAll();
         $states = $em->getRepository('Register\Entity\State')->findAll();
@@ -304,7 +298,7 @@ abstract class CrudController extends AbstractActionController{
 
                         if(isset($data['friendlyUrl']))
                         {
-                            $data['friendlyUrl'] = $this->strToFriendlyUrl($element->getValue());
+                            $data['friendlyUrl'] = $this->functions->strToFriendlyUrl($element->getValue());
                         }
 
                     }
@@ -346,7 +340,7 @@ abstract class CrudController extends AbstractActionController{
                 if($redirect === null){
                     if($this->params()->fromRoute('fk',0) != null && $this->params()->fromRoute('fk_id',0) != null)
                     {
-                        return $this->redirect()->toRoute($functions->strToFriendlyUrl($this->controller) . '-join',array(
+                        return $this->redirect()->toRoute($this->functions->strToFriendlyUrl($this->controller) . '-join',array(
                             'fk' => $this->params()->fromRoute('fk',0),
                             'fk_id' => $this->params()->fromRoute('fk_id',0)
                         ));
@@ -453,13 +447,4 @@ abstract class CrudController extends AbstractActionController{
         return $str;
     }
 
-    function strToFriendlyUrl($str){
-        $str = mb_strtolower(utf8_decode($str));
-        $i=1;
-        $str = strtr($str, utf8_decode('àáâãäåæçèéêëìíîïñòóôõöøùúûýýÿ'), 'aaaaaaaceeeeiiiinoooooouuuyyy');
-        $str = preg_replace("/([^a-z0-9])/",'-',utf8_encode($str));
-        while($i>0) $str = str_replace('--','-',$str,$i);
-        if (substr($str, -1) == '-') $str = substr($str, 0, -1);
-        return $str;
-    }
 }

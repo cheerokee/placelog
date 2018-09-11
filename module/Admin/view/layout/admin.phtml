@@ -52,15 +52,16 @@ echo $this->doctype(); ?>
 
     <?php
 
-//    if($person instanceof \Register\Entity\Person){
-//        if(!$person->hasThisProfile('administrator') && !$person->hasThisProfile('company')){
-//            $_SESSION['company'] = null;
-//        }else if($person->hasThisProfile('company')){
-//            $_SESSION['company'] = $person->getId();
-//        }else{
-//            $_SESSION['company'] = $person->getCompany();
-//        }
-//    }
+    if($person instanceof \Register\Entity\Person){
+        if(!$person->hasThisRole('administrador') && !$person->hasThisRole('empresa')){
+            $_SESSION['empresa'] = $person->getId();
+        }else if($person->hasThisRole('empresa')){
+            $_SESSION['empresa'] = $person->getId();
+        }else{
+            $_SESSION['empresa'] = $person->getCompany();
+        }
+    }
+
     ?>
 </head>
 <body>

@@ -44,3 +44,16 @@
 .modal-backdrop.in{
     z-index: 1;
 }
+
+.brand-rastreio{
+    width: 100%;
+    height: 70px;
+    background-size: cover;
+    background-position: center;
+
+    margin: 5px 5px;
+    float: left;
+    display: block;
+    position: relative;
+    left: 10px;
+}

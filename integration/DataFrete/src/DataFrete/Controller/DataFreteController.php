@@ -73,8 +73,8 @@ class DataFreteController extends CrudController
     }
 
     public function panelAction(){
-        if(isset($_SESSION['company'])){
-            $db_company = $this->getEm()->getRepository('Register\Entity\Person')->findOneById($_SESSION['company']);
+        if(isset($_SESSION['empresa'])){
+            $db_company = $this->getEm()->getRepository('Register\Entity\Person')->findOneById($_SESSION['empresa']);
         }else{
             $db_company = $this->getEm()->getRepository('Register\Entity\Person')->findOneById($this->getLogin());
         }
@@ -98,7 +98,16 @@ class DataFreteController extends CrudController
                 echo "<div class='alert alert-danger'>O Endereço acessado não corresponde a nenhuma empresa!</div>";
                 die;
             }else{
-                return new ViewModel(array('company' => $db_companies[0]));
+                if(isset($_SESSION['empresa'])){
+                    $db_config  =   $this->getEm()->getRepository('DataFrete\Entity\Config')->findOneByCompany($_SESSION['empresa']);
+                }else{
+                    $db_config  =   null;
+                }
+
+                return new ViewModel(array(
+                    'company'   =>  $db_companies[0],
+                    'config'    =>  $db_config
+                ));
             }
 
         }else{

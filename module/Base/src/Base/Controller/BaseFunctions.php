@@ -44,8 +44,13 @@ class BaseFunctions
     }
 
     function strToFriendlyUrl($str){
-        $str = mb_strtolower(utf8_decode($str));
+        $str = mb_strtolower($str);
         $i=1;
+        $arr_a = array('à','á','â','ã','ä','å','æ','ç','è','é','ê','ë','ì','í','î','ï','ñ','ò','ó','ô','õ','ö','ø','ù','ú','û','ý','ý','ÿ');
+        $arr_b = array('a','a','a','a','a','a','æ','c','e','e','e','e','i','i','i','i','n','o','o','o','o','o','o','u','u','u','y','y','y');
+
+        $str = str_replace($arr_a, $arr_b,$str);
+
         $str = strtr($str, utf8_decode('àáâãäåæçèéêëìíîïñòóôõöøùúûýýÿ'), 'aaaaaaaceeeeiiiinoooooouuuyyy');
         $str = preg_replace("/([^a-z0-9])/",'-',utf8_encode($str));
         while($i>0) $str = str_replace('--','-',$str,$i);

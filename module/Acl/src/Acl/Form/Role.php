@@ -60,6 +60,9 @@ class Role extends FormBase{
         $isAdmin->setLabel("Admin?");
         $this->add($isAdmin);
 
+        $friendlyUrl = new \Zend\Form\Element\Hidden("friendlyUrl");
+        $this->add($friendlyUrl);
+
         $this->add(array(
             'name' => 'submit',
             'type'=>'Zend\Form\Element\Submit',
