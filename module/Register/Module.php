@@ -75,7 +75,9 @@ class Module{
                 {
                     return new Form\Configuration($sm->get('Doctrine\ORM\EntityManager'));
                 },
-
+                'Register\Form\Image' => function ($sm){
+                    return new Form\Image($sm->get('Doctrine\ORM\EntityManager'));
+                },
                 /**************/
                 /** SERVICES **/
                 /**************/
@@ -103,6 +105,10 @@ class Module{
                 'Register\Service\Configuration' => function ($sm)
                 {
                     return new Service\Configuration($sm->get('Doctrine\ORM\EntityManager'));
+                },
+                'Register\Service\Image' => function ($sm)
+                {
+                    return new Service\Image($sm->get('Doctrine\ORM\EntityManager'));
                 },
                 'Register\Service\Configuration' => function($sm) {
                     $service = new Service\Configuration(

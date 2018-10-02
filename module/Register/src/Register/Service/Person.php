@@ -113,7 +113,7 @@ class Person extends AbstractService
                 return $entity;
             }else{
                 return false;
-            }            
+            }
         }
     }
     
@@ -122,15 +122,17 @@ class Person extends AbstractService
         $repo = $this->em->getRepository('Register\Entity\Person');
         
         $person = $repo->findOneByActivationKey($key);
-        
+
         if($person && !$person->getActive())
         {
             $person->setActive(true);
             
             $this->em->persist($person);
             $this->em->flush();
-            
+
             return $person;
+        }else{
+            return false;
         }
     }
     

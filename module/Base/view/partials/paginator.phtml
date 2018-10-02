@@ -26,12 +26,12 @@ if ($this->pageCount) {
         
         ?>
         	<li><a
-		href="<?php echo $formatUrl($this->previous).$params; ?>"> « </a></li>
+		href="<?php echo $formatUrl($this->previous).$params; ?>"> <i class="fa fa-angle-left"></i> </a></li>
         <?php
     } else {
         ?>
-        	<li class="disabled"><a href=""> « </a></li>
-          
+        	<li class="disabled"><a href=""> <i class="fa fa-angle-left"></i></a></li>
+
         <?php
     }
     ?>
@@ -67,10 +67,13 @@ if ($this->pageCount) {
 	<!-- Next page link -->
 	<!-- Next page link -->
         <?php if (isset($this->next)){ ?>
-            <li><a href="<?php echo $formatUrl($this->next).$params; ?>">
-			» </a></li>
+            <li>
+                <a href="<?php echo $formatUrl($this->next).$params; ?>">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
         <?php }else{ ?>
-            <li class="disabled"><a href=""> » </a></li>
+            <li class="disabled"><a href=""> <i class="fa fa-angle-right"></i> </a></li>
         <?php }?>
         <!-- Next page link -->
 	<!-- Next page link -->

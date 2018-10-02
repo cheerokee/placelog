@@ -17,7 +17,7 @@ class ActionsController extends CrudController
 
         $this->_listView = array(
             'title' => $this->title,
-            'icon' => 'pe-7s-share',
+            'icon' => 'fa-fw fa fa-dot-circle-o',
             'route' => $this->route,
             'controller' => $this->controller,
             'actions' => array(

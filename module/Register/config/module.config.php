@@ -175,7 +175,7 @@ $rotas = array(
                 'route' => '/register',
                 'defaults' => array(
                     '__NAMESPACE__' => 'Register\Controller',
-                    'controller' => 'Index',
+                    'controller' => 'Auth',
                     'action' => 'register',
                 )
             )
@@ -312,7 +312,65 @@ $rotas = array(
                     )
                 )
             )
-        )
+        ),
+        'gallery' => array(
+            'type' => 'Literal',
+            'options' => array(
+                'route' => '/admin/gallery',
+                'defaults' => array(
+                    '__NAMESPACE__' => 'Register\Controller',
+                    'controller' => 'Image',
+                    'action' => 'gallery'
+                )
+            )
+        ),
+        'image' => array(
+            'type' => 'Literal',
+            'options' => array(
+                'route' => '/admin',
+                'defaults' => array(
+                    '__NAMESPACE__' => 'Register\Controller',
+                    'controller' => 'Index',
+                    'action' => 'index'
+                )
+            ),
+            'may_terminate' => true,
+            'child_routes' => array(
+                'defaults' => array(
+                    'type' => 'Segment',
+                    'options' => array(
+                        'route' => '/image[/:action[/:id]][/page/:page][/order_by/:order_by][/:order]',
+                        'constraints' => array(
+                            'action' => '(?!\bpage\b)(?!\border_by\b)[a-zA-Z][a-zA-Z0-9_-]*',
+                            'id' => '\d+',
+                            'page' => '\d+',
+                            'order_by' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                            'order' => 'ASC|DESC',
+                        ),
+                        'defaults' => array(
+                            '__NAMESPACE__' => __NAMESPACE__ . '\Controller',
+                            'controller' => 'Image',
+                            'action' => 'index'
+                        )
+                    )
+                ),
+                'paginator' => array(
+                    'type' => 'Segment',
+                    'options' => array(
+                        'route' => '/[/:controller[/page/:page]]',
+                        'constraints' => array(
+                            'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                            'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                            'page' => '\d+'
+                        ),
+                        'defaults' => array(
+                            '__NAMESPACE__' => __NAMESPACE__ . '\Controller',
+                            'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                        )
+                    )
+                )
+            )
+        ),
     )
 );
 
@@ -386,6 +444,7 @@ return array(
             'Register\Controller\Company' => 'Register\Controller\CompanyController',
             'Register\Controller\Employee' => 'Register\Controller\EmployeeController',
             'Register\Controller\Customer' => 'Register\Controller\CustomerController',
+            'Register\Controller\Image' => 'Register\Controller\ImageController',
         )
     ),
     'service_manager' => array(
@@ -406,6 +465,7 @@ return array(
         'exception_template' => 'error/index',
         'template_map' => array(
             'filter-person' => __DIR__ . '/../view/partials/filter-person.phtml',
+            'image-interface' => __DIR__ . '/../view/partials/image-interface.phtml',
             'error/404' => __DIR__ . '/../view/error/404.phtml',
             'error/index' => __DIR__ . '/../view/error/index.phtml',
         ),

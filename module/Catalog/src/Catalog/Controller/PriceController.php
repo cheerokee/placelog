@@ -21,7 +21,7 @@ class PriceController extends CrudController
 
         $this->_listView = array(
             'title' => $this->title,
-            'icon' => 'fa-share-alt-square',
+            'icon' => 'fa fa-share-alt-square',
             'route' => $this->route,
             'controller' => $this->controller,
             'actions' => array(

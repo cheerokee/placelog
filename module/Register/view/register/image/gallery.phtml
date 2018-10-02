@@ -1,0 +1,26 @@
+<div id="ribbon">
+    <span class="ribbon-button-alignment">
+        <span id="refresh" class="btn btn-ribbon" data-action="resetWidgets" data-title="refresh"  rel="tooltip" data-placement="bottom" data-original-title="<i class='text-warning fa fa-warning'></i> Warning! This will reset all your widget settings." data-html="true">
+            <i class="fa fa-refresh"></i>
+        </span>
+    </span>
+    <ol class="breadcrumb">
+        <li>
+            <a href="<?=$this->url('admin');?>">Dashboard</a>
+        </li>
+        <li class="active">Imagens</li>
+    </ol>
+</div>
+
+<?php
+$em = $this->em;
+//Definido em Register/config/module.config.php
+//template_map => 'image-interface' => __DIR__ . '/../view/partials/image-interface.phtml'
+echo $this->partial('image-interface',array(
+    'data_page' => $this->data_page,
+    'entity' => $this->entity,
+    'controller' => $this->controller,
+    'em' => $em,
+    'id' => $this->id
+));
+?>

@@ -42,7 +42,10 @@ class PersonRepository extends EntityRepository
     
     public function findByEmailAndPassword($email, $password)
     {
-        $person = $this->findOneByEmail($email);
+        $person = $this->findOneBy(array(
+            'email'     =>  $email,
+            'active'    =>  1
+        ));
         
         if($person)
         {
@@ -55,7 +58,7 @@ class PersonRepository extends EntityRepository
         else
             return false;
     }
-    
+
     public function findArray()
     {
         $persons = $this->findAll();

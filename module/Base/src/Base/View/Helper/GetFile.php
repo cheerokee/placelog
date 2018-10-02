@@ -47,6 +47,9 @@ class GetFile extends AbstractHelper implements ServiceLocatorAwareInterface{
                 $file = $this->getEm()->getRepository('Site\Entity\Testimony')->findOneById($id_entity)->getImage();
                 $file = 'img/'.$controller.'/'.$file;
                 break;
+            default:
+                $file = $this->getEm()->getRepository('Site\Entity\\'.$controller)->findOneById($id_entity)->getImage();
+                $file = 'img/'.$controller.'/'.$file;
         }
 
         if (file_exists('public/' . $file)) {

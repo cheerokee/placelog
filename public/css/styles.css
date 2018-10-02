@@ -1,0 +1,61 @@
+@font-face {
+    font-family: 'androidandroid';
+    src: url('/fonts/android-webfont.woff2') format('woff2'),
+    url('/fonts/android-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+@font-face {
+    font-family: 'android_hollowandroid_hollow';
+    src: url('/fonts/android_hollow-webfont.woff2') format('woff2'),
+    url('/fonts/android_hollow-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+@font-face {
+    font-family: 'android_italicandroid_italic';
+    src: url('/fonts/android_italic-webfont.woff2') format('woff2'),
+    url('/fonts/android_italic-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+@font-face {
+    font-family: 'android_scratchregular';
+    src: url('/fonts/android_scratch-webfont.woff2') format('woff2'),
+    url('/fonts/android_scratch-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+.title_logo {
+    font-family: 'androidandroid';
+}
+
+.g-recaptcha{
+    float: left;
+    margin-bottom: 35px;
+}
+
+.p-wellcome {
+    position: relative;
+    z-index: 99;
+}
+
+.wellcome_area{
+    max-height: initial;
+}
+
+.btn-link{
+    overflow: auto;
+}
+
+.title-pesquisa{
+    font-size: 40px !important;
+}

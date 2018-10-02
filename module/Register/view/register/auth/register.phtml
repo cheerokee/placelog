@@ -1,0 +1,65 @@
+<div class="col-md-12 flashMessages">
+    <?php
+    $flash  =  $this->flashMessenger ();
+    echo  $flash -> render ( 'error' ,    array ( 'alert' ,  'alert-dismissible' ,  'alert-danger' ));
+    echo  $flash -> render ( 'info' ,     array ( 'alert' ,  'alert-dismissible' ,  'alert-info' ));
+    echo  $flash -> render ( 'default' ,  array ( 'alert' ,  'alert-dismissible' ,  'alert-warning' ));
+    echo  $flash -> render ( 'success' ,  array ( 'alert' ,  'alert-dismissible' ,  'alert-success' ));
+    ?>
+</div>
+<div id="content" class="container">
+    <div class="row">
+        <?=$this->partial('partials/text-auth');?>
+        <div class="col-xs-12 col-sm-12 col-md-5 col-lg-4">
+            <div class="well no-padding">
+                <form autocomplete="off" id="registerForm" method="post" class="smart-form client-form">
+                    <header>
+                        <?=$this->translate("Registrar uma nova conta");?>
+                    </header>
+                    <fieldset>
+                        <section>
+                            <label class="label"><?=$this->translate("Nome Completo");?></label>
+                            <label class="input"> <i class="icon-append fa fa-user"></i>
+                                <input name="name" type="text" required>
+                                <b class="tooltip tooltip-top-right">
+                                    <i class="fa fa-user txt-color-teal"></i> Por favor insira seu nome completo
+                                </b>
+                            </label>
+                        </section>
+                        <section>
+                            <label class="label"><?=$this->translate("Usuário / E-mail");?></label>
+                            <label class="input"> <i class="icon-append fa fa-envelope-o"></i>
+                                <input autocomplete="off" name="email" type="email" required>
+                                <b class="tooltip tooltip-top-right">
+                                    <i class="fa fa-user txt-color-teal"></i> Por favor insira seu e-mail
+                                </b>
+                            </label>
+                        </section>
+                        <section>
+                            <label class="label"><?=$this->translate("Senha");?></label>
+                            <label class="input"> <i class="icon-append fa fa-lock"></i>
+                                <input id="password-cad" autocomplete="off" onfocus="$(this).val('')" name="password" type="password" class="form-control input-lg authPass" required>
+                                <b class="tooltip tooltip-top-right">
+                                    <i class="fa fa-lock txt-color-teal"></i> Entra com sua senha
+                                </b>
+                            </label>
+                        </section>
+                        <section>
+                            <label class="label"><?=$this->translate("Repetir a Senha");?></label>
+                            <label class="input"> <i class="icon-append fa fa-lock"></i>
+                                <input  name="confirmation" autocomplete="off" type="password" value="" class="form-control input-lg" required>
+                                <div style="display:none" class='alert alert-danger confirmation-alert' role='alert'>
+                                    <span class='glyphicon glyphicon-exclamation-sign' aria-hidden='true'></span>
+                                    <?=$this->translate("As senhas não conferem");?>
+                                </div>
+                            </label>
+                        </section>
+                    </fieldset>
+                    <footer>
+                        <input form="registerForm" type="submit" value="<?=$this->translate("Registrar");?>" class="btn btn-primary pull-right push-bottom" data-loading-text="Loading...">
+                    </footer>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

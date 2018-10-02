@@ -2,6 +2,7 @@
 $action = $this->action;
 $entity = $this->entity;
 $em     = $this->em;
+$identifyMethod = $this->identifyMethod;
 
 /**
  * @var \Base\Controller\BaseFunctions $functions
@@ -46,7 +47,18 @@ if(isset($action['join'])){
     $url['fk_id'] = $entity->$method_get();
 }
 
+if ( $action['authorize'] === false && $this->authorized($this->listView['title'],$action['title'])) {
+    ?>
+    <a title="<?=($action['title'])?$action['title']:''?>" href="<?=$this->url($rota,$url,$options);?>?<?=$this->param?>" class="btn <?=($action['class'])?$action['class']:"btn-default"?> button_custom">
+        <?=$icon?> <?=$action['label']?> <?=($action['appear-title'])?$action['title']:''?> <?=(!empty($db_join_entity))?'<span class="text-danger">( '.count($db_join_entity).' )</span>':'';?>
+    </a>
+    <?php
+}else{
+    ?>
+    <a title="<?=($action['title'])?$action['title']:''?>" href="<?=$this->url($rota,$url,$options);?>?<?=$this->param?>" class="btn <?=($action['class'])?$action['class']:"btn-default"?> button_custom">
+        <?=$icon?> <?=$action['label']?> <?=($action['appear-title'])?$action['title']:''?> <?=(!empty($db_join_entity))?'<span class="text-danger">( '.count($db_join_entity).' )</span>':'';?>
+    </a>
+    <?php
+}
 ?>
-<a title="<?=($action['title'])?$action['title']:''?>" href="<?=$this->url($rota,$url,$options);?>?<?=$this->param?>" class="btn <?=($action['class'])?$action['class']:"btn-default"?> button_custom">
-    <?=$icon?> <?=$action['label']?> <?=($action['appear-title'])?$action['title']:''?> <?=(!empty($db_join_entity))?'<span class="text-danger">( '.count($db_join_entity).' )</span>':'';?>
-</a>
+

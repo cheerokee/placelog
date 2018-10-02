@@ -189,6 +189,7 @@ if($this->_listView['actions']['enable'] == true){
                 ));
             }
             ?>
+
             <a href="<?= $link ?><?=($param)?'?'.$param:'';?>" class="<?= $action['class'] ?> <?= ($action['action'] == 'delete') ? 'btnDeleteDecision' : ''; ?>" rel="tooltip" title="<?= $action['label'] ?>" data-bb-example-key="confirm-button-text">
                 <i class="<?= $action['icon'] ?>"></i>
             </a>
@@ -231,7 +232,8 @@ if($this->_listView['actions']['enable'] == true){
                                 'entity' => $entity,
                                 'identifyMethod' => $identifyMethod,
                                 'param' => $this->param,
-                                'em' => $em
+                                'em' => $em,
+                                'listView' => $this->_listView
                             ));
                             ?>
                         </li>
@@ -258,30 +260,14 @@ if($this->_listView['actions']['enable'] == true){
                     'action' => $action,
                     'entity' => $entity,
                     'identifyMethod' => $identifyMethod,
-                    'em' => $em
+                    'em' => $em,
+                    'listView' => $this->_listView
                 ));
             }
         }
 
     }
     // ACTION:CUSTOM --- END
-    // ACTION:JOINED --- START
-    if ($this->_listView['actions']['joined']) {
-        foreach ($this->_listView['actions']['joined'] as $k => $action) {
-            echo $this->partial('partial/button/joined', array(
-                'url_name' => $action['url_name'],
-                'count' => $k,
-                'entity' => $entity,
-                'url_params' => $action['url_params'],
-                'url_options' => $action['url_options'],
-                'label' => $action['label'],
-                'icon' => $action['icon'],
-                'iconOnly' => $action['iconOnly'],
-                'primary_key' => $entity->$identifyMethod()
-            )); /* */
-        }
-    }
-    // ACTION:JOINED --- END
     echo '</td>';
 }
 

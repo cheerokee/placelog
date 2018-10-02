@@ -27,7 +27,7 @@ class PersonController extends CrudController
 
         $this->_listView = array(
             'title' => $this->title,
-            'icon' => 'fa-share-alt-square',
+            'icon' => 'fa-fw fa fa-user',
             'route' => $this->route,
             'controller' => $this->controller,
             'actions' => array(
@@ -213,11 +213,17 @@ class PersonController extends CrudController
             return $this->redirect()->toRoute('person/default',array('controller'=>'person'));
         }
 
-        return new ViewModel(array(
-            'db_person'            =>  $db_person,
-            'db_roles'             =>  $db_roles,
-            'db_person_roles'      =>  $db_person_roles
-        ));
+        $allowed = $this->isAllow($this->title,'Perfil');
+
+        if($allowed){
+            return new ViewModel(array(
+                'db_person'            =>  $db_person,
+                'db_roles'             =>  $db_roles,
+                'db_person_roles'      =>  $db_person_roles
+            ));
+        }else{
+            return $this->redirect()->toRoute('not-have-permission');
+        }
     }
 
     public function activeAction(){

@@ -16,7 +16,7 @@ abstract class AbstractService
         $this->em = $em;
     }
 
-    public function insert(array $data)
+    public function insert(array $data,$controller = null)
     {
 
         if(!empty($data)){
@@ -33,12 +33,16 @@ abstract class AbstractService
 
         $this->em->persist($entity);
         $this->em->flush();
-       
+
+        if($controller){
+            $this->insertFile($entity,'image','public/img/'.$controller.'/',$controller);
+        }
+
         return $entity;    
         
     }
     
-    public function update(array $data)
+    public function update(array $data,$controller = null)
     {
         if(!empty($data)){
             foreach($data as $k => $value){
@@ -54,7 +58,11 @@ abstract class AbstractService
         $this->em->persist($entity);
         $this->em->flush();
         $entity->setId($data['id']);
-        
+
+        if($controller){
+            $this->insertFile($entity,'image','public/img/'.$controller.'/',$controller);
+        }
+
         return $entity;
     }
     

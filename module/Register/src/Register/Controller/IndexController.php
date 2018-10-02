@@ -44,6 +44,11 @@ class IndexController extends AbstractActionController
         
         $personService = $this->getServiceLocator()->get('Register\Service\Person');
         $result = $personService->activate($activationKey);
+
+        if($result->getPassword() == $result->encryptPassword('123mudar')){
+            $this->flashmessenger()->addSuccessMessage("Você foi ativado com sucesso! Foi estabelecida uma senha padrão para você. Faça a recuperação de senha, acesse sua conta e troque a sua senha dentro do sistema se desejar!");
+            return $this->redirect()->toRoute('lostpassword',array('controller'=>'index'));
+        }
         
         if($result){
             $this->flashmessenger()->addSuccessMessage("Você foi ativado com sucesso!");

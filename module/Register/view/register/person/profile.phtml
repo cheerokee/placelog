@@ -29,73 +29,76 @@ $action = $this->url(
     )
 );
 ?>
-
-<div class="container-fluid">
+<div id="ribbon">
+    <span class="ribbon-button-alignment">
+        <span id="refresh" class="btn btn-ribbon" data-action="resetWidgets" data-title="refresh"  rel="tooltip" data-placement="bottom" data-original-title="<i class='text-warning fa fa-warning'></i> Warning! This will reset all your widget settings." data-html="true">
+            <i class="fa fa-refresh"></i>
+        </span>
+    </span>
+    <ol class="breadcrumb">
+        <li>
+            <a href="<?=$this->url('admin');?>">Dashboard</a>
+        </li>
+        <li class="active">
+            Seleção de Perfis
+        </li>
+    </ol>
+</div>
+<div class="col-md-12">
+    <?php $this->getAdminFlashMessenger();?>
+</div>
+<div id="content">
     <div class="row">
-        <div class="col-md-12">
-            <ol class="breadcrumb">
-                <li><a href="/admin"><i class="fa fa-dashboard"></i> Home</a></li>
-                <li class="active">Seleção de Perfis</li>
-            </ol>
-            <?php $this->getAdminFlashMessenger();?>
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <h1 class="page-title txt-color-blueDark">
+                <i class="fa fa-users"></i> Seleção de Perfis <small>- <?=$db_person->getName()?></small>
+            </h1>
         </div>
+    </div>
+    <section id="widget-grid" class="">
         <form role="form" method="POST" action="<?=$action?>">
-            <div class="col-md-12">
-                <div class="card">
-                    <div class="header">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <h4 style="margin-top: 0; text-transform: uppercase" class="text-info"><strong><?=$db_person->getName()?></strong></h4>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-8">
-                                <h5 class="title">
-                                    Seleção de Perfis
-                                </h5>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="content">
-
-                        <div class="row">
-                            <div class="col-md-12">
-                                <label><?=$this->translate("Perfis");?></label>
-                                <?php
-                                if(!empty($db_roles)) {
-                                    foreach ($db_roles as $db_role) {
-                                        ?>
-                                        <div class="form-check">
-                                            <input class="form-check-input"
-                                                name="roles[]"
-                                                <?=(in_array($db_role->getId(),$arr_roles)) ? 'checked' : ''; ?>
-                                                type="checkbox"
-                                                value="<?= $db_role->getId(); ?>">
-                                            <label>
-                                                <?= $db_role->getName(); ?>
-                                            </label>
-                                        </div>
-                                        <?php
-                                    }
-                                }
+        <div class="row">
+            <article class="col-sm-12">
+                <div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-0" data-widget-editbutton="false">
+                    <header>
+                        <span class="widget-icon"> <i class="fa fa-table"></i> </span>
+                        <h2>Seleção de Perfis - <small>Você pode atribuir mais de um perfil ao mesmo usuário</small></h2>
+                    </header>
+                    <div class="widget-body">
+                        <label><?=$this->translate("Perfis");?></label>
+                        <?php
+                        if(!empty($db_roles)) {
+                            foreach ($db_roles as $db_role) {
                                 ?>
-                                <br/>
-                            </div>
-                        </div>
-                        <div>
-                            <button type="submit" name="submit" class="btn btn-success" >
-                                <i class="fa fa-save"></i> <?=$this->translate("Salvar");?>
-                            </button>
-                            <button type="reset" name="submit" class="btn btn-danger" >
-                                <i class="fa fa-eraser"></i> <?=$this->translate("Limpar");?>
-                            </button>
-                            <a class="btn btn-info"  href="<?=$return?>">
-                                <i class="fa fa-arrow-circle-o-left"></i> <?=$this->translate("Retornar");?>
-                            </a>
-                        </div>
+                                <div class="form-check">
+                                    <input class="form-check-input"
+                                           name="roles[]"
+                                        <?=(in_array($db_role->getId(),$arr_roles)) ? 'checked' : ''; ?>
+                                           type="checkbox"
+                                           value="<?= $db_role->getId(); ?>">
+                                    <label>
+                                        <?= $db_role->getName(); ?>
+                                    </label>
+                                </div>
+                                <?php
+                            }
+                        }
+                        ?>
+                    </div>
+                    <div class="widget-footer">
+                        <button type="submit" name="submit" class="btn btn-success" >
+                            <i class="fa fa-save"></i> <?=$this->translate("Salvar");?>
+                        </button>
+                        <button type="reset" name="submit" class="btn btn-danger" >
+                            <i class="fa fa-eraser"></i> <?=$this->translate("Limpar");?>
+                        </button>
+                        <a class="btn btn-info"  href="<?=$return?>">
+                            <i class="fa fa-arrow-circle-o-left"></i> <?=$this->translate("Retornar");?>
+                        </a>
                     </div>
                 </div>
-            </div>
+            </article>
+        </div>
         </form>
-    </div>
+    </section>
 </div>

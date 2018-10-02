@@ -4,41 +4,81 @@
  */
 $db_company = $this->company;
 ?>
-<div class="container-fluid">
+<div id="ribbon">
+    <span class="ribbon-button-alignment">
+        <span id="refresh" class="btn btn-ribbon" data-action="resetWidgets" data-title="refresh"  rel="tooltip" data-placement="bottom" data-original-title="<i class='text-warning fa fa-warning'></i> Warning! This will reset all your widget settings." data-html="true">
+            <i class="fa fa-refresh"></i>
+        </span>
+    </span>
+    <ol class="breadcrumb">
+        <li>
+            <a href="<?=$this->url('admin');?>">Dashboard</a>
+        </li>
+        <li class="active">
+            Painel Data Frete
+        </li>
+    </ol>
+</div>
+<div class="col-md-12">
+    <?php $this->getAdminFlashMessenger();?>
+</div>
+<div id="content">
     <div class="row">
-        <ol class="breadcrumb">
-            <li><a href="<?=$this->url('admin');?>"><i class="pe-7s-graph"></i>&nbsp;Dashboard</a></li>
-            <li class="active">Painel</li>
-        </ol>
-        <div class="col-md-12">
-            <h2 style="margin: 0px 0px 20px 0px;">Painel Data Frete <small>- Aqui você tem as principais funcionalidades do Data Frete</small></h2>
-        </div>
-        <div class="col-md-12">
-            <ul class="nav nav-tabs" id="myTab" role="tablist">
-                <li class="item active">
-                    <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="false">Rastreio</a>
-                </li>
-                <li class="item">
-                    <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Consulta Frete</a>
-                </li>
-            </ul>
-            <div class="tab-content" id="myTabContent">
-                <div class="tab-pane fade active in" id="home" role="tabpanel" aria-labelledby="home-tab">
-                    <div class="card">
-                        <div class="header">
-                            <h4 class="title">Consultar Frete</h4>
-                        </div>
-                        <div class="content">
-                            <a class="btn btn-primary" href="<?=$this->url('rastreio',array('company' => $db_company->getFriendlyUrl()))?>">Acessar Painel de Rastreio</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-                    <div class="row">
-                        <?=$this->partial('consulta-frete');?>
-                    </div>
-                </div>
-            </div>
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <h1 class="page-title txt-color-blueDark">
+                <i class="fa fa-fw fa-truck"></i> Painel Data Frete
+            </h1>
         </div>
     </div>
+    <section id="widget-grid" class="">
+        <div class="row">
+            <article class="col-sm-12">
+                <div class="jarviswidget " id="wid-id-1" data-widget-editbutton="false">
+                    <header>
+                        <span class="widget-icon"> <i class="fa fa-table"></i> </span>
+                        <h2>Painel Data Frete - <small>Aqui você tem as principais funcionalidades do Data Frete</small></h2>
+                    </header>
+                    <div class="widget-body">
+
+                        <ul class="nav nav-tabs bordered" id="myTab" role="tablist">
+                            <li class="item active">
+                                <a id="home-tab"    data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="false">
+                                    Rastreio
+                                </a>
+                            </li>
+                            <li class="item">
+                                <a  id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">
+                                    Consulta Frete
+                                </a>
+                            </li>
+                        </ul>
+                        <div class="tab-content" id="myTabContent">
+                            <div class="tab-pane fade active in row" id="home" role="tabpanel" aria-labelledby="home-tab">
+                                <div class="card col-md-12 pb-5">
+                                    <div class="col-md-12 margin-bottom-10">
+                                        <div class="header mt-10">
+                                            <br/>
+                                            <h4 class="title">Consultar Frete</h4>
+                                        </div>
+                                        <br/><br/>
+                                        <div class="content">
+                                            <a class="btn btn-primary" href="<?=$this->url('rastreio',array('company' => $db_company->getFriendlyUrl()))?>">Acessar Painel de Rastreio</a>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="tab-pane fade row" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                                <div class="card col-md-12 pb-5 margin-bottom-10">
+                                    <br/>
+                                    <?=$this->partial('consulta-frete');?>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </article>
+        </div>
+    </section>
 </div>

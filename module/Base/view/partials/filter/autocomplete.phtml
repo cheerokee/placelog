@@ -10,6 +10,7 @@ if(!isset($_POST[$controller . '_' . $chave])) {
     $vl_id  = $_POST[$controller . '_' . $chave . '_id'];
 }
 ?>
+
 <div class="row">
     <div class="col-md-12 form-group">
         <label><?= $filter['label'] ?></label>
@@ -18,6 +19,7 @@ if(!isset($_POST[$controller . '_' . $chave])) {
     </div>
 </div>
 <?php
+
 $db_login = $em->getRepository('Register\Entity\Person')->findOneById($this->PersonIdentity('Person'));
 
 switch($controller){
@@ -44,7 +46,7 @@ if(!empty($db_entities)){
         if($db_entity instanceof  $this->entity){
             switch ( $controller )
             {
-                case 'administrator' || 'company' || 'employee' || 'usuario' || 'person':
+                case 'administrator' || 'company' || 'employee' || 'customer' || 'person':
                     $name = $db_entity->getName();
                     $names[] = array('label' => $functions->formatarTexto($name), 'value' => $db_entity->getId());
                     break;
@@ -58,6 +60,7 @@ if(!empty($db_entities)){
 $names = json_encode($names);
 
 ?>
+
 <script>
     $(document).ready(function () {
         <?php

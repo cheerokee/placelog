@@ -18,7 +18,7 @@ class AddressController extends CrudController{
 
         $this->_listView = array(
             'title' => $this->title,
-            'icon' => 'fa-cog',
+            'icon' => 'fa fa-cog',
             'route' => $this->route,
             'controller' => $this->controller,
             'actions' => array(

@@ -82,6 +82,22 @@ class Module{
         return array(
             'factories' => array(
                 'baseadmin' => 'Base\Navigation\Service\BaseAdminNavigationFactory',
+                'Admin\Service\Layout' => function ($sm)
+                {
+                    return new Service\Layout($sm->get('Doctrine\ORM\EntityManager'));
+                },
+                'Admin\Form\Layout' => function ($sm)
+                {
+                    return new Form\Layout($sm->get('Doctrine\ORM\EntityManager'));
+                },
+                'Admin\Service\LayoutOption' => function ($sm)
+                {
+                    return new Service\LayoutOption($sm->get('Doctrine\ORM\EntityManager'));
+                },
+                'Admin\Form\LayoutOption' => function ($sm)
+                {
+                    return new Form\LayoutOption($sm->get('Doctrine\ORM\EntityManager'));
+                },
             ),
         );
     }

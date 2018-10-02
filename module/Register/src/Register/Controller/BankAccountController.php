@@ -17,7 +17,7 @@ class BankAccountController extends CrudController{
 
         $this->_listView = array(
             'title' => $this->title,
-            'icon' => 'fa-file-text',
+            'icon' => 'fa fa-fw fa-file-text',
             'route' => $this->route,
             'controller' => $this->controller,
             'actions' => array(

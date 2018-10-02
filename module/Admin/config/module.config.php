@@ -1,6 +1,5 @@
 <?php
 namespace Admin;
-
 return array(
     'router' => array(
         'routes' => array(
@@ -15,11 +14,107 @@ return array(
                     )
                 )
             ),
+            'layout' => array(
+                'type' => 'Literal',
+                'options' => array(
+                    'route' => '/admin',
+                    'defaults' => array(
+                        '__NAMESPACE__' => 'Admin\Controller',
+                        'controller' => 'Index',
+                        'action' => 'index'
+                    )
+                ),
+                'may_terminate' => true,
+                'child_routes' => array(
+                    'defaults' => array(
+                        'type' => 'Segment',
+                        'options' => array(
+                            'route' => '/layout[/:action[/:id]][/page/:page][/order_by/:order_by][/:order]',
+                            'constraints' => array(
+                                'action' => '(?!\bpage\b)(?!\border_by\b)[a-zA-Z][a-zA-Z0-9_-]*',
+                                'id' => '\d+',
+                                'page' => '\d+',
+                                'order_by' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                                'order' => 'ASC|DESC',
+                            ),
+                            'defaults' => array(
+                                '__NAMESPACE__' => __NAMESPACE__ . '\Controller',
+                                'controller' => 'Layout',
+                                'action' => 'index'
+                            )
+                        )
+                    ),
+                    'paginator' => array(
+                        'type' => 'Segment',
+                        'options' => array(
+                            'route' => '/[/:controller[/page/:page]]',
+                            'constraints' => array(
+                                'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                                'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                                'page' => '\d+'
+                            ),
+                            'defaults' => array(
+                                '__NAMESPACE__' => __NAMESPACE__ . '\Controller',
+                                'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                            )
+                        )
+                    )
+                )
+            ),
+            'layout-option' => array(
+                'type' => 'Literal',
+                'options' => array(
+                    'route' => '/admin',
+                    'defaults' => array(
+                        '__NAMESPACE__' => 'Admin\Controller',
+                        'controller' => 'Index',
+                        'action' => 'index'
+                    )
+                ),
+                'may_terminate' => true,
+                'child_routes' => array(
+                    'defaults' => array(
+                        'type' => 'Segment',
+                        'options' => array(
+                            'route' => '/layout-option[/:action[/:id]][/page/:page][/order_by/:order_by][/:order]',
+                            'constraints' => array(
+                                'action' => '(?!\bpage\b)(?!\border_by\b)[a-zA-Z][a-zA-Z0-9_-]*',
+                                'id' => '\d+',
+                                'page' => '\d+',
+                                'order_by' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                                'order' => 'ASC|DESC',
+                            ),
+                            'defaults' => array(
+                                '__NAMESPACE__' => __NAMESPACE__ . '\Controller',
+                                'controller' => 'LayoutOption',
+                                'action' => 'index'
+                            )
+                        )
+                    ),
+                    'paginator' => array(
+                        'type' => 'Segment',
+                        'options' => array(
+                            'route' => '/[/:controller[/page/:page]]',
+                            'constraints' => array(
+                                'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                                'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                                'page' => '\d+'
+                            ),
+                            'defaults' => array(
+                                '__NAMESPACE__' => __NAMESPACE__ . '\Controller',
+                                'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                            )
+                        )
+                    )
+                )
+            ),
         ),
     ),
     'controllers' => array(
         'invokables' => array(
-            'Admin\Controller\Index' => 'Admin\Controller\IndexController',           
+            'Admin\Controller\Index' => 'Admin\Controller\IndexController',
+            'Admin\Controller\Layout' => 'Admin\Controller\LayoutController',
+            'Admin\Controller\LayoutOption' => 'Admin\Controller\LayoutOptionController',
         )
     ),
     'view_manager' => array(

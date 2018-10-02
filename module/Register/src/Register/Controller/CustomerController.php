@@ -21,7 +21,7 @@ class CustomerController extends CrudController
 
         $this->_listView = array(
             'title' => $this->title,
-            'icon' => 'fa-share-alt-square',
+            'icon' => 'fa-fw fa fa-user',
             'route' => $this->route,
             'controller' => $this->controller,
             'actions' => array(

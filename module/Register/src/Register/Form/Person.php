@@ -97,7 +97,7 @@ class Person  extends FormBase
         $this->add($field);
 
         $active = new \Zend\Form\Element\Hidden('active');
-        $active->setAttribute('value','1');
+        $active->setValue(1);
         $this->add($active);
         
         $this->add(array(

@@ -21,11 +21,22 @@ class AdministratorController extends CrudController
 
         $this->_listView = array(
             'title' => $this->title,
-            'icon' => 'fa-share-alt-square',
+            'icon' => 'fa-fw fa fa-user',
             'route' => $this->route,
             'controller' => $this->controller,
             'actions' => array(
                 'enable' =>true,
+                'customs' => array(
+                    'permissions' => array(
+                        'rota' => 'person-role',
+                        'title' => 'Perfil',
+                        'enable' => false,
+                        'class' => 'btn btn-warning',
+                        'icon' => 'fa fa-list',
+                        'group' => false,
+                        'authorize' => false
+                    ),
+                ),
                 'defaults' => array(
                     'edit' => array(
                         'enable' => true,

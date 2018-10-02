@@ -26,80 +26,103 @@ if($fk != null && $fk_id != null)
 
 ?>
 
-<div class="container-fluid">
-    <div>
-        <div class="col-md-12">
-            <ol class="breadcrumb">
-                <li><a href="/admin"><i class="fa fa-dashboard"></i> Home</a></li>
-                <li class="active"><?=$this->_listView['title']?></li>
-            </ol>
-            <?php $this->getAdminFlashMessenger();?>
+<div id="ribbon">
+    <span class="ribbon-button-alignment">
+        <span id="refresh" class="btn btn-ribbon" data-action="resetWidgets" data-title="refresh"  rel="tooltip" data-placement="bottom" data-original-title="<i class='text-warning fa fa-warning'></i> Warning! This will reset all your widget settings." data-html="true">
+            <i class="fa fa-refresh"></i>
+        </span>
+    </span>
+    <ol class="breadcrumb">
+        <li>
+            <a href="<?=$this->url('admin');?>">Dashboard</a>
+        </li>
+        <li class="active">
+            <?=$this->_listView['title']?>
+        </li>
+    </ol>
+</div>
+<div class="col-md-12">
+    <?php $this->getAdminFlashMessenger();?>
+</div>
+<?php
+if($fk != null && $fk_id != null && $this->fk_entity){
+    ?>
+    <div class="col-md-12">
+        <h4>
+            <a href="<?=$this->url($this->fk_route,array('controller' => $fk,'action' => 'edit','id' => $fk_id))?>">
+                Cod.: <?=$this->fk_entity->getId();?> <?=$this->fk_entity;?>
+            </a>
+        </h4>
+    </div>
+    <?php
+}
+?>
+<div id="content">
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <h1 class="page-title txt-color-blueDark">
+                <i class="<?=$this->_listView['icon']?>"></i> <?=$this->_listView['title']?>
+            </h1>
         </div>
-        <?=$this->partial('filter-base',array(
-            'em' => $em,
-            'controller' => $controller,
-            'listView' => $this->_listView,
-            'entity' => $this->entity,
-            'form'  => $this->form,
-        ));
-
-        if($fk != null && $fk_id != null && $this->fk_entity){
+    </div>
+    <section id="widget-grid" class="">
+        <div class="row">
+            <?=$this->partial('filter-base',array(
+                'em' => $em,
+                'controller' => $controller,
+                'listView' => $this->_listView,
+                'entity' => $this->entity,
+                'form'  => $this->form,
+            ));
             ?>
-            <div class="col-md-12">
-                <h4>
-                    <a href="<?=$this->url($this->fk_route,array('controller' => $fk,'action' => 'edit','id' => $fk_id))?>">
-                        Cod.: <?=$this->fk_entity->getId();?> <?=$this->fk_entity;?>
-                    </a>
-                </h4>
-            </div>
-            <?php
-        }
-        ?>
-
-        <div class="col-md-12">
-            <div class="card">
-                <div class="header">
-                    <div class="row">
-                        <div class="col-md-8">
-                            <h4 class="title">
-                                <?=$this->_listView['title']?> - <small>Listagem de Registros</small>
-                            </h4>
-                        </div>
-                        <div class="col-md-4">
-                            <div style="float: right; margin-right: 10px;" class="btn-group">
-                                <a href="<?php echo $url_new ?>?<?=$param?>">
-                                    <button type="button" class="btn btn-success">
-                                        <i class="fa fa-plus"></i> Novo
-                                    </button>
+            <article class="col-sm-12">
+                <div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-1" data-widget-editbutton="false">
+                    <header>
+                        <span class="widget-icon"> <i class="fa fa-table"></i> </span>
+                        <h2><?=$this->_listView['title']?> - <small>Listagem de Registros</small></h2>
+                    </header>
+                    <div class="widget-header">
+                        <?php
+                        if(isset($this->_listView['actions']['defaults']['new'])){
+                            $btn_new = $this->_listView['actions']['defaults']['new'];
+                            if($btn_new['enable']){
+                                ?>
+                                <a href="<?php echo $url_new ?>?<?=$param?>" class="btn <?=$btn_new['class']?>">
+                                    <i class="<?=$btn_new['icon']?>"></i> Novo
                                 </a>
-                            </div>
-                        </div>
+                                <?php
+                            }
+                        }else{
+                            ?>
+                            <a href="<?php echo $url_new ?>?<?=$param?>" class="btn btn-success">
+                                <i class="fa fa-plus"></i> Novo
+                            </a>
+                            <?php
+                        }
+                        ?>
                     </div>
-                </div>
-                <div class="content">
-                    <div class="row">
-                        <div class="col-md-12">
+                    <div class="widget-body">
+                        <div class="table-responsive">
                             <?php
                             $method_filter = 'filter'.ucwords($controller);
                             try{
                                 echo $this->$method_filter();
                             }catch (Exception $e){}
-
-
                             ?>
-                            <table class="table table-hover">
+                            <table class="table table-bordered">
                                 <?=$this->partial('partial/header');?>
+
                                 <?=$this->partial('partial/body',array('controller' => $controller,'data' => $data,'param' => $param,'em' => $em,'fk' => $fk,'fk_id' => $fk_id));?>
                             </table>
                         </div>
-                        <div class="col-md-12">
-                            <?=$this->paginationControl($this->data,'Sliding','partials/paginator'); ?>
-                        </div>
+                    </div>
+
+                    <div class="widget-footer">
+                        <?=$this->paginationControl($this->data,'Sliding','partials/paginator'); ?>
                     </div>
                 </div>
-            </div>
+            </article>
         </div>
-    </div>
+    </section>
 </div>
-
 

@@ -1,0 +1,151 @@
+<?php
+echo $this->doctype(); ?>
+<html lang="pt-BR" id="extr-page" class="smart-style-5">
+<head>
+    <meta charset="utf-8">
+    <base href="<?php echo $this->basePath(); ?>" />
+    <?php
+    echo $this->headTitle($this->translate($this->getConfiguration('NOMEEMPRESA')))->setSeparator(' - ')->setAutoEscape(false);
+
+    echo $this->headMeta()
+        ->appendName('viewport', 'width=device-width, initial-scale=1.0')
+        ->appendHttpEquiv('X-UA-Compatible', 'IE=edge');
+
+    echo $this->headLink(array(
+        'rel' => 'shortcut icon',
+        'type' => 'image/vnd.microsoft.icon',
+        'href' => $this->basePath() . '/img/admin/favicon/favicon.ico'
+    ));
+
+    $person = $this->personIdentity('Person');
+
+    if ($person instanceof \Register\Entity\Person) {
+        $foto = ($person->getImage() != '' && file_exists('public/img/person/' . $person->getImage())) ? '/img/person/' . $person->getImage() : '/img/person/sem_imagem.jpg';
+    }
+
+    if ($this->getConfiguration('LOGO_VERDE')) {
+        $logo = ($this->getConfiguration('LOGO_VERDE') != '' && file_exists('public'.$this->getConfiguration('LOGO_VERDE'))) ? $this->getConfiguration('LOGO_VERDE') : '/img/admin/logo.png';
+    }
+
+    ?>
+    <link rel="stylesheet" type="text/css" media="screen" href="/css/admin/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="/css/admin/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="/css/admin/smartadmin-production-plugins.min.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="/css/admin/smartadmin-production.min.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="/css/admin/smartadmin-skins.min.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="/css/admin/smartadmin-rtl.min.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="/css/admin/demo.min.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="/css/admin/styles.css">
+    <link rel="shortcut icon" href="/img/admin/favicon/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/img/admin/favicon/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="/css/admin/fonts.css?family=Open+Sans:400italic,700italic,300,400,700">
+</head>
+<body class="smart-style-5 animated fadeInDown">
+<header id="header">
+    <div id="logo-group">
+        <span align="center" id="logo">
+            <img  src="<?=$logo?>" alt="SmartAdmin">
+        </span>
+    </div>
+    <span id="extr-page-header-space">
+        <?php
+        if($_SERVER['REDIRECT_URL'] == '/auth'){
+            ?>
+            <span class="hidden-mobile hiddex-xs">
+                Ainda não tem conta?
+            </span>
+
+            <a href="/register" class="btn btn-danger">
+                Criar Conta
+            </a>
+            <?php
+        }else if($_SERVER['REDIRECT_URL'] == '/register'){
+            ?>
+            <span class="hidden-mobile hiddex-xs">
+                Já possui uma conta?
+            </span>
+
+            <a href="/auth" class="btn btn-danger">
+                Fazer Login
+            </a>
+            <?php
+        }
+        ?>
+
+    </span>
+</header>
+<div id="main" role="main">
+    <?=$this->content;?>
+</div>
+<div class="page-footer fixed-footer">
+    <div class="row">
+        <div class="col-xs-12 col-sm-6">
+            <span class="txt-color-white">Inovens TI. <span class="hidden-xs"> - Fábrica de Software</span> © 2018-<?=date('Y')?></span>
+        </div>
+    </div>
+</div>
+</body>
+
+<script data-pace-options='{ "restartOnRequestAfter": true }' src="/js/admin/plugin/pace/pace.min.js"></script>
+<script src="/js/admin/jquery.min.js"></script>
+<script>
+    if (!window.jQuery) {
+        document.write('<script src="/js/admin/libs/jquery-3.2.1.min.js"><\/script>');
+    }
+</script>
+<script src="/js/admin/jquery-ui.min.js"></script>
+<script>
+    if (!window.jQuery.ui) {
+        document.write('<script src="/js/admin/libs/jquery-ui.min.js"><\/script>');
+    }
+</script>
+<script src="/js/admin/app.config.js"></script>
+<script src="/js/admin/bootstrap/bootstrap.min.js"></script>
+<script src="js/admin/plugin/jquery-validate/jquery.validate.min.js"></script>
+<script src="js/admin/plugin/masked-input/jquery.maskedinput.min.js"></script>
+<!--[if IE 8]>
+
+<h1>Your browser is out of date, please update your browser by going to www.microsoft.com/download</h1>
+
+<![endif]-->
+<script src="js/admin/app.min.js"></script>
+<script src="/js/admin/bootbox.js"></script>
+<script src="/js/admin/geral.js"></script>
+<script>
+    runAllForms();
+
+    $(function() {
+        // Validation
+        $("#login-form").validate({
+            // Rules for form validation
+            rules : {
+                email : {
+                    required : true,
+                    email : true
+                },
+                password : {
+                    required : true,
+                    minlength : 3,
+                    maxlength : 20
+                }
+            },
+
+            // Messages for form validation
+            messages : {
+                email : {
+                    required : 'Please enter your email address',
+                    email : 'Please enter a VALID email address'
+                },
+                password : {
+                    required : 'Please enter your password'
+                }
+            },
+
+            // Do not change code below
+            errorPlacement : function(error, element) {
+                error.insertAfter(element.parent());
+            }
+        });
+    });
+</script>
+</html>

@@ -43,99 +43,65 @@ class GetMenu extends AbstractHelper implements ServiceLocatorAwareInterface{
             'cadastro' => array(
                 'titulo'    =>  'Cadastros',
                 'active'    => true,
-                'icon' => 'pe-7s-news-paper',
+                'icon' => 'fa fa-lg fa-fw fa-list',
                 'itens'     =>  array(
                     'administrator' => array(
                         'titulo' => 'Administradores',
                         'rota' => '/admin/administrator',
-                        'icon' => 'pe-7s-user',
                         'authorize' => false,
                     ),
                     'company' => array(
                         'titulo' => 'Empresas',
                         'rota' => '/admin/company',
-                        'icon' => 'pe-7s-home',
                         'authorize' => false,
                     ),
                     'employee' => array(
                         'titulo' => 'Funcionários',
                         'rota' => '/admin/employee',
-                        'icon' => 'pe-7s-id',
                         'authorize' => false,
                     ),
                     'customer' => array(
                         'titulo' => 'Clientes',
                         'rota' => '/admin/customer',
-                        'icon' => 'pe-7s-users',
                         'authorize' => false,
                     )
+                )
+            ),
+            'logistica' => array(
+                'titulo'    =>  'Logistica',
+                'active'    => true,
+                'icon' => 'fa fa-lg fa-fw fa-truck',
+                'itens'     =>  array(
+                    'data-fre' => array(
+                        'titulo' => 'Painel Data Frete',
+                        'rota' => '/admin/data-frete/panel',
+                        'authorize' => false,
+                    ),
                 )
             ),
             'authorize' => array(
                 'titulo'    =>  'Autorização',
                 'active'    => false,
-                'icon' => 'pe-7s-unlock',
+                'icon' => 'fa fa-lg fa-fw fa-lock',
                 'itens'     =>  array(
                     'painel-authorize' => array(
                         'titulo' => 'Painel de Autorização',
                         'rota' => '/admin/panel-authorize',
-                        'icon' => 'pe-7s-monitor',
                         'authorize' => false,
                     ),
                     'roles' => array(
                         'titulo' => 'Perfis',
                         'rota' => '/admin/roles',
-                        'icon' => 'pe-7s-id',
                         'authorize' => false,
                     ),
                     'resources' => array(
                         'titulo' => 'Recursos',
                         'rota' => '/admin/resources',
-                        'icon' => 'pe-7s-share',
                         'authorize' => false,
                     ),
                     'actions' => array(
                         'titulo' => 'Ações',
                         'rota' => '/admin/actions',
-                        'icon' => 'pe-7s-share',
-                        'authorize' => false,
-                    )
-                ),
-            ),
-            'catalog' => array(
-                'titulo'    =>  'Catálogo',
-                'active'    => true,
-                'icon' => 'pe-7s-albums',
-                'itens'     =>  array(
-                    'product' => array(
-                        'titulo' => 'Produto',
-                        'rota' => '/admin/product',
-                        'icon' => 'pe-7s-box1',
-                        'authorize' => false,
-                    )
-                )
-            ),
-            'integration' => array(
-                'titulo'    =>  'Integrações',
-                'active'    => true,
-                'icon' => 'pe-7s-share',
-                'itens'     =>  array(
-                    'app' => array(
-                        'titulo' => 'Aplicações',
-                        'rota' => '/admin/app',
-                        'icon' => 'pe-7s-keypad',
-                        'authorize' => false,
-                    ),
-                    'type-app' => array(
-                        'titulo' => 'Tipo de Aplicações',
-                        'rota' => '/admin/type-app',
-                        'icon' => 'pe-7s-airplay',
-                        'authorize' => false,
-                    ),
-                    'integration' => array(
-                        'titulo' => 'Integração',
-                        'rota' => '/admin/integration',
-                        'icon' => 'pe-7s-share',
                         'authorize' => false,
                     )
                 ),
@@ -143,24 +109,110 @@ class GetMenu extends AbstractHelper implements ServiceLocatorAwareInterface{
             'site-cadastro' => array(
                 'titulo'    =>  'Site Cadastros',
                 'active'    => true,
-                'icon' => 'pe-7s-monitor',
+                'icon' => 'fa fa-lg fa-fw fa-list',
                 'itens'     =>  array(
                     'banner' => array(
-                        'titulo' => 'Banners',
+                        'titulo' => 'Banner',
                         'rota' => '/admin/banner',
-                        'icon' => 'pe-7s-photo',
                         'authorize' => false,
                     ),
                     'texto' => array(
-                        'titulo' => 'Textos',
+                        'titulo' => 'Texto',
                         'rota' => '/admin/text',
-                        'icon' => 'pe-7s-news-paper',
+                        'authorize' => false,
+                    ),
+                    'about' => array(
+                        'titulo' => 'Sobre a Empresa',
+                        'rota' => '/admin/about',
+                        'authorize' => false,
+                    ),
+                    'feature' => array(
+                        'titulo' => 'Característica',
+                        'rota' => '/admin/feature',
+                        'authorize' => false,
+                    ),
+                    'showcase' => array(
+                        'titulo' => 'Software',
+                        'rota' => '/admin/showcase',
+                        'authorize' => false,
+                    ),
+                    'subscribed' => array(
+                        'titulo' => 'Inscrito',
+                        'rota' => '/admin/subscribed',
+                        'authorize' => false,
+                    ),
+                    'gallery' => array(
+                        'titulo' => 'Captura de Tela',
+                        'rota' => '/admin/gallery',
+                        'authorize' => false,
+                    ),
+                    'video' => array(
+                        'titulo' => 'Vídeo',
+                        'rota' => '/admin/video',
                         'authorize' => false,
                     ),
                     'testimony' => array(
                         'titulo' => 'Depoimentos',
                         'rota' => '/admin/testimony',
-                        'icon' => 'pe-7s-comment',
+                        'authorize' => false,
+                    ),
+                    'team' => array(
+                        'titulo' => 'Nosso Time',
+                        'rota' => '/admin/team',
+                        'authorize' => false,
+                    ),
+                    'statistic' => array(
+                        'titulo' => 'Estatística',
+                        'rota' => '/admin/statistic',
+                        'authorize' => false,
+                    ),
+                    'price' => array(
+                        'titulo' => 'Preço',
+                        'rota' => '/admin/price',
+                        'authorize' => false,
+                    ),
+                    'faq' => array(
+                        'titulo' => 'Pergunta Frequente',
+                        'rota' => '/admin/faq',
+                        'authorize' => false,
+                    ),
+                    'news' => array(
+                        'titulo' => 'Últimas Notícias',
+                        'rota' => '/admin/news',
+                        'authorize' => false,
+                    ),
+                ),
+            ),
+            'crm' => array(
+                'titulo'    =>  'CRM',
+                'active'    => true,
+                'icon' => 'fa fa-lg fa-fw fa-sitemap',
+                'itens'     =>  array(
+                    'pesquisa' => array(
+                        'titulo' => 'Pesquisa',
+                        'rota' => '/admin/pesquisa',
+                        'authorize' => false,
+                    ),
+                ),
+            ),
+            'integration' => array(
+                'titulo'    =>  'Integrações',
+                'active'    => true,
+                'icon' => 'fa fa-lg fa-fw fa-share',
+                'itens'     =>  array(
+                    'app' => array(
+                        'titulo' => 'Aplicações',
+                        'rota' => '/admin/app',
+                        'authorize' => false,
+                    ),
+                    'type-app' => array(
+                        'titulo' => 'Tipo de Aplicações',
+                        'rota' => '/admin/type-app',
+                        'authorize' => false,
+                    ),
+                    'integration' => array(
+                        'titulo' => 'Integração',
+                        'rota' => '/admin/integration',
                         'authorize' => false,
                     )
                 ),
@@ -168,16 +220,27 @@ class GetMenu extends AbstractHelper implements ServiceLocatorAwareInterface{
             'configuracoes' => array(
                 'titulo'    =>  'Configurações',
                 'active'    => false,
-                'icon' => 'pe-7s-settings',
+                'icon' => 'fa fa-lg fa-fw fa-cogs',
                 'itens'     =>  array(
                     'configuration' => array(
-                        'titulo' => 'Configuração Geral',
+                        'titulo' => 'Configuração Geral do Sistema',
                         'rota' => '/admin/configuration',
-                        'icon' => 'pe-7s-settings',
+                        'authorize' => false,
+                    ),
+                    'layout' => array(
+                        'titulo' => 'Configuração de Layout',
+                        'rota' => '/admin/layout',
                         'authorize' => false,
                     ),
                 ),
-            )
+            ),
+            'site' => array(
+                'titulo'    =>  'Site',
+                'active'    => false,
+                'icon' => 'fa fa-lg fa-fw fa-desktop text-success',
+                'rota'  => '/admin/person/edit/'.$this->getAuthService()->getIdentity()->getId(),
+                'itens'     =>  array()
+            ),
         );
     }
 

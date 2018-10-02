@@ -17,7 +17,7 @@ class PossibilitiesController extends CrudController
 
         $this->_listView = array(
             'title' => $this->title,
-            'icon' => 'pe-7s-share',
+            'icon' => 'fa-fw fa pe-7s-share',
             'route' => $this->route,
             'controller' => $this->controller,
             'actions' => array(

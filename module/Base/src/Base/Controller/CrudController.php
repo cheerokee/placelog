@@ -211,7 +211,7 @@ abstract class CrudController extends AbstractActionController{
 
                 $service = $this->getServiceLocator()->get($this->service);
 
-                $novo = $service->insert($data);
+                $novo = $service->insert($data,$this->controller);
 
                 if($novo){
                     if($request->getPost()->toArray()['success_message'] != null){
@@ -254,7 +254,8 @@ abstract class CrudController extends AbstractActionController{
             'route' => $this->route,
             'em' => $this->getEm(),
             'fk' => $this->params()->fromRoute('fk',0),
-            'fk_id' => $this->params()->fromRoute('fk_id',0)
+            'fk_id' => $this->params()->fromRoute('fk_id',0),
+            '_listView'     =>  $this->_listView,
         ));
 
         $view->setTemplate('base/crud/new.phtml');
@@ -306,6 +307,7 @@ abstract class CrudController extends AbstractActionController{
             if($form->isValid())
             {
                 $data = $request->getPost()->toArray();
+
                 $form = $this->getServiceLocator()->get($this->form);
                 foreach ($form as $element) {
                     $type = $element->getAttributes()['type'];
@@ -353,7 +355,7 @@ abstract class CrudController extends AbstractActionController{
 
                 $service = $this->getServiceLocator()->get($this->service);
 
-                $alterado = $service->update($data);
+                $alterado = $service->update($data,$this->controller);
                 
                 $this->flashMessenger()->addSuccessMessage("Registro alterado com sucesso!");
 
@@ -383,7 +385,8 @@ abstract class CrudController extends AbstractActionController{
             'em' => $this->getEm(),
             'fk'            => $this->params()->fromRoute('fk',0),
             'fk_id'            => $this->params()->fromRoute('fk_id',0),
-            'action'    => 'edit'
+            'action'    => 'edit',
+            '_listView'     =>  $this->_listView,
         ));
         
         $view->setTemplate('base/crud/edit.phtml');

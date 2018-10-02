@@ -16,13 +16,13 @@ if ($this->pageCount){?>
     	<?php 
     	if (isset($this->previous)){ ?>
             <li class="paginate_button">
-            	<a href="<?php echo $formatUrl($this->previous); ?>"><i class="pe-7s-angle-left"></i></a>
+            	<a href="<?php echo $formatUrl($this->previous); ?>"><i class="fa fa-angle-left"></i></a>
         	</li>
         <?php 
     	}else{ 
         ?>
             <li class="paginate_button disabled">
-            	<a href="#"><i class="pe-7s-angle-left"></i></a>
+            	<a href="#"><i class="fa fa-angle-left"></i></a>
             </li>
 		<?php 
     	}
@@ -48,13 +48,13 @@ if ($this->pageCount){?>
         if(isset($this->next)){ 
         ?>
     		<li  class="paginate_button next" >
-    			<a href="<?php echo $formatUrl($this->next); ?>"><i class="pe-7s-angle-right"></i></a>
+    			<a href="<?php echo $formatUrl($this->next); ?>"><i class="fa fa-angle-right"></i></a>
     		</li>
         <?php 
 		}else{ 
 		?>
     		<li class="paginate_button next disabled">
-            	<a href="#"><i class="pe-7s-angle-right"></i></a>
+            	<a href="#"><i class="fa fa-angle-right"></i></a>
         	</li>
         <?php 
         } 

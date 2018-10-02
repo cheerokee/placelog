@@ -12,42 +12,43 @@ if(!empty($this->form))
     }
 }
 
+
+
 if(!empty($filters)) {
     ?>
-    <div class="row">
-        <div class="col-md-4 col-md-offset-8">
-            <div class="card">
-                <div class="header">
+
+    <article class="col-sm-4 pull-right">
+        <div class="jarviswidget jarviswidget-color-blueDark" id="wid-id-2" data-widget-editbutton="false">
+            <header>
+                <span class="widget-icon">
+                    <i class="fa fa-filter"></i>
+                </span>
+                <h2>Filtro</h2>
+            </header>
+            <div class="widget-body">
+                <form method="post" action="">
+                    <?php
+                    foreach ($filters as $k => $filter) {
+                        echo $this->partial('filter/'.$filter['type'],array(
+                            'em'            => $this->em,
+                            'chave'         => $k,
+                            'filter'        => $filter,
+                            'controller'    => $controller,
+                            'entity'        => $this->entity,
+                            'element'       => $arr_element[$k]
+                        ));
+                    }
+                    ?>
                     <div class="row">
-                        <div class="col-md-12">
-                            <h4 style="margin: 0"><i class="pe-7s-search"></i>&nbsp;Filtro</h4>
+                        <div class="col-md-4">
+                            <button class="btn btn-success" name="filter-form">Filtrar</button>
                         </div>
                     </div>
-                </div>
-                <div class="content">
-                    <form method="post" action="">
-                        <?php
-                        foreach ($filters as $k => $filter) {
-                            echo $this->partial('filter/'.$filter['type'],array(
-                                'em'            => $this->em,
-                                'chave'         => $k,
-                                'filter'        => $filter,
-                                'controller'    => $controller,
-                                'entity'        => $this->entity,
-                                'element'       => $arr_element[$k]
-                            ));
-                        }
-                        ?>
-                        <div class="row">
-                            <div class="col-md-4">
-                                <button class="btn btn-success" name="filter-form">Filtrar</button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
+                </form>
             </div>
         </div>
-    </div>
+    </article>
+
     <?php
 }
 ?>
