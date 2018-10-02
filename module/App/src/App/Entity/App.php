@@ -49,7 +49,7 @@ class App
      *
      * @ORM\ManyToOne(targetEntity="Register\Entity\Person")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="company", referencedColumnName="id", nullable=false, onDelete="CASCADE")
+     *   @ORM\JoinColumn(name="company", referencedColumnName="id", nullable=true, onDelete="CASCADE")
      * })
      */
     private $company;

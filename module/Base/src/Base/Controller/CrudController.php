@@ -25,6 +25,10 @@ abstract class CrudController extends AbstractActionController{
     }
     
     public function indexAction($list = null) {
+        /**
+         * @var Person $db_login
+         */
+        $db_login = $this->getLogin();
         $this->functions = new BaseFunctions();
 
         ///not-have-permission
@@ -62,7 +66,9 @@ abstract class CrudController extends AbstractActionController{
 
             //Verificando se uma entidade deve trazer resultados de uma empresa
             if(method_exists($this->entity,'getCompany')){
-                $list = $this->getEm()->getRepository($this->entity)->findByCompany($_SESSION['empresa']);
+                if(!$db_login->hasThisRole('administrador')){
+                    $list = $this->getEm()->getRepository($this->entity)->findByCompany($_SESSION['empresa']);
+                }
             }
         }
 
