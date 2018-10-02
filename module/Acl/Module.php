@@ -75,7 +75,7 @@ class Module
                     $repoPrivilege = $em->getRepository('Acl\Entity\Privilege');
                     $privileges = $repoPrivilege->findAll();
 
-                    return new Permissions\Acl($roles , $resources , $privileges);
+                    return new Permissions\Acl($roles , $resources , $privileges, $em);
                 },
                 'Acl\Service\Action' => function ($sm)
                 {
@@ -86,6 +86,14 @@ class Module
                     return new Service\Possibility($sm->get('Doctrine\ORM\EntityManager'));
                 },
 
+            )
+        );
+    }
+
+    public function getViewHelperConfig(){
+        return array(
+            'invokables' => array(
+                'authorized' => __NAMESPACE__ . '\View\Helper\Authorized'
             )
         );
     }

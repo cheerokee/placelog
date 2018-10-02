@@ -73,13 +73,20 @@ class DataFreteController extends CrudController
     }
 
     public function panelAction(){
+
         if(isset($_SESSION['empresa'])){
             $db_company = $this->getEm()->getRepository('Register\Entity\Person')->findOneById($_SESSION['empresa']);
         }else{
             $db_company = $this->getEm()->getRepository('Register\Entity\Person')->findOneById($this->getLogin());
         }
 
-        return new ViewModel(array('company' => $db_company));
+        $allowed = $this->isAllow('Painel Data Frete','Visualizar');
+
+        if($allowed){
+            return new ViewModel(array('company' => $db_company));
+        }else{
+            return $this->redirect()->toRoute('not-have-permission');
+        }
     }
 
     public function rastreioAction(){

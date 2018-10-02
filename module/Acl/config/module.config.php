@@ -250,6 +250,17 @@ return array(
                     )
                 )
             ),
+            'testpanel' => array(
+                'type' => 'Literal',
+                'options' => array(
+                    'route' => '/admin/testpanel',
+                    'defaults' => array(
+                        '__NAMESPACE__' => 'Acl\Controller',
+                        'controller' => 'Index',
+                        'action' => 'test'
+                    )
+                )
+            ),
             'get-possibilities' => array(
                 'type' => 'Literal',
                 'options' => array(
@@ -302,6 +313,14 @@ return array(
                 ),
             ),
         ),
+        'configuration' => array(
+            'orm_default' => array(
+                'string_functions' => array(
+                    'Year' => 'DoctrineExtensions\Query\Mysql\Year',
+                    'Date' => 'DoctrineExtensions\Query\Mysql\Date',
+                )
+            )
+        )
     ),
     'data-fixture'  =>  array(
         'Roles_fixture'  => __DIR__ . '/../src/Acl/Fixture'

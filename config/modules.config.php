@@ -4,7 +4,8 @@
  *
  * The previous config file has been stored in ./config/modules.config.old
  */
-
+$classLoader = new \Doctrine\Common\ClassLoader('DoctrineExtensions', 'beberlei/doctrineextensions');
+$classLoader->register();
 return [
     'Zend\\Db',
     'Zend\\Filter',

@@ -46,7 +46,7 @@ class GetMenu extends AbstractHelper implements ServiceLocatorAwareInterface{
                 'icon' => 'pe-7s-news-paper',
                 'itens'     =>  array(
                     'administrator' => array(
-                        'titulo' => 'Administrador',
+                        'titulo' => 'Administradores',
                         'rota' => '/admin/administrator',
                         'icon' => 'pe-7s-user',
                         'authorize' => false,
@@ -80,38 +80,26 @@ class GetMenu extends AbstractHelper implements ServiceLocatorAwareInterface{
                         'titulo' => 'Painel de Autorização',
                         'rota' => '/admin/panel-authorize',
                         'icon' => 'pe-7s-monitor',
-                        'authorize' => true,
+                        'authorize' => false,
                     ),
                     'roles' => array(
                         'titulo' => 'Perfis',
                         'rota' => '/admin/roles',
                         'icon' => 'pe-7s-id',
-                        'authorize' => true,
+                        'authorize' => false,
                     ),
                     'resources' => array(
                         'titulo' => 'Recursos',
                         'rota' => '/admin/resources',
                         'icon' => 'pe-7s-share',
-                        'authorize' => true,
+                        'authorize' => false,
                     ),
                     'actions' => array(
                         'titulo' => 'Ações',
                         'rota' => '/admin/actions',
                         'icon' => 'pe-7s-share',
-                        'authorize' => true,
-                    ),
-                    'possibilities' => array(
-                        'titulo' => 'Possibilidades',
-                        'rota' => '/admin/possibilities',
-                        'icon' => 'pe-7s-share',
-                        'authorize' => true,
-                    ),
-                    'privileges' => array(
-                        'titulo' => 'Privilégios',
-                        'rota' => '/admin/privileges',
-                        'icon' => 'pe-7s-keypad',
-                        'authorize' => true,
-                    ),
+                        'authorize' => false,
+                    )
                 ),
             ),
             'catalog' => array(

@@ -442,7 +442,7 @@ class Person
             foreach($personRoles as $personRole)
             {
                 $db_role = $personRole->getRole();
-                if($db_role->getFriendlyUrl() == $role)
+                if($db_role->getFriendlyUrl() == $role || $db_role->getName() == $role)
                 {
                     return true;
                 }

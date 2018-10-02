@@ -191,31 +191,71 @@ if(isset($db_company) && $db_company->getImage() != '' && file_exists("public/im
     <div style="width: 100%; float: left; background-color: transparent; border: none; display: block" class="col-sm-12">
         <div class="form-horizontal" style="float: left; width: 90%">
             <div class="form-group">
-                <div id="formNumeroControle" style="width: 100%">
-                    <div class="" style="margin-top: 2em">
-                        <form method="post" action="" id="rastrear_form" name="rastrear_form">
+                <div id="formNumeroControle" class="container" style="width: 100%">
+                    <div class="row" style="margin-top: 2em">
+                        <form method="get" action="" id="rastrear_form" name="rastrear_form">
                             <div class="col-md-12" >
                                 <img id="imgLogo" src="" />
                                 <div class="col-md-3 formCabecalho" >
                                     <label for="tipo_documento">Tipo Documento</label>
+                                    <?php
+                                    $arr = array(
+                                        '1' =>  'CPF',
+                                        '2' =>  'CNPJ',
+                                        '3' =>  'Pedido',
+                                        '4' =>  'Nota Fiscal',
+                                        '5' =>  'Conhecimento de Transporte',
+                                        '6' =>  'Objeto CORREIOS'
+                                    );
+                                    ?>
                                     <select class="form-control" id="tipo_documento" name="tipo_documento">
-                                        <option value='1'>CPF</option>
-                                        <option value='2'>CNPJ</option>
-                                        <option value='3'>Pedido</option>
-                                        <option value='4'>Nota Fiscal</option>
-                                        <option value='5'>Conhecimento de Transporte</option>
-                                        <option value='6'>Objeto CORREIOS</option>
+                                        <?php
+                                        if(!empty($arr)){
+                                            foreach($arr as $k => $v){
+                                                ?>
+                                                <option
+                                                    <?=(isset($_GET['tipo_documento']) && $_GET['tipo_documento'] == $k)?'selected':'';?>
+                                                    value='<?=$k?>'>
+                                                    <?=$v?>
+                                                </option>
+                                                <?php
+                                            }
+                                        }
+                                        ?>
                                     </select>
                                 </div>
                                 <div class="col-md-3 formCabecalho" >
                                     <label for="numero_documento">Documento</label>
-                                    <input class="form-control" placeholder="Informe o número do documento" maxlength="25" type="text" id="numero_documento" name="numero_documento" required>
+                                    <input class="form-control"
+                                           placeholder="Informe o número do documento"
+                                           maxlength="25"
+                                           type="text"
+                                           id="numero_documento"
+                                           name="numero_documento"
+                                           value="<?=(isset($_GET['numero_documento']))?urldecode($_GET['numero_documento']):'';?>"
+                                           required>
                                 </div>
                                 <div class="col-md-2 formCabecalho" id="rastrearDiv" >
                                     <input type="submit" class="btn cssPedidoStatusFundoCor" value="Rastrear" style="background-color: #006A96; color: #FFF; font-weight: bold;" />
+
                                 </div>
                             </div>
+
                         </form>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="col-md-2 form-group">
+                            <span>&nbsp;</span>
+                            <button onclick="showURL();" class="btn form-control" style="background-color: #006A96; color: #FFF; font-weight: bold;">URL Rastreio</button>
+                        </div>
+                        <div style="display: none" class="col-md-8 url_rastreio">
+                            <br />
+                            <p id="url_rastreio" class="alert alert-warning" >Url de Rastreio: </p>
+                        </div>
+                        <div style="display: none" class="col-md-2 url_rastreio">
+                            <span>&nbsp;</span>
+                            <button class="form-control" onclick="copyToClipboard()">Copiar Texto</button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -362,6 +402,24 @@ if(isset($db_company) && $db_company->getImage() != '' && file_exists("public/im
 <script src="https://netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
 
 <script type="text/javascript">
+    var show = false;
+    function showURL(){
+
+        if(show){
+            $(".url_rastreio").fadeOut();
+            show = false;
+        }else{
+            $(".url_rastreio").fadeIn();
+            show = true;
+        }
+    }
+
+    function copyToClipboard(){
+        $("#url_search").select();
+        document.execCommand("copy");
+        alert("Url de rastreio copiada!");
+    }
+
     $(document).ready(function() {
 
         var api_tracking_url = "http://datafrete.com.br/placelog/api-tracking/";
@@ -408,6 +466,19 @@ if(isset($db_company) && $db_company->getImage() != '' && file_exists("public/im
         });
 
         $("#rastrear_form").submit(function() {
+            var url = location.href.split('?');
+            url_search = url[0];
+            if($("#tipo_documento").val() != null){
+                url_search += "?tipo_documento=" + $("#tipo_documento").val();
+            }
+
+            if($("#numero_documento").val() != null){
+                url_search += "&numero_documento=" + $("#numero_documento").val();
+            }
+
+            $("#url_rastreio").html("Url de Rastreio: <input id='url_search' readonly class='text-danger form-control' value='" + url_search + "'>");
+
+            $("#rastrear_form").attr('action',url_search);
             rastrear();
             return false;
         });
@@ -751,6 +822,15 @@ if(isset($db_company) && $db_company->getImage() != '' && file_exists("public/im
             }
             $("#outros_pedidos").html(body);
         }
+
+        <?php
+        if(isset($_GET['tipo_documento']) && isset($_GET['numero_documento']) && trim($_GET['numero_documento']) != ''){
+            ?>
+            $("#Rastrear").trigger('click');
+            <?php
+        }
+        ?>
     });
+
 </script>
 </html>

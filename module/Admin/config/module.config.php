@@ -1,5 +1,6 @@
 <?php
 namespace Admin;
+
 return array(
     'router' => array(
         'routes' => array(

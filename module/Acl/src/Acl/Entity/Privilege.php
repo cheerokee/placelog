@@ -21,13 +21,13 @@ class Privilege
     protected $id;
 
     /**
-     * @ORM\OneToOne(targetEntity="Acl\Entity\Role")
+     * @ORM\ManyToOne(targetEntity="Acl\Entity\Role")
      * @ORM\JoinColumn(name="role_id",referencedColumnName="id")
      */
     protected $role;
 
     /**
-     * @ORM\OneToOne(targetEntity="Acl\Entity\Resource")
+     * @ORM\ManyToOne(targetEntity="Acl\Entity\Resource")
      * @ORM\JoinColumn(name="resource_id",referencedColumnName="id")
      */
     protected $resource;

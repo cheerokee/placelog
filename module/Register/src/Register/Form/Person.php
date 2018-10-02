@@ -20,9 +20,15 @@ class Person  extends FormBase
         $id = new \Zend\Form\Element\Hidden('id');
         $this->add($id);
 
+        $field = new \Zend\Form\Element\Hidden('role');
+        $this->add($field);
+
         $field = new \Zend\Form\Element\Hidden('friendlyUrl');
         $this->add($field);
-        
+
+        $field = new \Zend\Form\Element\Hidden('company');
+        $this->add($field);
+
         $criteria = Criteria::create();
         $criteria->where($criteria->expr()->neq('name', 'superadmin'));
         $criteria->orderBy(array('id' => 'ASC'));
@@ -51,9 +57,6 @@ class Person  extends FormBase
                 ->setAttribute('required','required')
                 ->setAttribute('placeholder',$this->translate('Entre com o nome'));
         $this->add($name);
-
-        $friendlyUrl = new \Zend\Form\Element\Hidden("friendlyUrl");
-        $this->add($friendlyUrl);
 
         $email = new \Zend\Form\Element\Text("email");
         $email->setLabel($this->translate("Email: *"))
@@ -87,34 +90,6 @@ class Person  extends FormBase
                 ->setAttribute('class','form-control')
                 ->setAttribute('placeholder',$this->translate('Redigite a senha'));
         $this->add($confirmation);
-
-//        $this->add(array(
-//            'name' => 'company',
-//            'type' => 'DoctrineModule\Form\Element\ObjectSelect',
-//            'options' => array(
-//                'disable_inarray_validator' => true,
-//                'object_manager' => $objectManager,
-//                'target_class' => 'Register\Entity\Person',
-//                'property' => 'name',
-//                'display_empty_item' => true,
-//                'empty_item_label' => $this->translate('Selecione...'),
-//                'is_method' => true,
-//                'find_method' => array(
-//                    'name' => 'findBy',
-//                    'params' => array(
-//                        'criteria' => array(),
-//                        'orderBy' => array('id' => 'ASC'),
-//                    )
-//                ),
-//                'label' => $this->translate('Empresa'),
-//                'column-size' => 'sm-4',
-//                'label_attributes' => array('class' => 'col-sm-2 input-sm')
-//            ),
-//            'attributes' => array(
-//                'class' => 'form-control',
-//                'disabled' => 'disabled'
-//            )
-//        ));
 
         $field = new \Zend\Form\Element\File("image");
         $field  ->setLabel('Foto: ')

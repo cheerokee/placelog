@@ -31,6 +31,7 @@ class Module{
 
         if(!$auth->hasIdentity() && ($matchedRoute == "admin" || $matchedRoute == "admin/paginator"))
             return $controller->redirect()->toRoute('person-auth');
+
     }
 
     public function getConfig()

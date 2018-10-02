@@ -10,7 +10,7 @@ class TypeAppController extends CrudController
 
     public function __construct() 
     {
-        $this->title = "Tipo de Aplicação";
+        $this->title = "Tipo de Aplicações";
 
         $this->table = 'TypeApp';
         $this->entity = 'App\Entity\\'.$this->table ;

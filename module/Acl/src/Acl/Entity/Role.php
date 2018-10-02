@@ -127,7 +127,15 @@ class Role
     /**
      * @return mixed
      */
-    public function getisAdmin()
+    public function getIsAdmin()
+    {
+        return $this->isAdmin;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function isAdmin()
     {
         return $this->isAdmin;
     }

@@ -1,0 +1,105 @@
+<div ng-controller="PrivilegeController as privilege" class="col-md-12">
+    <div class="card">
+        <div class="header">
+            <div class="row">
+                <div class="col-md-8">
+                    <h4 class="title">Gerenciador de Privilégios</h4>
+                    <p class="category text-justify">
+
+                    </p>
+                </div>
+                <div class="col-md-4">
+                    <button class="btn btn-link pull-right" type="button" data-toggle="collapse" data-target="#collapsePrivilege" aria-expanded="true" aria-controls="collapsePossibility">
+                        Exibir/Esconder Formulário
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="content">
+            <div class="row">
+                <div class="accordion col-md-12" id="accordionPrivilegeForm">
+                    <div id="collapsePrivilege" class="row collapse  in" aria-expanded="true">
+                        <div class="col-md-12">
+                            <div class="row">
+                                <div class="col-md-4 form-group">
+                                    <label>Perfil *</label>
+                                    <select class="form-control" ng-model="role" ng-value="role">
+                                        <option value="">Selecione...</option>
+                                        <option ng-repeat="role in roles" value="{{ role.id }}">
+                                            {{ role.name }}
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="col-md-4 form-group">
+                                    <label>Recurso *</label>
+                                    <select ng-change="changeResource()" class="form-control" ng-model="resource" ng-value="resource">
+                                        <option value="">Selecione...</option>
+                                        <option ng-repeat="resource in resources" value="{{ resource.id }}">
+                                            {{ resource.name }}
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="col-md-4 form-group">
+                                    <label>Ação *</label>
+                                    <select class="form-control" ng-model="action" ng-value="action">
+                                        <option value="">Selecione o Recurso Primeiro...</option>
+                                        <option ng-repeat="possibility in possibilities" value="{{ possibility._embedded.action.name }}">
+                                            {{ possibility._embedded.action.name }}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <button type="button" ng-if="btnadd" ng-click="add()" class="btn btn-success pull-right">
+                                Adicionar
+                            </button>
+                            <button type="button" ng-if="btnedit" ng-click="save(id)" class="btn btn-primary pull-right">
+                                Atualizar
+                            </button>
+                            <button ng-click="clear()" class="btn btn-danger pull-right">
+                                Cancelar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <hr/>
+            </div>
+            <div class="row">
+                <hr/>
+                <div class="col-md-8">
+                    <h4 class="title">
+                        Listagem de Registros
+                    </h4>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>Perfil</th>
+                                <th>Recurso</th>
+                                <th>Ação</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="privilege in privileges">
+                                <td>{{ privilege.id }}</td>
+                                <td>{{ privilege._embedded.role.name }}</td>
+                                <td>{{ privilege._embedded.resource.name }}</td>
+                                <td>{{ privilege.name }}</td>
+                                <td>
+                                    <button ng-click="del(privilege.id)" class="btn btn-danger"><i class="pe-7s-close-circle"></i></button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

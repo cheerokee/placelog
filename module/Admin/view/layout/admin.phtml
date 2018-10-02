@@ -1,4 +1,5 @@
 <?php
+
 if(!($this->personIdentity('Person') instanceof \Register\Entity\Person)){
     header('Location: /auth');
     die;
@@ -54,11 +55,11 @@ echo $this->doctype(); ?>
 
     if($person instanceof \Register\Entity\Person){
         if(!$person->hasThisRole('administrador') && !$person->hasThisRole('empresa')){
-            $_SESSION['empresa'] = $person->getId();
+            $_SESSION['empresa'] = $person->getCompany()->getId();
         }else if($person->hasThisRole('empresa')){
             $_SESSION['empresa'] = $person->getId();
         }else{
-            $_SESSION['empresa'] = $person->getCompany();
+            unset($_SESSION['empresa']);
         }
     }
 
@@ -111,6 +112,7 @@ echo $this->doctype(); ?>
                             <?
                         }else{
                             $somenu = true;
+
                             ?>
                             <li id="menu_<?=$a?>" class="nav-item dropdown">
                                 <a style="cursor: pointer;" class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
@@ -121,6 +123,18 @@ echo $this->doctype(); ?>
                                     <?php
                                     foreach($menu['itens'] as $k => $item)
                                     {
+                                        if($item['authorize'] === false){
+                                            $authorized = false;
+                                            try {
+                                                if ($this->authorized($item['titulo'], 'Visualizar') || $this->authorize($item['titulo'], 'Listar')) {
+                                                    $authorized = true;
+                                                } else {
+                                                    continue;
+                                                }
+                                            }catch(Exception $e){
+                                                continue;
+                                            }
+                                        }
                                         ?>
                                         <a class="dropdown-item " href="<?=$item['rota']?>">
                                             <i  class="<?=$item['icon']?>"></i>  <?=$item['titulo']?>
@@ -133,6 +147,7 @@ echo $this->doctype(); ?>
                                 </div>
                             </li>
                             <?php
+
                             if($somenu) {
                                 ?>
                                 <style>

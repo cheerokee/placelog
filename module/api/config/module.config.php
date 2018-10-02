@@ -2223,13 +2223,13 @@ return [
             ],
             1 => [
                 'name' => 'createdAt',
-                'required' => true,
+                'required' => false,
                 'filters' => [],
                 'validators' => [],
             ],
             2 => [
                 'name' => 'updatedAt',
-                'required' => true,
+                'required' => false,
                 'filters' => [],
                 'validators' => [],
             ],

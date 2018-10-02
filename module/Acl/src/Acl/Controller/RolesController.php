@@ -75,7 +75,7 @@ class RolesController extends CrudController
     {
         $acl = $this->getServiceLocator()->get('Acl\Permissions\Acl');
 
-        echo $acl->isAllowed('Visitante','Posts','Visualizar')?'Permitido':'Negado';
+        echo $acl->isAllowed('Cliente','Logística','Visualizar')?'Permitido':'Negado';
         die;
     }
 }

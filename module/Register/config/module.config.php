@@ -316,10 +316,10 @@ $rotas = array(
     )
 );
 
-$array_perfis = array('administrator','company','employee','customer');
+$array_perfis = array('administrator' => 'Administrator','company' => 'Company','employee' => 'Employee','customer' => 'Customer');
 if(!empty($array_perfis))
 {
-    foreach($array_perfis as $perfil)
+    foreach($array_perfis as $perfil => $controller)
     {
         $rotas['routes'][$perfil] = array(
             'type' => 'Literal',
@@ -346,8 +346,8 @@ if(!empty($array_perfis))
                         ),
                         'defaults' => array(
                             '__NAMESPACE__' => __NAMESPACE__ . '\Controller',
-                            'controller' => 'Person',
-                            'action' => $perfil
+                            'controller' => $controller,
+                            'action' => 'index'
                         )
                     )
                 ),
@@ -381,8 +381,11 @@ return array(
             'Register\Controller\Address' => 'Register\Controller\Address',
             'Register\Controller\Auth' => 'Register\Controller\AuthController',
             'Register\Controller\BankAccount' => 'Register\Controller\BankAccountController',
-            'Register\Controller\Profile' => 'Register\Controller\ProfileController',
-            'Register\Controller\Configuration' => 'Register\Controller\ConfigurationController'
+            'Register\Controller\Configuration' => 'Register\Controller\ConfigurationController',
+            'Register\Controller\Administrator' => 'Register\Controller\AdministratorController',
+            'Register\Controller\Company' => 'Register\Controller\CompanyController',
+            'Register\Controller\Employee' => 'Register\Controller\EmployeeController',
+            'Register\Controller\Customer' => 'Register\Controller\CustomerController',
         )
     ),
     'service_manager' => array(

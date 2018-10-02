@@ -257,12 +257,23 @@ class Role extends \Acl\Entity\Role implements \Doctrine\ORM\Proxy\Proxy
     /**
      * {@inheritDoc}
      */
-    public function getisAdmin()
+    public function getIsAdmin()
     {
 
-        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getisAdmin', []);
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'getIsAdmin', []);
 
-        return parent::getisAdmin();
+        return parent::getIsAdmin();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function isAdmin()
+    {
+
+        $this->__initializer__ && $this->__initializer__->__invoke($this, 'isAdmin', []);
+
+        return parent::isAdmin();
     }
 
     /**

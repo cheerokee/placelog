@@ -14,7 +14,7 @@ class AppController extends CrudController
 
     public function __construct() 
     {
-        $this->title = "Aplicação";
+        $this->title = "Aplicações";
 
         $this->table = 'App';
         $this->entity = 'App\Entity\\'.$this->table ;

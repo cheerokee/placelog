@@ -1,7 +1,11 @@
 <?php
 namespace Base\Controller;
 
+use Acl\Entity\Action;
+use Acl\Entity\Possibility;
+use Acl\Entity\Resource;
 use DoctrineModule\Form\Element\ObjectSelect;
+use Register\Entity\Person;
 use Zend\I18n\Validator\DateTime;
 use Zend\Mvc\Controller\AbstractActionController,
     Zend\View\Model\ViewModel;
@@ -15,7 +19,7 @@ use Zend\Stdlib\Hydrator;
 abstract class CrudController extends AbstractActionController{
     protected $em,$service,$entity,$form,$route,$controller;
     public $functions;
-    
+
     public function __construct(){
 
     }
@@ -51,7 +55,14 @@ abstract class CrudController extends AbstractActionController{
 
                 $list = $this->getEm()->getRepository($this->entity)->$find_method($this->params()->fromRoute('fk_id',0));
                 $find_method = 'get' . $this->functions->toCamelCase( $fk , true);
-                $fk_entity = $list[0]->$find_method();
+                if(!empty($list)){
+                    $fk_entity = $list[0]->$find_method();
+                }
+            }
+
+            //Verificando se uma entidade deve trazer resultados de uma empresa
+            if(method_exists($this->entity,'getCompany')){
+                $list = $this->getEm()->getRepository($this->entity)->findByCompany($_SESSION['empresa']);
             }
         }
 
@@ -95,7 +106,14 @@ abstract class CrudController extends AbstractActionController{
             $view->setTemplate('base/crud/index');
         }
 
-        return $view;
+
+        $allowed = $this->isAllow($this->title,'Visualizar');
+
+        if($allowed){
+            return $view;
+        }else{
+            return $this->redirect()->toRoute('not-have-permission');
+        }
     }
     
     /**
@@ -131,8 +149,6 @@ abstract class CrudController extends AbstractActionController{
     public function newAction($request = null,$form = null,$redirect = null){
         $this->functions = new BaseFunctions();
         $em = $this->getEm();
-        $cities = $em->getRepository('Register\Entity\City')->findAll();
-        $states = $em->getRepository('Register\Entity\State')->findAll();
 
         if(!isset($form)){
             $form = $this->getServiceLocator()->get($this->form);
@@ -163,6 +179,15 @@ abstract class CrudController extends AbstractActionController{
                         }
                     }
 
+                    if(isset($_SESSION['empresa']) && $element->getName() == 'company')
+                    {
+                        $db_company = $this->getEm()->getRepository('Register\Entity\Person')->findOneById($_SESSION['empresa']);
+                        $data[$element->getName()] = $db_company;
+                    }else if($element->getName() == 'company'){
+                        $data[$element->getName()] = null;
+                        continue;
+                    }
+
                     if($element instanceof ObjectSelect){
                         $field = $element->getName();
                         $setObject = $element->getProxy()->getTargetClass();
@@ -176,19 +201,6 @@ abstract class CrudController extends AbstractActionController{
                             }
                         }
                     }
-
-//                    if($element->getName() == 'company')
-//                    {
-//                        if($this->getLogin()->hasThisRole('company'))
-//                        {
-//                            $data['company'] = $this->getLogin();
-//                        }else if(!($this->getLogin()->hasThisProfile('administrator') || $this->getLogin()->getIsAdmin())){
-//                            $data['company'] = $this->getLogin()->getCompany();
-//                        }else{
-//                            $data['company'] = null;
-//                        }
-//                    }
-
                 }
 
                 $service = $this->getServiceLocator()->get($this->service);
@@ -234,23 +246,26 @@ abstract class CrudController extends AbstractActionController{
             'controller' => $this->controller,
             'title'=> $this->title,
             'route' => $this->route,
-            'cities' => $cities,
-            'states' => $states,
             'em' => $this->getEm(),
             'fk' => $this->params()->fromRoute('fk',0),
             'fk_id' => $this->params()->fromRoute('fk_id',0)
         ));
 
         $view->setTemplate('base/crud/new.phtml');
-        
-        return $view;
+
+        $allowed = $this->isAllow($this->title,'Criar');
+
+        if($allowed){
+            return $view;
+        }else{
+            return $this->redirect()->toRoute('not-have-permission');
+        }
+
     }
     
     public function editAction($request = null,$form = null,$redirect = null){
         $this->functions = new BaseFunctions();
         $em = $this->getEm();
-        $cities = $em->getRepository('Register\Entity\City')->findAll();
-        $states = $em->getRepository('Register\Entity\State')->findAll();
 
         if(!isset($form)){
             $form = $this->getServiceLocator()->get($this->form);
@@ -292,6 +307,15 @@ abstract class CrudController extends AbstractActionController{
                         $data[$element->getName()] = new \DateTime($data[$element->getName()]);
                     }
 
+                    if(isset($_SESSION['empresa']) && $element->getName() == 'company')
+                    {
+
+                        $db_company = $this->getEm()->getRepository('Register\Entity\Person')->findOneById($_SESSION['empresa']);
+                        $data[$element->getName()] = $db_company;
+                    }else if($element->getName() == 'company'){
+                        $data[$element->getName()] = null;
+                        continue;
+                    }
 
                     if($element->getAttributes()['name'] == 'name')
                     {
@@ -318,17 +342,7 @@ abstract class CrudController extends AbstractActionController{
                         }
                     }
 
-//                    if($element->getName() == 'company')
-//                    {
-//                        if($this->getLogin()->hasThisProfile('company'))
-//                        {
-//                            $data['company'] = $this->getLogin();
-//                        }else if(!($this->getLogin()->hasThisProfile('administrator') || $this->getLogin()->getIsAdmin())){
-//                            $data['company'] = $this->getLogin()->getCompany();
-//                        }else{
-//                            $data['company'] = null;
-//                        }
-//                    }
+
                 }
 
                 $service = $this->getServiceLocator()->get($this->service);
@@ -361,8 +375,6 @@ abstract class CrudController extends AbstractActionController{
             'id' => $this->params()->fromRoute('id',0),
             'entity' => $entity,
             'em' => $this->getEm(),
-            'cities' => $cities,
-            'states' => $states,
             'fk'            => $this->params()->fromRoute('fk',0),
             'fk_id'            => $this->params()->fromRoute('fk_id',0),
             'action'    => 'edit'
@@ -370,15 +382,27 @@ abstract class CrudController extends AbstractActionController{
         
         $view->setTemplate('base/crud/edit.phtml');
 
-        return $view;
+        $allowed = $this->isAllow($this->title,'Editar');
+
+        if($allowed){
+            return $view;
+        }else{
+            return $this->redirect()->toRoute('not-have-permission');
+        }
     }
     
     public function deleteAction()
     {
-        $service = $this->getServiceLocator()->get($this->service);
+        $allowed = $this->isAllow($this->title,'Excluir');
 
-        if($service->delete($this->params()->fromRoute('id',0)))
+        if($allowed){
+            $service = $this->getServiceLocator()->get($this->service);
+
+            if($service->delete($this->params()->fromRoute('id',0)))
                 return $this->redirect()->toRoute($this->route,array('controller'=>$this->controller,'action' => 'index'));
+        }else{
+            return $this->redirect()->toRoute('not-have-permission');
+        }
     }
 
     /**
@@ -402,6 +426,7 @@ abstract class CrudController extends AbstractActionController{
     }
 
     public function getLogin(){
+
         $session = (array) $_SESSION['Person'];
         /**
          * @var User $user
@@ -411,9 +436,13 @@ abstract class CrudController extends AbstractActionController{
                 $login = $v['storage'];
         }
 
-        $db_login = $this->getEm()->getRepository('Register\Entity\Person')->findOneById($login->getId());
+        if($login) {
+            $db_login = $this->getEm()->getRepository('Register\Entity\Person')->findOneById($login->getId());
 
-        return $db_login;
+            return $db_login;
+        }else{
+            return $this->redirect()->toRoute('not-have-permission');
+        }
     }
     
     /**
@@ -426,8 +455,6 @@ abstract class CrudController extends AbstractActionController{
         $service = $this->getServiceLocator()->get(($serviceName)?$serviceName:$this->service);
         return $service;
     }
-    
-    
 
     public function setEm(EntityManager $em)
     {
@@ -447,4 +474,74 @@ abstract class CrudController extends AbstractActionController{
         return $str;
     }
 
+    public function isAllow($resource,$privilege,$history_register = true){
+        $em = $this->getEm();
+
+        /** Se o Recurso ainda não foi criado na ACL então crie **/
+        $db_resource = $em->getRepository('Acl\Entity\Resource')->findOneByName($resource);
+        if(!($db_resource instanceof Resource))
+        {
+            /**
+             * @var Resource $db_resource
+             */
+            $db_resource = new Resource();
+            $db_resource->setName($resource);
+
+            $em->persist($db_resource);
+            $em->flush();
+        }
+
+        /** Se a Ação ainda não foi criado na ACL então crie **/
+        $db_action = $em->getRepository('Acl\Entity\Action')->findOneByName($privilege);
+
+        if(!($db_action instanceof Action))
+        {
+            /**
+             * @var Resource $db_resource
+             */
+            $db_action = new Action();
+            $db_action->setName($privilege);
+
+            $em->persist($db_action);
+            $em->flush();
+        }
+
+        /** Se a Possibilidade do recurso ainda não foi criado na ACL então crie **/
+        $db_possibility = $em->getRepository('Acl\Entity\Possibility')->findOneBy(array(
+            'resource'  => $db_resource,
+            'action'    => $db_action
+        ));
+
+        if(!($db_possibility instanceof Possibility))
+        {
+            /**
+             * @var Resource $db_resource
+             */
+            $db_possibility = new Possibility();
+            $db_possibility->setResource($db_resource);
+            $db_possibility->setAction($db_action);
+
+            $em->persist($db_possibility);
+            $em->flush();
+        }
+
+        $acl        = $this->getServiceLocator()->get('Acl\Permissions\Acl');
+        $roles = array();
+
+        if($this->getLogin() instanceof Person)
+        $roles      = $this->getLogin()->getPersonRoles()->getValues();
+        $allowed    = false;
+        if(!empty($roles)){
+            foreach($roles as $role){
+                $allowed = $acl->isAllowed($role->getRole()->getName(),$resource,$privilege);
+
+                if($allowed)
+                {
+                    break;
+                }
+            }
+        }
+
+        return $allowed;
+    }
 }

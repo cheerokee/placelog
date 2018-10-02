@@ -1,5 +1,6 @@
 <!-- Content Header (Page header) -->
 <!-- Content Header (Page header) -->
+
 <section class="content-header">
 	<h1>
 		<?=$this->translate("Usuários");?>
@@ -14,7 +15,8 @@
 		</li>
 	</ol>
 </section>
-<?php 
+<?php
+
 $links['new'] = $this->url('person/default',array('controller'=>'person','action'=>'new'));
 ?>
 <br />
@@ -61,7 +63,7 @@ $links['new'] = $this->url('person/default',array('controller'=>'person','action
                 <div class="container">
                 	<div class="row">
                         <div class="col-md-12 flashMessages">
-                            <?php 
+                            <?php
                              $flash  =  $this->flashMessenger (); 
                              echo  $flash -> render ( 'error' ,    array ( 'alert' ,  'alert-dismissible' ,  'alert-danger' )); 
                              echo  $flash -> render ( 'info' ,     array ( 'alert' ,  'alert-dismissible' ,  'alert-info' )); 

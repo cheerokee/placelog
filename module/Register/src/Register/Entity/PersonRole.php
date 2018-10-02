@@ -4,7 +4,7 @@ namespace Register\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * PersonProfile
+ * PersonRole
  *
  * @ORM\Table(name="person_role", indexes={@ORM\Index(name="fk_role", columns={"role_id"}),@ORM\Index(name="fk_person", columns={"person_id"})})
  * @ORM\Entity

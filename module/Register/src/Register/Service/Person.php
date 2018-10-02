@@ -2,11 +2,11 @@
 
 namespace Register\Service;
 
+use Acl\Entity\Role;
 use Base\Service\AbstractService;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManager;
-use Register\Entity\Profile;
-use Register\Entity\PersonProfile;
+use Register\Entity\PersonRole;
 use Zend\Stdlib\Hydrator;
 use Zend\Mail\Transport\Smtp as SmtpTransport;
 use Base\Mail\Mail;
@@ -46,25 +46,25 @@ class Person extends AbstractService
     public function insert(array $data) {
         $entity = parent::insert($data);
 
-        if(isset($data['profile']))
+        if(isset($data['role']))
         {
-            $db_profile = $this->em->getRepository('Register\Entity\Profile')->findOneByChave($data['profile']);
+            $db_role = $this->em->getRepository('Acl\Entity\Role')->findOneById($data['role']);
 
             /**
-             * @var PersonProfile $db_person_profile
+             * @var PersonRole $db_person_profile
              */
-            $db_person_profile = $this->em->getRepository( 'Register\Entity\PersonProfile')->findOneBy(array(
-                'profile'   => $db_profile,
+            $db_person_role = $this->em->getRepository( 'Register\Entity\PersonRole')->findOneBy(array(
+                'role'   => $db_role,
                 'person'    => $entity
             ));
 
-            if(!$db_person_profile){
-                $db_person_profile = new PersonProfile();
+            if(!$db_person_role){
+                $db_person_role = new PersonRole();
 
-                $db_person_profile->setPerson($entity);
-                $db_person_profile->setProfile($db_profile);
+                $db_person_role->setPerson($entity);
+                $db_person_role->setRole($db_role);
 
-                $this->em->persist($db_person_profile);
+                $this->em->persist($db_person_role);
                 $this->em->flush();
             }
         }
@@ -74,26 +74,26 @@ class Person extends AbstractService
 
         if($entity)
         {
-            $personProfile = $this->em->getRepository('Register\Entity\PersonProfile')->findOneByPerson($entity);
-            if(!$personProfile){
+            $personRole = $this->em->getRepository('Register\Entity\PersonRole')->findOneByPerson($entity);
+            if(!$personRole){
                 /**
-                 * @var PersonProfile $personProfile
-                 * @var Profile $profile
+                 * @var PersonRole $personRole
+                 * @var Role $role
                  */
 
-                $profile = $this->em->getRepository('Register\Entity\Profile')->findOneByName('Usuários');
-                if(!$profile){
-                    $profile = new Profile();
-                    $profile->setName('Usuários');
-                    $this->em->persist($profile);
+                $role = $this->em->getRepository('Acl\Entity\Role')->findOneByName('Cliente');
+                if(!$role){
+                    $role = new Role();
+                    $role->setName('Cliente');
+                    $this->em->persist($role);
                     $this->em->flush();
                 }
 
-                $personProfile = new PersonProfile();
-                $personProfile->setPerson($entity);
-                $personProfile->setProfile($profile);
+                $personRole = new PersonRole();
+                $personRole->setPerson($entity);
+                $personRole->setRole($role);
 
-                $this->em->persist($personProfile);
+                $this->em->persist($personRole);
                 $this->em->flush();
             }
 
