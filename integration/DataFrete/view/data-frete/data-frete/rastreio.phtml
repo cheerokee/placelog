@@ -177,11 +177,12 @@ if(isset($db_company) && $db_company->getImage() != '' && file_exists("public/im
             </button>
             <div class="row">
             <div class="col-md-2">
-                <a class="navbar-brand brand-rastreio" href="<?=$this->url('admin');?>" style="background-image: url(<?=$url_img?>);">
+                <a class="navbar-brand brand-rastreio" href="<?=$this->url('admin');?>">
+                    <div align="center"><img style="height: 50px" class="img-responsive" src="<?=$url_img?>" /></div>
                 </a>
             </div>
             <div class="col-md-10">
-                <h2><?=$db_company->getName();?></h2>
+                <h2><?//=$db_company->getName();?></h2>
             </div>
             </div>
         </div>
