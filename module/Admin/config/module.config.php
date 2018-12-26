@@ -14,6 +14,28 @@ return array(
                     )
                 )
             ),
+            'painel-etiqueta-nfe' => array(
+                'type' => 'Literal',
+                'options' => array(
+                    'route' => '/admin/painel-etiqueta-nfe',
+                    'defaults' => array(
+                        '__NAMESPACE__' => 'Admin\Controller',
+                        'controller' => 'Index',
+                        'action' => 'painel-etiqueta-nfe'
+                    )
+                )
+            ),
+            'send-etiqueta-nfe' => array(
+                'type' => 'Literal',
+                'options' => array(
+                    'route' => '/admin/send-etiqueta-nfe',
+                    'defaults' => array(
+                        '__NAMESPACE__' => 'Admin\Controller',
+                        'controller' => 'Index',
+                        'action' => 'send-etiqueta-nfe'
+                    )
+                )
+            ),
             'layout' => array(
                 'type' => 'Literal',
                 'options' => array(

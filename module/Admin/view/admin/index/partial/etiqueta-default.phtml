@@ -1,0 +1,113 @@
+<?php
+$foto = $this->foto
+?>
+<div class="modal fade" id="<?=$this->code?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Imprima a Etiqueta</h4>
+            </div>
+            <div class="modal-body" id="etiqueta_content">
+                <div class="row">
+                    <div style="border: 1px solid #000;padding: 10px;" class="col-md-12 well well-sm margin-bottom-0">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <h2 style="text-align: center" class="text-center">
+                                    <strong>Cartão de Postagem</strong>
+                                </h2>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <table style="width: 100%">
+                                    <tr>
+                                        <td>
+                                            <center>
+                                                <img style="max-height: 150px" class="img-responsive" src="<?=$foto?>">
+                                            </center>
+                                        </td>
+                                        <td>
+                                            <center>
+                                                <img style="max-height: 150px" class="img-responsive" src="/img/etiqueta_sedex.png">
+                                            </center>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 padding-top-10 padding-bottom-10">
+                                <center>
+                                    <svg id="codBarras"></svg>
+                                </center>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="border: 1px solid #000;padding: 10px;" class="col-md-12 well well-sm margin-bottom-0">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <table style="width: 100%">
+                                    <tr>
+                                        <td>
+                                            <h5>
+                                                <strong>Destinatário</strong>
+                                            </h5>
+                                            <p>
+                                                {{ nota.destinatario.xNome }}<br/>
+                                                {{ nota.destinatario.enderDest.xLgr }},{{ nota.destinatario.enderDest.nro }}<br/>
+                                                Bairro: {{ nota.destinatario.enderDest.xBairro }}<br/>
+                                                {{ nota.destinatario.enderDest.xMun }} - {{ nota.destinatario.enderDest.UF }}<br/>
+                                            </p>
+                                        </td>
+                                        <td>
+                                            <center>
+                                                <svg id="codBarrasDest"></svg>
+                                            </center>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="border: 1px solid #000;padding: 10px;" class="col-md-12 well well-sm margin-bottom-0">
+                        <div class="row">
+                            <div class="col-xs-6">
+                                <h5>
+                                    <strong>Emitente</strong>
+                                </h5>
+                                <p>
+                                    {{ nota.emitente.xNome }}<br/>
+                                    {{ nota.emitente.enderEmit.xLgr }},{{ nota.emitente.enderEmit.nro }}<br/>
+                                    Bairro: {{ nota.emitente.enderEmit.xBairro }}<br/>
+                                    {{ nota.emitente.enderEmit.xMun }} - {{ nota.emitente.enderEmit.UF }}<br/>
+                                </p>
+                            </div>
+                            <div class="col-xs-6">
+                            </div>
+                        </div>
+                    </div>
+                    <div style="border: 1px solid #000;padding: 10px;" class="col-md-12 well well-sm margin-bottom-0">
+                        <div class="row">
+                            <div class="col-xs-6">
+                                <h5>
+                                    <strong>Peso</strong>
+                                </h5>
+                                <p>
+                                    Bruto: {{ nota.volume.pesoB }}<br/>
+                                    Líquido: {{ nota.volume.pesoL }}
+                                </p>
+                            </div>
+                            <div class="col-xs-6">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Fechar</button>
+                <button type="button" class="btn btn-primary" ng-click="printAction()">Imprimir</button>
+            </div>
+        </div>
+    </div>
+</div>

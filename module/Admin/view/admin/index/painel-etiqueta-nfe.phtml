@@ -1,0 +1,369 @@
+<?php
+/**
+ * @var \Register\Entity\Person $db_person
+ */
+$person = $this->personIdentity('Person');
+if ($person instanceof \Register\Entity\Person) {
+    $foto = ($person->getImage() != '' && file_exists('public/img/person/' . $person->getImage())) ? '/img/person/' . $person->getImage() : '/img/person/sem_imagem.jpg';
+}
+?>
+<div id="ribbon">
+    <span class="ribbon-button-alignment">
+        <span id="refresh" class="btn btn-ribbon" data-action="resetWidgets" data-title="refresh"  rel="tooltip" data-placement="bottom" data-original-title="<i class='text-warning fa fa-warning'></i> Warning! This will reset all your widget settings." data-html="true">
+            <i class="fa fa-refresh"></i>
+        </span>
+    </span>
+    <ol class="breadcrumb">
+        <li>
+            <a href="<?=$this->url('admin');?>">
+                Home
+            </a>
+        </li>
+        <li>Painel de Etiqueta Nota Fiscal</li>
+    </ol>
+</div>
+<script src="/js/admin/angular.min.js"></script>
+<div id="content" ng-app="interface" ng-controller="Controller as conf">
+    <div class="row">
+        <div class="col-xs-12 col-sm-7 col-md-7 col-lg-4">
+            <h1 class="page-title txt-color-blueDark">
+                <i class="fa-fw fa fa-home"></i> Dashboard
+                <span>> Painel de Etiqueta Nota Fiscal</span>
+            </h1>
+        </div>
+    </div>
+    <section id="widget-grid" class="">
+        <div class="row">
+            <article class="col-sm-12">
+                <form id="fpg_aporte_form" ng-submit="send()" method="POST" enctype="multipart/form-data">
+                    <div class="jarviswidget" id="wid-id-0"
+                         data-widget-togglebutton="false"
+                         data-widget-editbutton="false"
+                         data-widget-fullscreenbutton="false"
+                         data-widget-colorbutton="false"
+                         data-widget-deletebutton="false">
+                        <header>
+                            <span class="widget-icon"> <i class="glyphicon glyphicon-stats txt-color-darken"></i> </span>
+                            <h2>Escolha o modelo da impressão, faça o upload do xml e imprima as etiquetas</h2>
+                        </header>
+                        <div class="no-padding">
+                            <div class="widget-body">
+                                <div class="col-md-4 padding-top-10 padding-botton-10 form-group">
+                                    <label>Modelo</label>
+                                    <select class="form-control" name="model" ng-model="codeetiqueta" required>
+                                        <option value="">Selecione...</option>
+                                        <option ng-repeat="modelo in modelos" ng-value="modelo.code" value="{{ modelo.code }}">
+                                            {{ modelo.name }} ({{ modelo.width }} mm X {{ modelo.height }} mm)
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="col-md-5 padding-top-10 padding-botton-10 form-group">
+                                    <label>Arquivo XML</label>
+                                    <input type="file" class="form-control" name="file" id="file" required/>
+                                </div>
+                                <div class="col-md-3 padding-top-10 padding-botton-10 form-group">
+                                    <label>&nbsp;</label>
+                                    <button ng-show="send_btn" form="fpg_aporte_form" type="submit" class="btn btn-success form-control" >
+                                        <i class="fa fa-arrow-circle-o-right"></i>&nbsp;Enviar
+                                    </button>
+                                    <button ng-show="send_btn_disable" disabled type="submit" class="btn btn-success form-control" >
+                                        <i class="fa fa-refresh fa-spin txt-color-blueDark"></i>
+                                    </button>
+                                    <button ng-show="nota.geral.nNF" class="btn btn-primary form-control" data-toggle="modal" data-target="#{{ codeetiqueta }}">
+                                        <i class="fa fa-print"></i>&nbsp;Imprimir Etiqueta
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </article>
+        </div>
+    </section>
+    <section id="widget-grid" ng-show="nota.geral.nNF" class="">
+        <div class="row">
+            <article class="col-sm-12">
+                <div class="jarviswidget" id="wid-id-1"
+                     data-widget-togglebutton="false"
+                     data-widget-editbutton="false"
+                     data-widget-fullscreenbutton="false"
+                     data-widget-colorbutton="false"
+                     data-widget-deletebutton="false">
+                    <header>
+                        <span class="widget-icon"> <i class="glyphicon glyphicon-stats txt-color-darken"></i> </span>
+                        <h2>Detalhes da Nota Fiscal</h2>
+                    </header>
+                    <div class="no-padding">
+                        <div class="widget-body">
+                            <div class="col-md-12 padding-top-10 padding-botton-10 form-group">
+                                <h5>Dados Gerais</h5>
+                                <hr />
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>Nº da Nota</th>
+                                            <th>Série</th>
+                                            <th>Data e Hora da Emissão</th>
+                                            <th>Chave de Acesso</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>{{ nota.geral.nNF }}</td>
+                                            <td>{{ nota.geral.serie }}</td>
+                                            <td>{{ nota.geral.dhEmi | date:'dd/MM/yyyy HH:mm:ss' }}</td>
+                                            <td>{{ nota.geral.attributes.chave_acesso }}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="col-md-12 padding-top-10 padding-botton-10 form-group">
+                                <h5>Emitente</h5>
+                                <hr />
+                                <table class="table table-bordered">
+                                    <thead>
+                                    <tr>
+                                        <th>CNPJ</th>
+                                        <th>Nome</th>
+                                        <th>CEP</th>
+                                        <th>Logradouro</th>
+                                        <th>Nº</th>
+                                        <th>Bairro</th>
+                                        <th>Cidade</th>
+                                        <th>Estado</th>
+                                        <th>País</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td>{{ nota.emitente.CNPJ }}</td>
+                                        <td>{{ nota.emitente.xNome }}</td>
+                                        <td>{{ nota.emitente.enderEmit.CEP }}</td>
+                                        <td>{{ nota.emitente.enderEmit.xLgr }}</td>
+                                        <td>{{ nota.emitente.enderEmit.nro }}</td>
+                                        <td>{{ nota.emitente.enderEmit.xBairro }}</td>
+                                        <td>{{ nota.emitente.enderEmit.xMun }}</td>
+                                        <td>{{ nota.emitente.enderEmit.UF }}</td>
+                                        <td>{{ nota.emitente.enderEmit.xPais }}</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="col-md-12 padding-top-10 padding-botton-10 form-group">
+                                <h5>Destinatário</h5>
+                                <hr />
+                                <table class="table table-bordered">
+                                    <thead>
+                                    <tr>
+                                        <th>CNPJ</th>
+                                        <th>Nome</th>
+                                        <th>CEP</th>
+                                        <th>Logradouro</th>
+                                        <th>Nº</th>
+                                        <th>Bairro</th>
+                                        <th>Cidade</th>
+                                        <th>Estado</th>
+                                        <th>País</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td>{{ nota.destinatario.CNPJ }}</td>
+                                        <td>{{ nota.destinatario.xNome }}</td>
+                                        <td>{{ nota.destinatario.enderDest.CEP }}</td>
+                                        <td>{{ nota.destinatario.enderDest.xLgr }}</td>
+                                        <td>{{ nota.destinatario.enderDest.nro }}</td>
+                                        <td>{{ nota.destinatario.enderDest.xBairro }}</td>
+                                        <td>{{ nota.destinatario.enderDest.xMun }}</td>
+                                        <td>{{ nota.destinatario.enderDest.UF }}</td>
+                                        <td>{{ nota.destinatario.enderDest.xPais }}</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="col-md-12 padding-top-10 padding-botton-10 form-group">
+                                <h5>Produtos</h5>
+                                <hr />
+                                <div style="height: 300px; overflow: auto;">
+                                    <table class="table table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th>Código</th>
+                                                <th>Produto</th>
+                                                <th>Código de Barra</th>
+                                                <th>NCM</th>
+                                                <th>CFOP</th>
+                                                <th>Quantidade</th>
+                                                <th>Valor Unitário</th>
+                                                <th>Valor Total</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="produto in nota.produtos">
+                                                <td>{{ produto.cProd }}</td>
+                                                <td>{{ produto.xProd }}</td>
+                                                <td>{{ produto.cEAN }}</td>
+                                                <td>{{ produto.NCM }}</td>
+                                                <td>{{ produto.CFOP }}</td>
+                                                <td>{{ produto.qCom }}</td>
+                                                <td>{{ produto.vUnCom | currency }}</td>
+                                                <td>{{ produto.vProd | currency }}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="col-md-12 padding-top-10 padding-botton-10 form-group">
+                                <h5>Totais</h5>
+                                <hr />
+                                <table class="table table-bordered">
+                                    <thead>
+                                    <tr>
+                                        <th>Frete</th>
+                                        <th>Desconto</th>
+                                        <th>Total dos Tributos</th>
+                                        <th>Total Bruto</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td>{{ nota.total.vFrete | currency }}</td>
+                                        <td>{{ nota.total.vDesc | currency }}</td>
+                                        <td>{{ nota.total.vTotTrib | currency }}</td>
+                                        <td>{{ nota.total.vNF | currency }}</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="col-md-12 padding-top-10 padding-botton-10 form-group">
+                                <h5>Transporte</h5>
+                                <hr />
+                                <table class="table table-bordered">
+                                    <thead>
+                                    <tr>
+                                        <th>CNPJ</th>
+                                        <th>Nome da Transportadora</th>
+                                        <th>Endereço</th>
+                                        <th>Cidade</th>
+                                        <th>Estado</th>
+                                        <th>Peso Líquido</th>
+                                        <th>Peso Bruto</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td>{{ nota.transporte.CNPJ }}</td>
+                                        <td>{{ nota.transporte.xNome }}</td>
+                                        <td>{{ nota.transporte.xEnder }}</td>
+                                        <td>{{ nota.transporte.xMun }}</td>
+                                        <td>{{ nota.transporte.UF }}</td>
+                                        <td>{{ nota.volume.pesoL }}</td>
+                                        <td>{{ nota.volume.pesoB }}</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </article>
+        </div>
+
+    </section>
+    <?=$this->partial('partial/etiqueta-default',array('code' => 'zebra','foto' => $foto));?>
+</div>
+<script>
+    angular.module('interface', [])
+    .controller('Controller', ['$scope','$http','$timeout', function($scope,$http,$timeout) {
+        $scope.send_btn = true;
+        $scope.send_btn_disable = false;
+        $scope.codeetiqueta = null;
+
+        $scope.modelos = [
+            {
+                "name"  :   "Zebra",
+                "code"  :   "zebra",
+                "width" :   100, //mm
+                "height":   50
+            }
+        ];
+
+        $scope.nota = {
+            "geral"         :  {},
+            "emitente"      :  {},
+            "destinatario"  :  {},
+            "produtos"      :  {},
+            "total"         :  {},
+            "transporte"    :  {}
+        };
+
+        $scope.send = function() {
+            $scope.aportar_btn = false;
+            $scope.aportar_btn_disable = true;
+
+            var f = document.getElementById('file').files[0],r = new FileReader();
+
+            r.onloadend = function(e) {
+                var data = e.target.result;
+                var ext = f.name.substring(f.name.indexOf(".")+1);
+
+                var formData = new FormData(document.getElementById("fpg_aporte_form"));
+                formData.append('file', data);
+                $.ajax({
+                    url: '/admin/send-etiqueta-nfe',
+                    type: 'POST',
+                    data:  formData,
+                    mimeType:"multipart/form-data",
+                    contentType: false,
+                    cache: false,
+                    processData:false,
+                    success: function(result, textStatus, jqXHR)
+                    {
+                        var obj = JSON.parse(result);
+                        console.log(obj.volume);
+                        $timeout(function(){
+                            $scope.nota = {
+                                "geral"         :   obj.geral,
+                                "emitente"      :   obj.emitente,
+                                "destinatario"  :   obj.destinatario,
+                                "produtos"      :   obj.produtos,
+                                "total"         :   obj.total,
+                                "transporte"    :   obj.transporte,
+                                "volume"        :   obj.volume
+                            };
+
+                            JsBarcode('#codBarras', $scope.nota.geral.attributes.chave_acesso.replace('NFe',''));
+                            JsBarcode('#codBarrasDest', $scope.nota.destinatario.CNPJ);
+                        },500);
+                    },
+                    error: function (result) {
+                        $.smallBox({
+                            title : "Ocorreu um erro!",
+                            content : "<i class='fa fa-clock-o'></i> <i>Aconteceu algum erro! </i>",
+                            color : "#C46A69",
+                            iconSmall : "fa fa-times fa-2x fadeInRight animated",
+                            timeout : 10000
+                        });
+
+                        $scope.aportar_btn = true;
+                        $scope.aportar_btn_disable = false;
+                    }
+                });
+            };
+
+            r.readAsBinaryString(f);
+
+            return false;
+        };
+
+        $scope.printAction = function () {
+            var conteudo = document.getElementById('etiqueta_content').innerHTML,
+                tela_impressao = window.open('about:blank');
+
+            tela_impressao.document.write(conteudo);
+            tela_impressao.window.print();
+            tela_impressao.window.close();
+        }
+
+    }]);
+</script>

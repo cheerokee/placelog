@@ -19,189 +19,205 @@ $form->setAttribute('action', $this->url($this->route, array(
 
 ?>
 <script src="/js/admin/angular.min.js"></script>
-
-<div ng-app="config-interface" ng-controller="ConfigController as conf" class="container-fluid">
+<div id="ribbon">
+    <span class="ribbon-button-alignment">
+        <span id="refresh" class="btn btn-ribbon" data-action="resetWidgets" data-title="refresh"  rel="tooltip" data-placement="bottom" data-original-title="<i class='text-warning fa fa-warning'></i> Warning! This will reset all your widget settings." data-html="true">
+            <i class="fa fa-refresh"></i>
+        </span>
+    </span>
+    <ol class="breadcrumb">
+        <li>
+            <a href="<?=$this->url('home')?>">
+                Home
+            </a>
+        </li>
+        <li>
+            Configuração de Integrações
+        </li>
+    </ol>
+</div>
+<div id="content" ng-app="config-interface" ng-controller="ConfigController as conf">
     <div class="row">
-        <div class="col-md-12">
-            <div class="card">
-                <div class="header">
-                    <h4 class="title">
-                        <?=$title?>  - <small>Gerencie as configurações da integração</small>
-                    </h4>
-                    <br />
-                </div>
-            </div>
+        <div class="col-xs-12 col-sm-7 col-md-7 col-lg-4">
+            <h1 class="page-title txt-color-blueDark"><i class="fa-fw fa fa-home"></i> <?=$title?>  - <span>Gerencie as configurações da integração</span></h1>
         </div>
-        <div class="col-md-12">
-            <div class="card">
-                <div class="header">
-                    <h4 class="title">
-                        Criar / Editar - <small>Formulário de criação e edição de configurações de acesso a APIs / Web Services das Integrações </small>
-                    </h4>
-                </div>
-                <div class="content">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <?=$this->form()->openTag($form);?>
-                            <div>
-                                <input type="hidden" ng-model="id" value="{{id}}" >
-                                <?php
-                                $hidden = array(
-                                    'hidden' => 1,
-                                    'submit' => 1
-                                );
+    </div>
+    <section id="widget-grid" class="">
+        <div class="row">
+            <article class="col-sm-12">
+                <div class="jarviswidget" id="wid-id-0"
+                     data-widget-togglebutton="false"
+                     data-widget-editbutton="false"
+                     data-widget-fullscreenbutton="false"
+                     data-widget-colorbutton="false"
+                     data-widget-deletebutton="false">
+                    <header>
+                        <span class="widget-icon"> <i class="glyphicon glyphicon-stats txt-color-darken"></i> </span>
+                        <h2>Criar / Editar - Formulário de criação e edição de configurações de acesso a APIs / Web Services das Integrações</h2>
+                    </header>
+                    <div class="no-padding">
+                        <div class="widget-body">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <?=$this->form()->openTag($form);?>
+                                    <div>
+                                        <input type="hidden" ng-model="id" value="{{id}}" >
+                                        <?php
+                                        $hidden = array(
+                                            'hidden' => 1,
+                                            'submit' => 1
+                                        );
 
-                                foreach ($form as $element) {
-                                    $element->setAttribute('form',$form->getName());
-                                    $type = $element->getAttributes()['type'];
+                                        foreach ($form as $element) {
+                                            $element->setAttribute('form',$form->getName());
+                                            $type = $element->getAttributes()['type'];
 
-                                    switch ($type){
-                                        case ($element instanceof \Zend\Form\Element\Textarea):
-                                            $column = "col-md-12";
-                                            break;
-                                        case "radio":
-                                            $column = "col-md-12";
-                                            break;
-                                        default:
-                                            $column = "col-md-4";
-                                    }
-
-                                    $column .= ' field';
-                                    $id = 'input'.$element->getName();
-                                    $style = ($hidden[$type])?'display:none':'display:block';
-                                    ?>
-                                    <div id="<?=$id?>" style="<?=$style?>" class="<?=$column?>">
-                                        <div class="form-group" ng-class="{'has-error': error_<?=$element->getName()?> == true}" >
-                                            <?php
-                                            if ($element->getLabel() != null) {
-                                                echo "<label for='Input" . $element->getName() . "'>" . $element->getLabel() . "</label>";
-                                            }
-
-                                            $element->setAttribute("id", "Input" . $element->getName())->setAttribute("type", $type);
-                                            $element->setAttribute("value","");
-
-                                            switch($type){
-                                                case 'select':
-                                                    ?>
-                                                    <select ng-model="<?=$element->getName()?>" ng-value="<?=$element->getName()?>" class="form-control" name="<?=$element->getName()?>">
-                                                        <?php
-                                                        if(!empty($element->getValueOptions()))
-                                                        {
-                                                            foreach($element->getValueOptions() as $k => $option)
-                                                            {
-
-                                                                $vl = '';
-                                                                if(is_array($option))
-                                                                {
-                                                                    $vl = $option['label'];
-                                                                    $index = $option['value']*1;
-                                                                }else{
-                                                                    $vl = $option;
-                                                                    $index = $k;
-                                                                }
-                                                                echo '<option value="'.$index.'">'.$vl.'</option>';
-                                                            }
-                                                        }
-                                                        ?>
-                                                    </select>
-                                                    <?php
+                                            switch ($type){
+                                                case ($element instanceof \Zend\Form\Element\Textarea):
+                                                    $column = "col-md-12";
                                                     break;
-                                                case 'textarea':
-                                                    ?>
-                                                    <textarea ng-model="<?=$element->getName()?>" name="<?=$element->getName()?>" ng-required="{ string }" required class="form-control">
-                                                        <?='{{'.$element->getName().'}}'?>
-                                                    </textarea>
-                                                    <?php
+                                                case "radio":
+                                                    $column = "col-md-12";
                                                     break;
                                                 default:
-                                                    ?>
-                                                    <input type="<?=$type?>" ng-model="<?=$element->getName()?>" class="form-control" ng-required="{ string }" required name="<?=$element->getName()?>" value="<?='{{'.$element->getName().'}}'?>">
-                                                <?php
+                                                    $column = "col-md-4";
                                             }
+
+                                            $column .= ' field';
+                                            $id = 'input'.$element->getName();
+                                            $style = ($hidden[$type])?'display:none':'display:block';
                                             ?>
-                                            <div ng-show="error_<?=$element->getName();?>" class="invalid-feedback form-base text-danger">
-                                                Valor do campo inválido!
+                                            <div id="<?=$id?>" style="<?=$style?>" class="<?=$column?>">
+                                                <div class="form-group" ng-class="{'has-error': error_<?=$element->getName()?> == true}" >
+                                                    <?php
+                                                    if ($element->getLabel() != null) {
+                                                        echo "<label for='Input" . $element->getName() . "'>" . $element->getLabel() . "</label>";
+                                                    }
+
+                                                    $element->setAttribute("id", "Input" . $element->getName())->setAttribute("type", $type);
+                                                    $element->setAttribute("value","");
+
+                                                    switch($type){
+                                                        case 'select':
+                                                            ?>
+                                                            <select ng-model="<?=$element->getName()?>" ng-value="<?=$element->getName()?>" class="form-control" name="<?=$element->getName()?>">
+                                                                <?php
+                                                                if(!empty($element->getValueOptions()))
+                                                                {
+                                                                    foreach($element->getValueOptions() as $k => $option)
+                                                                    {
+
+                                                                        $vl = '';
+                                                                        if(is_array($option))
+                                                                        {
+                                                                            $vl = $option['label'];
+                                                                            $index = $option['value']*1;
+                                                                        }else{
+                                                                            $vl = $option;
+                                                                            $index = $k;
+                                                                        }
+                                                                        echo '<option value="'.$index.'">'.$vl.'</option>';
+                                                                    }
+                                                                }
+                                                                ?>
+                                                            </select>
+                                                            <?php
+                                                            break;
+                                                        case 'textarea':
+                                                            ?>
+                                                            <textarea ng-model="<?=$element->getName()?>" name="<?=$element->getName()?>" ng-required="{ string }" required class="form-control">
+                                                        <?='{{'.$element->getName().'}}'?>
+                                                    </textarea>
+                                                            <?php
+                                                            break;
+                                                        default:
+                                                            ?>
+                                                            <input type="<?=$type?>" ng-model="<?=$element->getName()?>" class="form-control" ng-required="{ string }" required name="<?=$element->getName()?>" value="<?='{{'.$element->getName().'}}'?>">
+                                                        <?php
+                                                    }
+                                                    ?>
+                                                    <div ng-show="error_<?=$element->getName();?>" class="invalid-feedback form-base text-danger">
+                                                        Valor do campo inválido!
+                                                    </div>
+                                                </div>
                                             </div>
-                                        </div>
-                                    </div>
-                                    <?php
-                                }
-                                ?>
-                                <hr />
-                            </div>
-                            <div class="col-md-12">
-                                <button type="button" ng-if="btnadd" ng-click="add($event)" class="btn btn-success pull-right">
-                                    Adicionar
-                                </button>
-                                <button type="button" ng-if="btnedit" ng-click="save(id)" class="btn btn-primary pull-right">
-                                    Atualizar
-                                </button>
-                                <button ng-click="clear()" form="<?=$form->getName()?>" type="reset" class="btn btn-danger pull-right">
-                                    Cancelar
-                                </button>
-                            </div>
-                            <?=$this->form()->closeTag($form);?>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-12">
-            <div class="card">
-                <div class="header">
-                    <div class="row">
-                        <div class="col-md-8">
-                            <h4 class="title">
-                                Configurações - <small>Listagem de Registros</small>
-                            </h4>
-                        </div>
-                        <div class="col-md-4">
-                            <div style="float: right; margin-right: 10px;" class="btn-group">
-                                <button ng-click="clear()" type="button" class="btn btn-success">
-                                    <i class="fa fa-plus"></i> Novo
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="content">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <table class="table table-hover">
-                                <thead>
-                                <tr>
-                                    <?php
-                                    $continue_fields = array(
-                                        'submit'
-                                    );
-
-                                    $continue_fields_name = array(
-                                        'end_point',
-                                        'environment',
-                                        'token',
-                                        'active'
-                                    );
-
-                                    foreach ($form as $element)
-                                    {
-                                        if(in_array($element->getAttribute('type'),$continue_fields))
-                                        {
-                                            continue;
-                                        }
-
-                                        if(in_array($element->getName(),$continue_fields_name))
-                                        {
-                                            continue;
+                                            <?php
                                         }
                                         ?>
-                                        <th><?=$element->getLabel()?></th>
+                                        <hr />
+                                    </div>
+                                    <div class="col-md-12">
+                                        <button type="button" ng-if="btnadd" ng-click="add($event)" class="btn btn-success pull-right">
+                                            Adicionar
+                                        </button>
+                                        <button type="button" ng-if="btnedit" ng-click="save(id)" class="btn btn-primary pull-right">
+                                            Atualizar
+                                        </button>
+                                        <button ng-click="clear()" form="<?=$form->getName()?>" type="reset" class="btn btn-danger pull-right">
+                                            Cancelar
+                                        </button>
+                                    </div>
+                                    <?=$this->form()->closeTag($form);?>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </article>
+        </div>
+    </section>
+    <section id="widget-grid" class="">
+        <div class="row">
+            <article class="col-sm-12">
+                <div class="jarviswidget" id="wid-id-1"
+                     data-widget-togglebutton="false"
+                     data-widget-editbutton="false"
+                     data-widget-fullscreenbutton="false"
+                     data-widget-colorbutton="false"
+                     data-widget-deletebutton="false">
+                    <header>
+                        <span class="widget-icon"> <i class="glyphicon glyphicon-stats txt-color-darken"></i> </span>
+                        <h2>Configurações - Listagem de Registros</h2>
+                    </header>
+                    <div class="no-padding">
+                        <div class="widget-body">
+
+                            <div class="col-md-12">
+                                <table class="table table-hover">
+                                    <thead>
+                                    <tr>
                                         <?php
-                                    }
-                                    ?>
-                                    <th>Ação</th>
-                                </tr>
-                                </thead>
-                                <tbody>
+                                        $continue_fields = array(
+                                            'submit'
+                                        );
+
+                                        $continue_fields_name = array(
+                                            'end_point',
+                                            'environment',
+                                            'token',
+                                            'active'
+                                        );
+
+                                        foreach ($form as $element)
+                                        {
+                                            if(in_array($element->getAttribute('type'),$continue_fields))
+                                            {
+                                                continue;
+                                            }
+
+                                            if(in_array($element->getName(),$continue_fields_name))
+                                            {
+                                                continue;
+                                            }
+                                            ?>
+                                            <th><?=$element->getLabel()?></th>
+                                            <?php
+                                        }
+                                        ?>
+                                        <th>Ação</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
                                     <tr ng-repeat="config in configs">
                                         <?php
 
@@ -241,22 +257,25 @@ $form->setAttribute('action', $this->url($this->route, array(
                                         ?>
                                         <td>
                                             <button type="button" class="btn btn-primary" ng-click="edit(config.id)">
-                                                <i class="pe-7s-edit" title="Editar"></i>
+                                                <i class="fa fa-edit" title="Editar"></i>
                                             </button>
                                             <button type="button" class="btn btn-danger" ng-click="del(config.id)">
-                                                <i class="pe-7s-close-circle" title="Excluir"></i>
+                                                <i class="fa fa-close" title="Excluir"></i>
                                             </button>
                                         </td>
                                     </tr>
-                                </tbody>
-                            </table>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            </article>
         </div>
-    </div>
+    </section>
 </div>
+
+
 <script>
     angular.module('config-interface', [])
         .controller('ConfigController', ['$scope','$http', function($scope,$http) {
