@@ -25,6 +25,17 @@ return array(
                     )
                 )
             ),
+            'painel-consulta-nfe' => array(
+                'type' => 'Literal',
+                'options' => array(
+                    'route' => '/admin/painel-consulta-nfe',
+                    'defaults' => array(
+                        '__NAMESPACE__' => 'Admin\Controller',
+                        'controller' => 'Index',
+                        'action' => 'painel-consulta-nfe'
+                    )
+                )
+            ),
             'send-etiqueta-nfe' => array(
                 'type' => 'Literal',
                 'options' => array(
@@ -130,6 +141,17 @@ return array(
                     )
                 )
             ),
+            'print-etiqueta' => array(
+                'type' => 'Literal',
+                'options' => array(
+                    'route' => '/print-etiqueta',
+                    'defaults' => array(
+                        '__NAMESPACE__' => 'Admin\Controller',
+                        'controller' => 'Index',
+                        'action' => 'print-etiqueta'
+                    )
+                )
+            ),
         ),
     ),
     'controllers' => array(
@@ -149,6 +171,8 @@ return array(
             'layout/layout' => __DIR__ . '/../view/layout/admin.phtml',
             'error/404' => __DIR__ . '/../view/error/404.phtml',
             'error/index' => __DIR__ . '/../view/error/index.phtml',
+            'painel-etiqueta-nfe' => __DIR__ . '/../view/admin/index/painel-etiqueta-nfe.phtml',
+            'login-modal' => __DIR__ . '/../view/partials/login-modal.phtml',
         ),
         'template_path_stack' => array(
             __DIR__ . '/../view',

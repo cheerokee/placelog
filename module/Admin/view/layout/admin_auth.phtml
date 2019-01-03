@@ -23,8 +23,8 @@ echo $this->doctype(); ?>
         $foto = ($person->getImage() != '' && file_exists('public/img/person/' . $person->getImage())) ? '/img/person/' . $person->getImage() : '/img/person/sem_imagem.jpg';
     }
 
-    if ($this->getConfiguration('LOGO_VERDE')) {
-        $logo = ($this->getConfiguration('LOGO_VERDE') != '' && file_exists('public'.$this->getConfiguration('LOGO_VERDE'))) ? $this->getConfiguration('LOGO_VERDE') : '/img/admin/logo.png';
+    if ($this->getConfiguration('LOGO')) {
+        $logo = ($this->getConfiguration('LOGO') != '' && file_exists('public'.$this->getConfiguration('LOGO'))) ? $this->getConfiguration('LOGO') : '/img/admin/logo.png';
     }
 
     ?>
@@ -44,12 +44,14 @@ echo $this->doctype(); ?>
 <header id="header">
     <div id="logo-group">
         <span align="center" id="logo">
-            <img  src="<?=$logo?>" alt="SmartAdmin">
+            <a href="<?=$this->url('person-auth');?>">
+                <img  src="<?=$logo?>" alt="SmartAdmin">
+            </a>
         </span>
     </div>
     <span id="extr-page-header-space">
         <?php
-        if($_SERVER['REDIRECT_URL'] == '/auth'){
+        if($_SERVER['REDIRECT_URL'] != '/register'){
             ?>
             <span class="hidden-mobile hiddex-xs">
                 Ainda não tem conta?
@@ -73,11 +75,12 @@ echo $this->doctype(); ?>
         ?>
 
     </span>
+    <script src="/js/admin/jquery.min.js"></script>
 </header>
 <div id="main" role="main">
     <?=$this->content;?>
 </div>
-<div class="page-footer fixed-footer">
+<div class="page-footer ">
     <div class="row">
         <div class="col-xs-12 col-sm-6">
             <span class="txt-color-white">Inovens TI. <span class="hidden-xs"> - Fábrica de Software</span> © 2018-<?=date('Y')?></span>
@@ -87,7 +90,7 @@ echo $this->doctype(); ?>
 </body>
 
 <script data-pace-options='{ "restartOnRequestAfter": true }' src="/js/admin/plugin/pace/pace.min.js"></script>
-<script src="/js/admin/jquery.min.js"></script>
+
 <script>
     if (!window.jQuery) {
         document.write('<script src="/js/admin/libs/jquery-3.2.1.min.js"><\/script>');
@@ -111,6 +114,8 @@ echo $this->doctype(); ?>
 <script src="js/admin/app.min.js"></script>
 <script src="/js/admin/bootbox.js"></script>
 <script src="/js/admin/geral.js"></script>
+<script src="/js/admin/JsBarcode.all.min.js"></script>
+<script src="/js/admin/notification/SmartNotification.min.js"></script>
 <script>
     runAllForms();
 

@@ -54,9 +54,19 @@ class AuthController extends AbstractActionController
 
                     $sessionStorage->write($person,null);
 
+                    if(isset($data['redirect']) && $data['redirect'] != '')
+                    {
+                        $_SESSION['login_success'] = true;
+                        header('Location: '.$data['redirect']);
+                        die;
+                    }
+
                     return $this->redirect()->toRoute('admin',array('controller'=>'admin'));
                 }else{
                     $error = true;
+                    $_SESSION['login_success'] = false;
+                    header('Location: '.$data['redirect']);
+                    die;
                 }
             }
         }

@@ -8,3 +8,19 @@
 #smart-styles {
     display: none;
 }
+
+#extr-page #header #logo{
+    margin-top: 5px;
+}
+
+#logo{
+    margin-top: 5px;
+}
+
+.modal-dialog{
+    top: 50px;
+}
+
+.tool-text-description{
+    min-height: 37px;
+}

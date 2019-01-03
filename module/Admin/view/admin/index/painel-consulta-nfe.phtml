@@ -1,0 +1,111 @@
+<?php
+/**
+ * @var \Register\Entity\Person $db_person
+ */
+$person = $this->personIdentity('Person');
+if ($person instanceof \Register\Entity\Person) {
+    $foto = ($person->getImage() != '' && file_exists('public/img/person/' . $person->getImage())) ? '/img/person/' . $person->getImage() : '/img/person/sem_imagem.jpg';
+}
+
+if($this->breadcrumb !== false) {
+    ?>
+    <div id="ribbon">
+    <span class="ribbon-button-alignment">
+        <span id="refresh" class="btn btn-ribbon" data-action="resetWidgets" data-title="refresh" rel="tooltip"
+              data-placement="bottom"
+              data-original-title="<i class='text-warning fa fa-warning'></i> Warning! This will reset all your widget settings."
+              data-html="true">
+            <i class="fa fa-refresh"></i>
+        </span>
+    </span>
+        <ol class="breadcrumb">
+            <li>
+                <a href="<?= $this->url('admin'); ?>">
+                    Home
+                </a>
+            </li>
+            <li>Painel de Consulta Nota Fiscal</li>
+        </ol>
+    </div>
+    <?php
+}
+?>
+<script src="/js/admin/angular.min.js"></script>
+<div id="content" ng-app="interface" ng-controller="Controller as conf">
+    <div class="row">
+        <div class="col-xs-12">
+            <?php
+            if($this->free === true) {
+                ?>
+                <h1 class="page-title txt-color-blueDark">
+                    <?=$this->getText('CONSULTA_NFE')->getTitle();?>
+                </h1>
+                <?php
+            }else{
+                ?>
+                <h1 class="page-title txt-color-blueDark">
+                    <i class="fa-fw fa fa-home"></i> Dashboard
+                    <span>> Painel de Consulta Nota Fiscal</span>
+                </h1>
+                <?php
+            }
+            ?>
+        </div>
+        <?php
+        if($this->free === true) {
+            ?>
+            <div class="col-xs-12">
+                <p class="text-justify">
+                    <?=strip_tags($this->getText('CONSULTA_NFE')->getText());?>
+                </p>
+                <hr />
+            </div>
+            <?php
+        }
+        ?>
+    </div>
+
+    <?php
+    $url = 'https://www.fsist.com.br/#baixarcaptcha';
+    $dom = \Sunra\PhpSimple\HtmlDomParser::file_get_html($url);
+
+    foreach ($dom->find('#imgcaptcha') as $element) {
+
+        echo $element->parentNode()->innerText();
+    }
+
+    ?>
+    <section id="widget-grid" class="">
+        <div class="row">
+            <article class="col-sm-12">
+                <form id="fpg_aporte_form" ng-submit="send()" method="POST" enctype="multipart/form-data">
+                    <div class="jarviswidget" id="wid-id-0"
+                         data-widget-togglebutton="false"
+                         data-widget-editbutton="false"
+                         data-widget-fullscreenbutton="false"
+                         data-widget-colorbutton="false"
+                         data-widget-deletebutton="false">
+                        <header>
+                            <span class="widget-icon"> <i class="fa fa-search txt-color-darken"></i> </span>
+                            <h2>Faça a consulta da nota fiscal, por código de barra ou por chave de acesso</h2>
+                        </header>
+                        <div class="no-padding">
+                            <div class="widget-body">
+                                <iframe style="width: 100%; height: 300px;" scrolling="no" src="https://www.fsist.com.br/#ContentPlaceHolder1_PanNacional">
+
+                                </iframe>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </article>
+        </div>
+    </section>
+</div>
+<script>
+    angular.module('interface', [])
+    .controller('Controller', ['$scope','$http','$timeout', function($scope,$http,$timeout) {
+
+
+    }]);
+</script>

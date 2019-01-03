@@ -6,31 +6,63 @@ $person = $this->personIdentity('Person');
 if ($person instanceof \Register\Entity\Person) {
     $foto = ($person->getImage() != '' && file_exists('public/img/person/' . $person->getImage())) ? '/img/person/' . $person->getImage() : '/img/person/sem_imagem.jpg';
 }
-?>
-<div id="ribbon">
+
+if($this->breadcrumb !== false) {
+    ?>
+    <div id="ribbon">
     <span class="ribbon-button-alignment">
-        <span id="refresh" class="btn btn-ribbon" data-action="resetWidgets" data-title="refresh"  rel="tooltip" data-placement="bottom" data-original-title="<i class='text-warning fa fa-warning'></i> Warning! This will reset all your widget settings." data-html="true">
+        <span id="refresh" class="btn btn-ribbon" data-action="resetWidgets" data-title="refresh" rel="tooltip"
+              data-placement="bottom"
+              data-original-title="<i class='text-warning fa fa-warning'></i> Warning! This will reset all your widget settings."
+              data-html="true">
             <i class="fa fa-refresh"></i>
         </span>
     </span>
-    <ol class="breadcrumb">
-        <li>
-            <a href="<?=$this->url('admin');?>">
-                Home
-            </a>
-        </li>
-        <li>Painel de Etiqueta Nota Fiscal</li>
-    </ol>
-</div>
+        <ol class="breadcrumb">
+            <li>
+                <a href="<?= $this->url('admin'); ?>">
+                    Home
+                </a>
+            </li>
+            <li>Painel de Etiqueta Nota Fiscal</li>
+        </ol>
+    </div>
+    <?php
+}
+?>
 <script src="/js/admin/angular.min.js"></script>
 <div id="content" ng-app="interface" ng-controller="Controller as conf">
     <div class="row">
-        <div class="col-xs-12 col-sm-7 col-md-7 col-lg-4">
-            <h1 class="page-title txt-color-blueDark">
-                <i class="fa-fw fa fa-home"></i> Dashboard
-                <span>> Painel de Etiqueta Nota Fiscal</span>
-            </h1>
+        <div class="col-xs-12">
+            <?php
+            if($this->free === true) {
+                ?>
+                <h1 class="page-title txt-color-blueDark">
+                    <?=$this->getText('ETIQUETA_NFE')->getTitle();?>
+                </h1>
+                <?php
+            }else{
+                ?>
+                <h1 class="page-title txt-color-blueDark">
+                    <i class="fa-fw fa fa-home"></i> Dashboard
+                    <span>> Painel de Etiqueta Nota Fiscal</span>
+                </h1>
+                <?php
+            }
+            ?>
         </div>
+        <?php
+        if($this->free === true) {
+            ?>
+            <div class="col-xs-12">
+                <p class="text-justify">
+                    <?=strip_tags($this->getText('ETIQUETA_NFE')->getText());?>
+                </p>
+                <hr />
+            </div>
+            <?php
+        }
+        ?>
     </div>
     <section id="widget-grid" class="">
         <div class="row">
@@ -48,7 +80,7 @@ if ($person instanceof \Register\Entity\Person) {
                         </header>
                         <div class="no-padding">
                             <div class="widget-body">
-                                <div class="col-md-4 padding-top-10 padding-botton-10 form-group">
+                                <div class="col-md-3 padding-top-10 padding-botton-10 form-group">
                                     <label>Modelo</label>
                                     <select class="form-control" name="model" ng-model="codeetiqueta" required>
                                         <option value="">Selecione...</option>
@@ -57,21 +89,48 @@ if ($person instanceof \Register\Entity\Person) {
                                         </option>
                                     </select>
                                 </div>
-                                <div class="col-md-5 padding-top-10 padding-botton-10 form-group">
-                                    <label>Arquivo XML</label>
-                                    <input type="file" class="form-control" name="file" id="file" required/>
-                                </div>
                                 <div class="col-md-3 padding-top-10 padding-botton-10 form-group">
-                                    <label>&nbsp;</label>
-                                    <button ng-show="send_btn" form="fpg_aporte_form" type="submit" class="btn btn-success form-control" >
+                                    <label>Tipo de Envio</label>
+                                    <select class="form-control" name="model" ng-model="tipo_send" required>
+                                        <option ng-value="0" value="0">XML</option>
+<!--                                        <option ng-value="1" value="1">XLS (Planílha Excel)</option>-->
+                                    </select>
+                                </div>
+                                <div ng-if="codeetiqueta != '' && tipo_send == 0" class="col-md-6 padding-top-10 padding-botton-10 form-group">
+                                    <label>Arquivo XML</label>
+                                    <input type="file" class="form-control" name="file[]" id="file" accept=".xml" multiple required/>
+                                </div>
+                                <div ng-if="codeetiqueta != '' && tipo_send == 1" class="col-md-6 padding-top-10 padding-botton-10 form-group">
+                                    <label>Arquivo XLS (Planílha Excel)</label>
+                                    <input type="file" class="form-control" name="file2" id="file2" accept=".xls,.xlsx,xlsm" required/>
+                                </div>
+                                <div class="col-md-6 padding-top-10 padding-botton-10 form-group">
+                                    <button ng-if="codeetiqueta != ''" id="send_btn" ng-show="send_btn" form="fpg_aporte_form" type="submit" class="btn btn-success" >
                                         <i class="fa fa-arrow-circle-o-right"></i>&nbsp;Enviar
                                     </button>
-                                    <button ng-show="send_btn_disable" disabled type="submit" class="btn btn-success form-control" >
+                                    <button ng-show="send_btn_disable" disabled type="submit" class="btn btn-success" >
                                         <i class="fa fa-refresh fa-spin txt-color-blueDark"></i>
                                     </button>
-                                    <button ng-show="nota.geral.nNF" class="btn btn-primary form-control" data-toggle="modal" data-target="#{{ codeetiqueta }}">
-                                        <i class="fa fa-print"></i>&nbsp;Imprimir Etiqueta
-                                    </button>
+                                    <?php
+                                    if($person) {
+                                        ?>
+                                        <button type="button" ng-show="notas.length > 0" class="btn btn-primary"
+                                                data-toggle="modal" data-target="#{{ codeetiqueta }}">
+                                            <i class="fa fa-print"></i>&nbsp;Imprimir Etiqueta
+                                        </button>
+                                        <?php
+                                    }else{
+                                        ?>
+                                        <button type="button"
+                                                ng-show="notas.length > 0"
+                                                class="btn btn-primary"
+                                                data-toggle="modal"
+                                                data-target="#login-modal">
+                                            <i class="fa fa-print"></i>&nbsp;Imprimir Etiqueta
+                                        </button>
+                                        <?php
+                                    }
+                                    ?>
                                 </div>
                             </div>
                         </div>
@@ -268,16 +327,59 @@ if ($person instanceof \Register\Entity\Person) {
                 </div>
             </article>
         </div>
-
     </section>
     <?=$this->partial('partial/etiqueta-default',array('code' => 'zebra','foto' => $foto));?>
+    <?=$this->partial('login-modal');?>
 </div>
+<script>
+    $(document).ready(function () {
+        $("input[type=file]").change(function () {
+            $("#fpg_aporte_form").submit();
+        });
+
+        <?php
+        if(isset($_SESSION['login_success']) && $_SESSION['login_success'] === true)
+        {
+            ?>
+            setTimeout(function(){
+                $.smallBox({
+                    title : "Sucesso!",
+                    content : "<i class='fa fa-check'></i> <i>Você logou com sucesso!</i>",
+                    color : "#739E73",
+                    iconSmall : "fa fa-times fa-2x fadeInRight animated",
+                    timeout : 10000
+                });
+            },1000);
+            <?php
+            unset($_SESSION['login_success']);
+        }
+
+        if(isset($_SESSION['login_success']) && $_SESSION['login_success'] === false)
+        {
+            ?>
+            setTimeout(function(){
+                $.smallBox({
+                    title : "Ocorreu um erro!",
+                    content : "<i class='fa fa-clock-o'></i> <i>Erro ao tentar logar, por favor confira suas credenciais!</i>",
+                    color : "#C46A69",
+                    iconSmall : "fa fa-times fa-2x fadeInRight animated",
+                    timeout : 10000
+                });
+            },1000);
+            <?php
+            unset($_SESSION['login_success']);
+        }
+        ?>
+    });
+</script>
 <script>
     angular.module('interface', [])
     .controller('Controller', ['$scope','$http','$timeout', function($scope,$http,$timeout) {
         $scope.send_btn = true;
         $scope.send_btn_disable = false;
-        $scope.codeetiqueta = null;
+        $scope.codeetiqueta = '';
+        $scope.tipo_send = 0;
+        $scope.showEtiquetas = false;
 
         $scope.modelos = [
             {
@@ -288,81 +390,164 @@ if ($person instanceof \Register\Entity\Person) {
             }
         ];
 
-        $scope.nota = {
-            "geral"         :  {},
-            "emitente"      :  {},
-            "destinatario"  :  {},
-            "produtos"      :  {},
-            "total"         :  {},
-            "transporte"    :  {}
-        };
+        // $scope.nota = {
+        //     "geral"         :  {},
+        //     "emitente"      :  {},
+        //     "destinatario"  :  {},
+        //     "produtos"      :  {},
+        //     "total"         :  {},
+        //     "transporte"    :  {}
+        // };
+
+        $scope.notas = [];
 
         $scope.send = function() {
             $scope.aportar_btn = false;
             $scope.aportar_btn_disable = true;
 
-            var f = document.getElementById('file').files[0],r = new FileReader();
+            var formData = new FormData(document.getElementById("fpg_aporte_form"));
 
-            r.onloadend = function(e) {
-                var data = e.target.result;
-                var ext = f.name.substring(f.name.indexOf(".")+1);
+            $.ajax({
+                url: '/admin/send-etiqueta-nfe',
+                type: 'POST',
+                data:  formData,
+                mimeType:"multipart/form-data",
+                contentType: false,
+                cache: false,
+                processData:false,
+                success: function(result, textStatus, jqXHR)
+                {
+                    $timeout(function () {
+                        $scope.notas = JSON.parse(result);
 
-                var formData = new FormData(document.getElementById("fpg_aporte_form"));
-                formData.append('file', data);
-                $.ajax({
-                    url: '/admin/send-etiqueta-nfe',
-                    type: 'POST',
-                    data:  formData,
-                    mimeType:"multipart/form-data",
-                    contentType: false,
-                    cache: false,
-                    processData:false,
-                    success: function(result, textStatus, jqXHR)
-                    {
-                        var obj = JSON.parse(result);
-                        console.log(obj.volume);
-                        $timeout(function(){
-                            $scope.nota = {
-                                "geral"         :   obj.geral,
-                                "emitente"      :   obj.emitente,
-                                "destinatario"  :   obj.destinatario,
-                                "produtos"      :   obj.produtos,
-                                "total"         :   obj.total,
-                                "transporte"    :   obj.transporte,
-                                "volume"        :   obj.volume
-                            };
-
-                            JsBarcode('#codBarras', $scope.nota.geral.attributes.chave_acesso.replace('NFe',''));
-                            JsBarcode('#codBarrasDest', $scope.nota.destinatario.CNPJ);
-                        },500);
-                    },
-                    error: function (result) {
+                        $timeout(function () {
+                            for (i in $scope.notas){
+                                var nota = $scope.notas[i];
+                                var index = i;
+                                console.log(nota);
+                                JsBarcode('#codBarras' + index, nota.geral.attributes.chave_acesso.replace('NFe',''));
+                                JsBarcode('#codBarrasDest' + index, nota.destinatario.CNPJ);
+                            }
+                        },1000);
                         $.smallBox({
-                            title : "Ocorreu um erro!",
-                            content : "<i class='fa fa-clock-o'></i> <i>Aconteceu algum erro! </i>",
-                            color : "#C46A69",
+                            title : "Sucesso!",
+                            content : "<i class='fa fa-check'></i> <i>Notas fiscais prontas para serem impressas!</i>",
+                            color : "#739E73",
                             iconSmall : "fa fa-times fa-2x fadeInRight animated",
                             timeout : 10000
                         });
+                    },300);
 
-                        $scope.aportar_btn = true;
-                        $scope.aportar_btn_disable = false;
-                    }
-                });
-            };
+                    // for (index in objs){
+                    //     var obj = objs[index];
+                    //
+                    //     $timeout(function(){
+                    //         var nota = {
+                    //             "geral"         :   obj.geral,
+                    //             "emitente"      :   obj.emitente,
+                    //             "destinatario"  :   obj.destinatario,
+                    //             "produtos"      :   obj.produtos,
+                    //             "total"         :   obj.total,
+                    //             "transporte"    :   obj.transporte,
+                    //             "volume"        :   obj.volume
+                    //         };
+                    //
+                    //         $scope.notas.push(nota);
+                    //
+                    //
+                    //     },500);
+                    // }
+                },
+                error: function (result) {
+                    $.smallBox({
+                        title : "Ocorreu um erro!",
+                        content : "<i class='fa fa-clock-o'></i> <i>Aconteceu algum erro!</i>",
+                        color : "#C46A69",
+                        iconSmall : "fa fa-times fa-2x fadeInRight animated",
+                        timeout : 10000
+                    });
 
-            r.readAsBinaryString(f);
+                    $scope.aportar_btn = true;
+                    $scope.aportar_btn_disable = false;
+                }
+            });
 
-            return false;
+            // var f = document.getElementById('file').files[0],r = new FileReader();
+            //
+            // r.onloadend = function(e) {
+            //     var data = e.target.result;
+            //     var ext = f.name.substring(f.name.indexOf(".")+1);
+            //
+            //     var formData = new FormData(document.getElementById("fpg_aporte_form"));
+            //     formData.append('file', data);
+            //     $.ajax({
+            //         url: '/admin/send-etiqueta-nfe',
+            //         type: 'POST',
+            //         data:  formData,
+            //         mimeType:"multipart/form-data",
+            //         contentType: false,
+            //         cache: false,
+            //         processData:false,
+            //         success: function(result, textStatus, jqXHR)
+            //         {
+            //             var obj = JSON.parse(result);
+            //             console.log(obj.volume);
+            //             $timeout(function(){
+            //                 $scope.nota = {
+            //                     "geral"         :   obj.geral,
+            //                     "emitente"      :   obj.emitente,
+            //                     "destinatario"  :   obj.destinatario,
+            //                     "produtos"      :   obj.produtos,
+            //                     "total"         :   obj.total,
+            //                     "transporte"    :   obj.transporte,
+            //                     "volume"        :   obj.volume
+            //                 };
+            //
+            //                 JsBarcode('#codBarras', $scope.nota.geral.attributes.chave_acesso.replace('NFe',''));
+            //                 JsBarcode('#codBarrasDest', $scope.nota.destinatario.CNPJ);
+            //             },500);
+            //         },
+            //         error: function (result) {
+            //             $.smallBox({
+            //                 title : "Ocorreu um erro!",
+            //                 content : "<i class='fa fa-clock-o'></i> <i>Aconteceu algum erro! </i>",
+            //                 color : "#C46A69",
+            //                 iconSmall : "fa fa-times fa-2x fadeInRight animated",
+            //                 timeout : 10000
+            //             });
+            //
+            //             $scope.aportar_btn = true;
+            //             $scope.aportar_btn_disable = false;
+            //         }
+            //     });
+            // };
+            //
+            // r.readAsBinaryString(f);
+            //
+            // return false;
         };
 
         $scope.printAction = function () {
+            $("#table-notas").hide();
+            $(".etiquetas").show();
             var conteudo = document.getElementById('etiqueta_content').innerHTML,
                 tela_impressao = window.open('about:blank');
 
             tela_impressao.document.write(conteudo);
             tela_impressao.window.print();
             tela_impressao.window.close();
+            $(".etiquetas").hide();
+            $("#table-notas").show();
+        }
+
+        $scope.lookEtiqueta = function() {
+            if($scope.showEtiquetas == true){
+                $scope.showEtiquetas = false;
+                $(".etiquetas").hide();
+            }else{
+                $scope.showEtiquetas = true;
+                $(".etiquetas").show();
+            }
         }
 
     }]);

@@ -46,8 +46,8 @@ echo $this->doctype(); ?>
         $foto = ($person->getImage() != '' && file_exists('public/img/person/' . $person->getImage())) ? '/img/person/' . $person->getImage() : '/img/person/sem_imagem.jpg';
     }
 
-    if ($this->getConfiguration('LOGO_VERDE')) {
-        $logo = ($this->getConfiguration('LOGO_VERDE') != '' && file_exists('public'.$this->getConfiguration('LOGO_VERDE'))) ? $this->getConfiguration('LOGO_VERDE') : '/img/admin/logo.png';
+    if ($this->getConfiguration('LOGO')) {
+        $logo = ($this->getConfiguration('LOGO') != '' && file_exists('public'.$this->getConfiguration('LOGO'))) ? $this->getConfiguration('LOGO') : '/img/admin/logo.png';
     }
 
     ?>
