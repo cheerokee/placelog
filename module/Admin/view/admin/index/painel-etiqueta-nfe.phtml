@@ -3,7 +3,7 @@
  * @var \Register\Entity\Person $db_person
  */
 $person = $this->personIdentity('Person');
-if ($person instanceof \Register\Entity\Person) {
+if ($person) {
     $foto = ($person->getImage() != '' && file_exists('public/img/person/' . $person->getImage())) ? '/img/person/' . $person->getImage() : '/img/person/sem_imagem.jpg';
 }
 
@@ -64,6 +64,10 @@ if($this->breadcrumb !== false) {
         }
         ?>
     </div>
+    <?php
+    var_dump("TESTE");
+    die;
+    ?>
     <section id="widget-grid" class="">
         <div class="row">
             <article class="col-sm-12">
