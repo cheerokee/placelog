@@ -65,7 +65,7 @@ class AuthController extends AbstractActionController
                 }else{
                     $error = true;
                     $_SESSION['login_success'] = false;
-                    header('Location: '.$data['redirect']);
+                    header('Location: '.$data['redirect']. '?login=true');
                     die;
                 }
             }
@@ -145,6 +145,14 @@ class AuthController extends AbstractActionController
                         'id'=>$data['pesquisa'],
                         'activation-key' => $entity->getActivationKey()
                     ));
+                }else if(isset($data['redirect'])){
+                    $entity->setActive(1);
+                    $this->getEm()->persist($entity);
+                    $this->getEm()->flush();
+                    $msg = 'Parabéns você se cadastrou com sucesso, faça o login para acessar as ferramentas do sistema!';
+                    $this->flashmessenger()->addSuccessMessage($msg);
+                    header('Location: /'.$data['redirect'] . '?login=true');
+                    die;
                 }else{
                     $this->flashmessenger()->addSuccessMessage($msg);
                     return $this->redirect()->toRoute('person-auth',array('controller'=>'index'));
@@ -194,9 +202,21 @@ class AuthController extends AbstractActionController
                 $result = $personService->lostPassword($data);
                 if($result instanceof $person){
                     $this->flashmessenger()->addSuccessMessage('Sua senha foi recuperada com sucesso, por favor entre na sua caixa de entrada para obter sua nova senha!');
+
+
+                    if(isset($data['redirect']) && $data['redirect'] != '') {
+                        header('Location: /' . $data['redirect'] . '?login=true');
+                        die;
+                    }
+
                     return $this->redirect()->toRoute('person-auth',array('controller'=>'Auth'));
                 }else{
                     $this->flashmessenger()->addErrorMessage('Não foi possível recuperar sua senha, e-mail não encontrado!');
+
+                    if(isset($data['redirect']) && $data['redirect'] != '') {
+                        header('Location: /' . $data['redirect'] . '?login=true');
+                        die;
+                    }
                     return $this->redirect()->toRoute('lostpassword');
                 }
             }

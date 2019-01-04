@@ -24,14 +24,26 @@
                                     <input type="password" name="password" value="" class="form-control" required>
                                 </div>
                             </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <a style="text-decoration: underline;" href="<?=$this->url('lostpassword').'?redirect='.$this->redirect?>">
+                                        Esqueci minha senha!
+                                    </a>
+                                </div>
+                            </div>
                         </form>
                     </div>
                 </div>
             </div>
             <div class="modal-footer">
                 <div class="row">
-                    <div class="col-md-12">
-                        <button type="submit" form="form-etiqueta"  class="btn btn-primary pull-right" >
+                    <div class="col-md-6">
+                        <a href="<?=$this->url('person-register').'?redirect='.$this->redirect?>" class="btn btn-primary pull-left" >
+                            <i class="fa fa-plus"></i>&nbsp;Ainda não possuo cadastro!
+                        </a>
+                    </div>
+                    <div class="col-md-6">
+                        <button type="submit" form="form-etiqueta"  class="btn btn-success pull-right" >
                             <i class="fa fa-print"></i>&nbsp;Logar
                         </button>
                         <button type="button" class="btn btn-danger pull-right" data-dismiss="modal">
