@@ -330,6 +330,7 @@ if($this->breadcrumb !== false) {
         </div>
     </section>
     <?=$this->partial('partial/etiqueta-default',array('code' => 'a4','foto' => $foto));?>
+    <?=$this->partial('partial/etiqueta-14a4',array('code' => '14a4','foto' => $foto));?>
     <?=$this->partial('login-modal');?>
 </div>
 <script>
@@ -388,6 +389,12 @@ if($this->breadcrumb !== false) {
                 "code"  :   "a4",
                 "width" :   210, //mm
                 "height":   300
+            },
+            {
+                "name"  :   "1/4 de A4",
+                "code"  :   "14a4",
+                "width" :   105, //mm
+                "height":   150
             }
         ];
 
@@ -529,16 +536,16 @@ if($this->breadcrumb !== false) {
         };
 
         $scope.printAction = function () {
-            $("#table-notas").hide();
-            $(".etiquetas").show();
-            var conteudo = document.getElementById('etiqueta_content').innerHTML,
+            $("#table-notas" + $scope.codeetiqueta).hide();
+            $(".etiquetas").css('display','inline-block');
+            var conteudo = document.getElementById('etiqueta_content' + $scope.codeetiqueta).innerHTML,
                 tela_impressao = window.open('about:blank');
 
             tela_impressao.document.write(conteudo);
             tela_impressao.window.print();
             tela_impressao.window.close();
             $(".etiquetas").hide();
-            $("#table-notas").show();
+            $("#table-notas" + $scope.codeetiqueta).show();
         }
 
         $scope.lookEtiqueta = function() {

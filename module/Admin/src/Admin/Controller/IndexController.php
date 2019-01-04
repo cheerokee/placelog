@@ -43,14 +43,6 @@ class IndexController extends AbstractActionController{
         $em = $this->getEm();
         $request = $this->getRequest();
         if($request->isPost()) {
-            ini_set('max_execution_time', '3600');
-            ini_set('max_input_time', '3600');
-            ini_set('max_input_vars', '6000');
-            ini_set('memory_limit', '1024M');
-            ini_set('post_max_size', '512M');
-            ini_set('upload_max_filesize', '512M');
-            ini_set('max_file_uploads', '50');
-
             $data = $request->getPost()->toArray();
 
             $file = $_FILES['file'];
