@@ -56,7 +56,7 @@ $foto = $this->foto
                         </table>
                     </div>
                 </div>
-                <div style="page-break-after: always; display: block;" ng-repeat="(key, nota) in notas" class="row etiquetas">
+                <div style="page-break-after: always; display: none;" ng-repeat="(key, nota) in notas" class="row etiquetas">
                     <div style="border: 1px solid #000;padding: 10px;" class="col-md-12 well well-sm margin-bottom-0">
                         <div class="row">
                             <div class="col-md-12">
@@ -69,11 +69,18 @@ $foto = $this->foto
                             <div class="col-md-12">
                                 <table style="width: 100%">
                                     <tr>
-                                        <td>
-                                            <center>
-                                                <img style="max-height: 150px" class="img-responsive" src="<?=$foto?>">
-                                            </center>
-                                        </td>
+                                        <?php
+                                        if($foto) {
+                                            ?>
+                                            <td>
+                                                <center>
+                                                    <img style="max-height: 150px" class="img-responsive"
+                                                         src="<?= $foto ?>">
+                                                </center>
+                                            </td>
+                                            <?php
+                                        }
+                                        ?>
                                         <td>
                                             <center>
                                                 <img style="max-height: 150px" class="img-responsive" src="/img/admin/logo-smart-envios.png">

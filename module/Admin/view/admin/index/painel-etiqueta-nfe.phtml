@@ -329,7 +329,7 @@ if($this->breadcrumb !== false) {
             </article>
         </div>
     </section>
-    <?=$this->partial('partial/etiqueta-default',array('code' => 'zebra','foto' => $foto));?>
+    <?=$this->partial('partial/etiqueta-default',array('code' => 'a4','foto' => $foto));?>
     <?=$this->partial('login-modal');?>
 </div>
 <script>
@@ -384,10 +384,10 @@ if($this->breadcrumb !== false) {
 
         $scope.modelos = [
             {
-                "name"  :   "Zebra",
-                "code"  :   "zebra",
-                "width" :   100, //mm
-                "height":   50
+                "name"  :   "A4",
+                "code"  :   "a4",
+                "width" :   210, //mm
+                "height":   300
             }
         ];
 
