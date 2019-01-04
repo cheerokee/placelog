@@ -7,9 +7,6 @@ if ($person) {
     $foto = ($person->getImage() != '' && file_exists('public/img/person/' . $person->getImage())) ? '/img/person/' . $person->getImage() : '/img/person/sem_imagem.jpg';
 }
 
-var_dump("TESTE");
-die;
-
 if($this->breadcrumb !== false) {
     ?>
     <div id="ribbon">
@@ -32,6 +29,7 @@ if($this->breadcrumb !== false) {
     </div>
     <?php
 }
+
 ?>
 <script src="/js/admin/angular.min.js"></script>
 <div id="content" ng-app="interface" ng-controller="Controller as conf">
