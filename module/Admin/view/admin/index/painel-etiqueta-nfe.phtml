@@ -340,6 +340,9 @@ if($this->breadcrumb !== false) {
     </section>
     <?=$this->partial('partial/etiqueta-default',array('code' => 'a4','foto' => $foto));?>
     <?=$this->partial('partial/etiqueta-14a4',array('code' => '14a4','foto' => $foto));?>
+    <?=$this->partial('partial/etiqueta-15x10',array('code' => '15x10','foto' => $foto));?>
+    <?=$this->partial('partial/etiqueta-10x10',array('code' => '10x10','foto' => $foto));?>
+    <?=$this->partial('partial/etiqueta-5x10',array('code' => '5x10','foto' => $foto));?>
     <?=$this->partial('login-modal',array('redirect' => 'print-etiqueta'));?>
 </div>
 <script>
@@ -410,17 +413,26 @@ if($this->breadcrumb !== false) {
                 "code"  :   "14a4",
                 "width" :   105, //mm
                 "height":   150
-            }
+            },
+            {
+                "name"  :   "Paisagem",
+                "code"  :   "15x10",
+                "width" :   150, //mm
+                "height":   100
+            },
+            {
+                "name"  :   "Quadrado",
+                "code"  :   "10x10",
+                "width" :   100, //mm
+                "height":   100
+            },
+            {
+                "name"  :   "Retrato",
+                "code"  :   "5x10",
+                "width" :   50, //mm
+                "height":   100
+            },
         ];
-
-        // $scope.nota = {
-        //     "geral"         :  {},
-        //     "emitente"      :  {},
-        //     "destinatario"  :  {},
-        //     "produtos"      :  {},
-        //     "total"         :  {},
-        //     "transporte"    :  {}
-        // };
 
         $scope.notas = [];
 
@@ -447,7 +459,7 @@ if($this->breadcrumb !== false) {
                             for (i in $scope.notas){
                                 var nota = $scope.notas[i];
                                 var index = i;
-                                console.log(nota);
+                                console.log(nota.geral.attributes);
                                 JsBarcode('#codBarras' + index, nota.geral.attributes.chave_acesso.replace('NFe',''));
                                 JsBarcode('#codBarrasDest' + index, nota.destinatario.CNPJ);
                             }

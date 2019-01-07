@@ -88,14 +88,22 @@ class IndexController extends AbstractActionController{
                             //Dados Totais
                             $total = $j->total->ICMSTot;
 
-                            //Datos Transporte
+                            //Dados Transporte
                             $transporte = $j->transp->transporta;
 
-                            //Datos Volume
+                            //Dados Volume
                             $volume = $j->transp->vol;
+
                         }
 
                         $gerais['chave_acesso'] = $i->infNFe[0]->attributes()[0];
+                        foreach ($i->infNFe[0]->attributes() as $k => $v )
+                        {
+                            if($k == 'Id')
+                            {
+                                $gerais['chave_acesso'] = $v;
+                            }
+                        }
                     }
                 }
 
