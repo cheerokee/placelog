@@ -1,0 +1,214 @@
+<?php
+$foto = $this->foto
+?>
+<div class="modal fade" id="<?=$this->code?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Imprima a Etiqueta, 1/4 de A4</h4>
+            </div>
+            <div style="padding-right: 15px;" class="col-md-12 padding-top-10 padding-bottom-0">
+                <button type="button" class="btn btn-primary pull-right" ng-click="printAction()">
+                    <i class="fa fa-print"></i>&nbsp;Imprimir
+                </button>
+                <button type="button" class="btn btn-warning pull-right" ng-if="showEtiquetas == false" ng-click="lookEtiqueta()">
+                    <i class="fa fa-eye"></i>&nbsp;Exibir Etiquetas
+                </button>
+                <button type="button" class="btn btn-warning pull-right" ng-if="showEtiquetas == true" ng-click="lookEtiqueta()">
+                    <i class="fa fa-eye"></i>&nbsp;Esconder Etiquetas
+                </button>
+                <button type="button" class="btn btn-danger pull-right" data-dismiss="modal">
+                    <i class="fa fa-close"></i>&nbsp;Fechar
+                </button>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <hr />
+                </div>
+            </div>
+            <div class="modal-body" id="etiqueta_content<?=$this->code?>">
+                <div id="table-notas<?=$this->code?>" class="row">
+                    <div class="col-md-12">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Chave de Acesso</th>
+                                    <th>CNPJ Destinatário</th>
+                                    <th>Nome Destinatário</th>
+                                    <th>Itens</th>
+                                    <th>Peso Líquido</th>
+                                    <th>Peso Bruto</th>
+                                    <th>Valor Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="(key, nota) in notas">
+                                    <td>{{ nota.geral.attributes.chave_acesso.replace('NFe','') }}</td>
+                                    <td>{{ nota.destinatario.CNPJ }}</td>
+                                    <td>{{ nota.destinatario.xNome }}</td>
+                                    <td>{{ nota.produtos.length }}</td>
+                                    <td>{{ nota.volume.pesoL }}</td>
+                                    <td>{{ nota.volume.pesoB }}</td>
+                                    <td>{{ nota.total.vNF | currency }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div style="display: none;width: 100mm;height: 150mm;{{ (($index+1) % 3 == 0)?'page-break-after: always;':''}}" ng-repeat="(key, nota) in notas track by $index" class="etiquetas">
+                    <div style="border: 1px solid #000;padding: 10px;" class="col-md-12 well well-sm margin-bottom-0">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <table style="width: 100%">
+                                    <tr>
+                                        <td>
+                                            <center>
+                                                <?php
+                                                if($foto) {
+                                                    ?>
+                                                    <img style="max-height: 75px;max-width: 100px" class="img-responsive" src="<?= $foto ?>">
+                                                    <?php
+                                                }
+                                                ?>
+
+                                            </center>
+                                        </td>
+                                        <td>
+                                            <center>
+                                                <img style="max-height: 75px;max-width: 100px" class="img-responsive" src="/img/admin/logo-smart-envios.png">
+                                            </center>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2">
+                                            &nbsp;
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2">
+                                            <center>
+                                                <p style="margin: 0;padding: 0;">
+                                                    Nº: {{ nota.geral.cNF }}, Serie: {{ nota.geral.serie }}
+                                                </p>
+                                                <svg style="max-height: 75px; width: 100%;" id="codBarras{{ key }}"></svg>
+                                            </center>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="border: 1px solid #000;padding: 10px;" class="col-md-12 well well-sm margin-bottom-0">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <table style="width: 100%">
+                                    <tr>
+                                        <td>
+                                            <h5 style="margin: 0;" >
+                                                <strong>Destinatário</strong>
+                                            </h5>
+                                            <p style="padding:0px;margin:0px;font-size: 11px">
+                                                {{ nota.destinatario.xNome }}
+                                            </p>
+                                            <p style="padding:0px;margin:0px;font-size: 11px">
+                                                {{ (nota.destinatario.enderDest.xLgr      != '')? nota.destinatario.enderDest.xLgr : '' }}
+                                                {{ (nota.destinatario.enderDest.nro       != '')? ', ' + nota.destinatario.enderDest.nro : ''}}
+                                                {{ (nota.destinatario.enderDest.xBairro   != '')? ', Bairro: ' + nota.destinatario.enderDest.xBairro : '' }}
+                                                {{ (nota.destinatario.enderDest.CEP       != '')? ', CEP: ' + nota.destinatario.enderDest.CEP : '' }}
+                                                {{ (nota.destinatario.enderDest.xCpl &&  nota.destinatario.enderDest.xCpl      != '')? ', Complemento: ' + nota.destinatario.enderDest.xCpl : '' }}
+                                                {{ (nota.destinatario.enderDest.xMun      != '')? ', ' + nota.destinatario.enderDest.xMun:'' }}
+                                                {{ (nota.destinatario.enderDest.UF        != '')? ' - ' + nota.destinatario.enderDest.UF : '' }}
+                                            </p>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="border: 1px solid #000;padding: 10px;" class="col-md-12 well well-sm margin-bottom-0">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <table style="width: 100%">
+                                    <tr>
+                                        <td>
+                                            <h5 style="margin: 0;" >
+                                                <strong>Emitente</strong>
+                                            </h5>
+                                            <p style="padding:0px;margin:0px;font-size: 11px">
+                                                {{ nota.emitente.xNome }} - {{ nota.emitente.CNPJ }}
+                                            </p>
+                                            <p style="padding:0px;margin:0px;font-size: 11px">
+                                                {{ (nota.emitente.enderEmit.xLgr      != '')? nota.emitente.enderEmit.xLgr : '' }}
+                                                {{ (nota.emitente.enderEmit.nro       != '')? ', ' + nota.emitente.enderEmit.nro : ''}}
+                                                {{ (nota.emitente.enderEmit.xBairro   != '')? ', Bairro: ' + nota.emitente.enderEmit.xBairro : '' }}
+                                                {{ (nota.emitente.enderEmit.CEP       != '')? ', CEP: ' + nota.emitente.enderEmit.CEP : '' }}
+                                                {{ (nota.emitente.enderEmit.xCpl &&  nota.emitente.enderEmit.xCpl      != '')? ', Complemento: ' + nota.emitente.enderEmit.xCpl : '' }}
+                                                {{ (nota.emitente.enderEmit.xMun      != '')? ', ' + nota.emitente.enderEmit.xMun:'' }}
+                                                {{ (nota.emitente.enderEmit.UF        != '')? ' - ' + nota.emitente.enderEmit.UF : '' }}
+                                            </p>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="border: 1px solid #000;padding: 10px;" class="col-md-12 well well-sm margin-bottom-0">
+                        <div class="row">
+                            <table style="width: 100%;">
+                                <tr>
+                                    <td>
+                                        <h5 style="margin: 0;">
+                                            <strong>Transportadora</strong>
+                                        </h5>
+                                        <p style="padding:0px;margin:0px;font-size: 11px">
+                                            CNPJ: {{ nota.transporte.CNPJ }},&nbsp;
+                                            Nome: {{ nota.transporte.xNome }},&nbsp;
+                                            Inscrição Estadual: {{ nota.transporte.IE }},&nbsp;
+                                            Endereço: {{ nota.transporte.xEnder }},&nbsp;
+                                            {{ nota.transporte.xMun }} - {{ nota.transporte.UF }}
+                                        </p>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                    <div style="border: 1px solid #000;padding: 10px;" class="col-md-12 well well-sm margin-bottom-0">
+                        <div class="row">
+                            <table style="width: 100%;">
+                                <tr>
+                                    <td>
+                                        <h5 style="margin: 0;">
+                                            <strong>Peso</strong>
+                                        </h5>
+                                        <p style="padding:0px;margin:0px;font-size: 11px">
+                                            Bruto: {{ nota.volume.pesoB }}&nbsp;
+                                            Líquido: {{ nota.volume.pesoL }}
+                                        </p>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                    <div style="border: 1px solid #000;padding: 10px;" class="col-md-12 well well-sm margin-bottom-0">
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <h5 style="text-align: center;margin: 0px;font-size: 10px">
+                                    Senhor(a) Entregador(a), por favor tenha cuidado com essa encomenda <strong>ela poderia ser sua!</strong>
+                                </h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary pull-right" ng-click="printAction()">
+                    <i class="fa fa-print"></i>&nbsp;Imprimir
+                </button>
+                <button type="button" class="btn btn-danger pull-right" data-dismiss="modal">
+                    <i class="fa fa-close"></i>&nbsp;Fechar
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

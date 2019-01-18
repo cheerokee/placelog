@@ -341,6 +341,7 @@ if($this->breadcrumb !== false) {
     <?=$this->partial('partial/etiqueta-default',array('code' => 'a4','foto' => $foto));?>
     <?=$this->partial('partial/etiqueta-14a4',array('code' => '14a4','foto' => $foto));?>
     <?=$this->partial('partial/etiqueta-15x10',array('code' => '15x10','foto' => $foto));?>
+    <?=$this->partial('partial/etiqueta-10x15',array('code' => '10x15','foto' => $foto));?>
     <?=$this->partial('partial/etiqueta-10x10',array('code' => '10x10','foto' => $foto));?>
     <?=$this->partial('partial/etiqueta-5x10',array('code' => '5x10','foto' => $foto));?>
     <?=$this->partial('login-modal',array('redirect' => 'print-etiqueta'));?>
@@ -421,13 +422,19 @@ if($this->breadcrumb !== false) {
                 "height":   100
             },
             {
+                "name"  :   "Retrato 10x15",
+                "code"  :   "10x15",
+                "width" :   100, //mm
+                "height":   150
+            },
+            {
                 "name"  :   "Quadrado",
                 "code"  :   "10x10",
                 "width" :   100, //mm
                 "height":   100
             },
             {
-                "name"  :   "Retrato",
+                "name"  :   "Retrato 5x10",
                 "code"  :   "5x10",
                 "width" :   50, //mm
                 "height":   100
@@ -476,25 +483,6 @@ if($this->breadcrumb !== false) {
                         });
                     },300);
 
-                    // for (index in objs){
-                    //     var obj = objs[index];
-                    //
-                    //     $timeout(function(){
-                    //         var nota = {
-                    //             "geral"         :   obj.geral,
-                    //             "emitente"      :   obj.emitente,
-                    //             "destinatario"  :   obj.destinatario,
-                    //             "produtos"      :   obj.produtos,
-                    //             "total"         :   obj.total,
-                    //             "transporte"    :   obj.transporte,
-                    //             "volume"        :   obj.volume
-                    //         };
-                    //
-                    //         $scope.notas.push(nota);
-                    //
-                    //
-                    //     },500);
-                    // }
                 },
                 error: function (result) {
                     $.smallBox({
@@ -510,59 +498,6 @@ if($this->breadcrumb !== false) {
                 }
             });
 
-            // var f = document.getElementById('file').files[0],r = new FileReader();
-            //
-            // r.onloadend = function(e) {
-            //     var data = e.target.result;
-            //     var ext = f.name.substring(f.name.indexOf(".")+1);
-            //
-            //     var formData = new FormData(document.getElementById("fpg_aporte_form"));
-            //     formData.append('file', data);
-            //     $.ajax({
-            //         url: '/admin/send-etiqueta-nfe',
-            //         type: 'POST',
-            //         data:  formData,
-            //         mimeType:"multipart/form-data",
-            //         contentType: false,
-            //         cache: false,
-            //         processData:false,
-            //         success: function(result, textStatus, jqXHR)
-            //         {
-            //             var obj = JSON.parse(result);
-            //             console.log(obj.volume);
-            //             $timeout(function(){
-            //                 $scope.nota = {
-            //                     "geral"         :   obj.geral,
-            //                     "emitente"      :   obj.emitente,
-            //                     "destinatario"  :   obj.destinatario,
-            //                     "produtos"      :   obj.produtos,
-            //                     "total"         :   obj.total,
-            //                     "transporte"    :   obj.transporte,
-            //                     "volume"        :   obj.volume
-            //                 };
-            //
-            //                 JsBarcode('#codBarras', $scope.nota.geral.attributes.chave_acesso.replace('NFe',''));
-            //                 JsBarcode('#codBarrasDest', $scope.nota.destinatario.CNPJ);
-            //             },500);
-            //         },
-            //         error: function (result) {
-            //             $.smallBox({
-            //                 title : "Ocorreu um erro!",
-            //                 content : "<i class='fa fa-clock-o'></i> <i>Aconteceu algum erro! </i>",
-            //                 color : "#C46A69",
-            //                 iconSmall : "fa fa-times fa-2x fadeInRight animated",
-            //                 timeout : 10000
-            //             });
-            //
-            //             $scope.aportar_btn = true;
-            //             $scope.aportar_btn_disable = false;
-            //         }
-            //     });
-            // };
-            //
-            // r.readAsBinaryString(f);
-            //
-            // return false;
         };
 
         $scope.printAction = function () {
@@ -573,7 +508,7 @@ if($this->breadcrumb !== false) {
 
             tela_impressao.document.write(conteudo);
             tela_impressao.window.print();
-            tela_impressao.window.close();
+            //tela_impressao.window.close();
             $(".etiquetas").hide();
             $("#table-notas" + $scope.codeetiqueta).show();
         }
