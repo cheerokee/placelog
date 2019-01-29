@@ -154,6 +154,7 @@ class AuthController extends AbstractActionController
                     header('Location: /'.$data['redirect'] . '?login=true');
                     die;
                 }else{
+
                     $this->flashmessenger()->addSuccessMessage($msg);
                     return $this->redirect()->toRoute('person-auth',array('controller'=>'index'));
                 }

@@ -56,8 +56,13 @@ echo $this->doctype(); ?>
             <span class="hidden-mobile hiddex-xs">
                 Ainda não tem conta?
             </span>
-
-            <a href="/register" class="btn btn-danger">
+            <?php
+            $url = '/register';
+            if($_SERVER['REDIRECT_URL'] == '/print-etiqueta'){
+                $url = '/register?redirect=print-etiqueta';
+            }
+            ?>
+            <a href="<?=$url?>" class="btn btn-danger">
                 Criar Conta
             </a>
             <?php
@@ -73,7 +78,6 @@ echo $this->doctype(); ?>
             <?php
         }
         ?>
-
     </span>
     <script src="/js/admin/jquery.min.js"></script>
 </header>
