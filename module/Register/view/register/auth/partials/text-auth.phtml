@@ -3,7 +3,7 @@
     <div class="hero">
 
         <div class="pull-left login-desc-box-l">
-            <h4 class="paragraph-header"><?=$this->getText('TEXTO_AUTH')->getText();?></h4>
+            <p class="text-justify"><?=strip_tags($this->getText('TEXTO_AUTH')->getText());?></p>
             <div class="login-app-icons">
                 <a href="<?=$this->url('home');?>" class="btn btn-danger btn-sm">Ir para o Site</a>
                 <?php
