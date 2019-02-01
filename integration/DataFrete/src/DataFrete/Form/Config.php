@@ -78,6 +78,7 @@ class Config extends FormBase{
         $field->setLabel($this->translate("Usuário: "))
             ->setAttribute('type','text')
             ->setAttribute('required','required')
+            ->setValue('placelog_dev')
             ->setAttribute('class','form-control');
         $this->add($field);
 
@@ -85,17 +86,20 @@ class Config extends FormBase{
         $field->setLabel($this->translate("Senha: "))
             ->setAttribute('type','text')
             ->setAttribute('required','required')
+            ->setValue('p14c310g2018')
             ->setAttribute('class','form-control');
         $this->add($field);
 
         $field = new \Zend\Form\Element\Text("token");
         $field->setLabel($this->translate("Token: "))
+            ->setValue('PLAC310G18')
             ->setAttribute('class','form-control');
         $this->add($field);
 
         $field = new \Zend\Form\Element\Text("end_point");
         $field->setLabel($this->translate("End Point: "))
             ->setAttribute('placeholder','http://www.datafrete.com.br/demonstracao/busca-frete-web-service?wsdl')
+            ->setValue('http://www.datafrete.com.br/demonstracao/busca-frete-web-service?wsdl')
             ->setAttribute('class','form-control');
         $this->add($field);
 
@@ -107,6 +111,7 @@ class Config extends FormBase{
             ))
             ->setAttribute('value','1')
             ->setAttribute('required','required')
+            ->setValue('1')
             ->setAttribute('class','form-control');
         $this->add($typePerson);
 
@@ -116,7 +121,7 @@ class Config extends FormBase{
                 '0' => $this->translate("Homologação"),
                 '1' => $this->translate("Produção")
             ))
-            ->setAttribute('value','1')
+            ->setValue('1')
             ->setAttribute('required','required')
             ->setAttribute('class','form-control');
         $this->add($field);

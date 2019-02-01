@@ -1,3 +1,9 @@
+<?php
+/**
+ * @var \Register\Entity\Person $db_person
+ */
+$db_person = $this->personIdentity('Person');
+?>
 <div id="ribbon">
     <span class="ribbon-button-alignment">
         <span id="refresh" class="btn btn-ribbon" data-action="resetWidgets" data-title="refresh"  rel="tooltip" data-placement="bottom" data-original-title="<i class='text-warning fa fa-warning'></i> Warning! This will reset all your widget settings." data-html="true">
@@ -16,6 +22,54 @@
             </h1>
         </div>
     </div>
+    <?php
+    if($db_person->hasThisRole('Administrador')) {
+        ?>
+        <section style="display: none;" id="widget-grid" class="">
+            <div class="row">
+                <article class="col-sm-12">
+                    <div class="jarviswidget" id="wid-id-0"
+                         data-widget-togglebutton="false"
+                         data-widget-editbutton="false"
+                         data-widget-fullscreenbutton="false"
+                         data-widget-colorbutton="false"
+                         data-widget-deletebutton="false">
+                        <header>
+                        <span class="widget-icon">
+                            <i class="fa fa-wrench txt-color-darken"></i>
+                        </span>
+                            <h2>Ferramentas Administrativas</h2>
+                            <ul class="nav nav-tabs pull-right in" id="myTab">
+                                <li>
+                                    <a data-toggle="tab" href="#a1">
+                                        <i class="fa fa-truck"></i>
+                                        <span class="hidden-mobile hidden-tablet">Rastreio</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </header>
+                        <div class="no-padding">
+                            <div class="widget-body">
+                                <div id="myTabContent" class="tab-content">
+                                    <div class="tab-pane fade active padding-bottom-10 in" id="a1">
+                                        <div class="widget-body-toolbar bg-color-white">
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    Teste
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </section>
+        <?php
+    }
+    ?>
     <section id="widget-grid" class="">
         <div class="row">
             <article class="col-sm-12">

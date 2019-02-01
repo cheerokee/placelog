@@ -17,6 +17,7 @@ $form->setAttribute('action', $this->url($this->route, array(
     'action' => $type
 )))->prepare();
 
+$arr_values = array();
 ?>
 <script src="/js/admin/angular.min.js"></script>
 <div id="ribbon">
@@ -69,6 +70,8 @@ $form->setAttribute('action', $this->url($this->route, array(
                                         );
 
                                         foreach ($form as $element) {
+                                            $arr_values[$element->getName()] = $element->getValue();
+
                                             $element->setAttribute('form',$form->getName());
                                             $type = $element->getAttributes()['type'];
 
@@ -116,7 +119,12 @@ $form->setAttribute('action', $this->url($this->route, array(
                                                                             $vl = $option;
                                                                             $index = $k;
                                                                         }
-                                                                        echo '<option value="'.$index.'">'.$vl.'</option>';
+
+                                                                        $select = '';
+                                                                        if($element->getValue() != '' && $element->getValue() === $index){
+                                                                            $select = 'selected';
+                                                                        }
+                                                                        echo '<option '.$select.'  value="'.$index.'">'.$vl.'</option>';
                                                                     }
                                                                 }
                                                                 ?>
@@ -281,8 +289,10 @@ $form->setAttribute('action', $this->url($this->route, array(
         .controller('ConfigController', ['$scope','$http', function($scope,$http) {
             <?php
             foreach ($form as $element) {
+                $valor = $arr_values[$element->getName()];
                 ?>
-                $scope.<?=$element->getName()?> = '<?=$element->getAttribute('value')?>';
+                $scope.<?=$element->getName()?> = '<?=$valor?>';
+                console.log($scope.<?=$element->getName()?>);
                 $scope.error_<?=$element->getName()?> = false;
                 <?php
 
