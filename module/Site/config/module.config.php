@@ -145,6 +145,17 @@ return array(
                     )
                 )
             ),
+            'app-site' => array(
+                'type' => 'Literal',
+                'options' => array(
+                    'route' => '/app',
+                    'defaults' => array(
+                        '__NAMESPACE__' => 'Site\Controller',
+                        'controller' => 'Index',
+                        'action' => 'index'
+                    )
+                ),
+            ),
             'home-index' => array(
                 'type' => 'Literal',
                 'options' => array(
@@ -153,6 +164,7 @@ return array(
                         '__NAMESPACE__' => 'Site\Controller',
                         'controller' => 'Index',
                         'action' => 'index'
+                        //'action' => 'redirect-site'
                     )
                 ),
             ),
@@ -163,7 +175,8 @@ return array(
                     'defaults' => array(
                         '__NAMESPACE__' => 'Site\Controller',
                         'controller' => 'Index',
-                        'action' => 'index'
+                        'action' => 'index',
+                        //'action' => 'redirect-site'
                     )
                 ),
                 'may_terminate' => true,
