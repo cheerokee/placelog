@@ -163,8 +163,8 @@ return array(
                     'defaults' => array(
                         '__NAMESPACE__' => 'Site\Controller',
                         'controller' => 'Index',
-                        'action' => 'index'
-                        //'action' => 'redirect-site'
+                        //'action' => 'index'
+                        'action' => 'redirect-site'
                     )
                 ),
             ),
