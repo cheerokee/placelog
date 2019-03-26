@@ -8,3 +8,5 @@ RewriteCond %{REQUEST_FILENAME} -f
 RewriteRule ^.*$ - [NC,L]
 RewriteRule ^public/.*$ /public/index.php [NC,L]
 php_flag short_open_tag on
+RewriteCond %{HTTP_HOST} ^app.smartenvios.com.br [NC]
+RewriteRule ^(.*)$ http://smartenvios.com.br/app [L,R=301]
