@@ -323,7 +323,7 @@ return [
             'collection_query_whitelist' => [],
             'page_size' => 25,
             'page_size_param' => null,
-            'entity_class' => 'Register\\Entity\\CategoryImage',
+            'entity_class' => \Register\Entity\CategoryImage::class,
             'collection_class' => \api\V1\Rest\CategoryImage\CategoryImageCollection::class,
             'service_name' => 'CategoryImage',
         ],
@@ -346,7 +346,7 @@ return [
             'collection_query_whitelist' => [],
             'page_size' => 25,
             'page_size_param' => null,
-            'entity_class' => 'Register\\Entity\\Image',
+            'entity_class' => \Register\Entity\Image::class,
             'collection_class' => \api\V1\Rest\Image\ImageCollection::class,
             'service_name' => 'Image',
         ],
@@ -390,7 +390,7 @@ return [
                 1 => 'POST',
             ],
             'collection_query_whitelist' => [],
-            'page_size' => 25,
+            'page_size' => '100000',
             'page_size_param' => null,
             'entity_class' => \DataFrete\Entity\Config::class,
             'collection_class' => \api\V1\Rest\Config\ConfigCollection::class,
@@ -849,7 +849,7 @@ return [
                 'route_name' => 'api.rest.doctrine.event',
                 'is_collection' => true,
             ],
-            'Register\\Entity\\CategoryImage' => [
+            \Register\Entity\CategoryImage::class => [
                 'route_identifier_name' => 'category_image_id',
                 'entity_identifier_name' => 'id',
                 'route_name' => 'api.rest.doctrine.category-image',
@@ -860,7 +860,7 @@ return [
                 'route_name' => 'api.rest.doctrine.category-image',
                 'is_collection' => true,
             ],
-            'Register\\Entity\\Image' => [
+            \Register\Entity\Image::class => [
                 'route_identifier_name' => 'image_id',
                 'entity_identifier_name' => 'id',
                 'route_name' => 'api.rest.doctrine.image',
@@ -1107,14 +1107,14 @@ return [
             'use_generated_hydrator' => true,
         ],
         'api\\V1\\Rest\\CategoryImage\\CategoryImageHydrator' => [
-            'entity_class' => 'Register\\Entity\\CategoryImage',
+            'entity_class' => \Register\Entity\CategoryImage::class,
             'object_manager' => 'doctrine.entitymanager.orm_default',
             'by_value' => true,
             'strategies' => [],
             'use_generated_hydrator' => true,
         ],
         'api\\V1\\Rest\\Image\\ImageHydrator' => [
-            'entity_class' => 'Register\\Entity\\Image',
+            'entity_class' => \Register\Entity\Image::class,
             'object_manager' => 'doctrine.entitymanager.orm_default',
             'by_value' => true,
             'strategies' => [],
