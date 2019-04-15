@@ -1,0 +1,13 @@
+<iframe style="width: 100%;float: left" id="data-frame" src="https://openlog.com.br/sistema/novo/index.html?1555351348541&ce=74"></iframe>
+<script>
+    $(document).ready(function(){
+        $("#data-frame").css('height',$(window).height()+"px");
+        var altura = $(window).height();
+        setInterval(function () {
+            if(altura != $(window).height()){
+                $("#data-frame").css('height',$(window).height()+"px");
+                altura = $(window).height();
+            }
+        },1000);
+    });
+</script>

@@ -18,6 +18,12 @@ class IndexController extends AbstractActionController{
         return new ViewModel(array('em'=>$em));
     }
 
+    public function openLogAction(){
+        $this->layout()->setTemplate('layout/layout.phtml');
+        $em = $this->getEm();
+        return new ViewModel(array('em'=>$em));
+    }
+
     public function redirectSiteAction(){
         header('Location: http://placesolucoes.com.br/solucoes/smartenvios/');
         die;
