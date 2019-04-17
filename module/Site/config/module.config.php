@@ -216,7 +216,7 @@ return array(
             'open-log' => array(
                 'type' => 'Literal',
                 'options' => array(
-                    'route' => '/open-log',
+                    'route' => '/app-open-log',
                     'defaults' => array(
                         '__NAMESPACE__' => 'Site\Controller',
                         'controller' => 'Index',
