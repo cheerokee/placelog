@@ -369,7 +369,6 @@ if(isset($db_company) && $db_company->getImage() != '' && file_exists("public/im
                     <button type="button" class="btn cssPedidoStatusFundoCor" data-toggle="modal" id="bt_abrir_modal_entender_entrega" style="margin-bottom: 6px; margin-top: -6px; color: #FFF; font-weight: bold;">
                         Entenda seu prazo de entrega
                     </button>
-
                     <div id="modal_entender_entrega" class="modal">
                         <span class="close" onclick="document.getElementById('modal_entender_entrega').style.display='none'">&times;</span>
                         <img class="modal-content" id="explicar_entrega_img" src="" />
@@ -515,12 +514,14 @@ if(isset($db_company) && $db_company->getImage() != '' && file_exists("public/im
         }
 
         function atualizarCampos(resposta) {
+            resposta.email = "suporte@placesolucoes.com.br";
             document.title = resposta.titulo;
             $("#imgLogo").attr("src", resposta.logo_url);
             $("#imgLogo").addClass(resposta.logo_css_classe);
             $("#emailAnchor").attr("href", "mailto:" + resposta.email);
             $("#emailAnchor").text(resposta.email);
-            $("#telefone").text("Telefone: "+ resposta.telefone);
+            // $("#telefone").text("Telefone: "+ resposta.telefone);
+            $("#telefone").text("Telefone: 16-92000-7566");
             if(resposta.atendimento1) {
                 $("#atendimento1").text(resposta.atendimento1);
             }
@@ -536,8 +537,14 @@ if(isset($db_company) && $db_company->getImage() != '' && file_exists("public/im
             if(informacoes_adicionais) {
                 var informacoes_adicionais_texto = "";
                 for (var i = 0; i < informacoes_adicionais.length; i++) {
-                    informacoes_adicionais_texto += "• " + informacoes_adicionais[i] + "<br />";
+                    if(trim(informacoes_adicionais[i]) != ''){
+                        informacoes_adicionais_texto += "• " + informacoes_adicionais[i] + "<br />";
+                    }
                 }
+
+                informacoes_adicionais_texto += "• As informações aqui apresentadas poderão sofrer alterações de acordo com a transportadora.<br />";
+                informacoes_adicionais_texto += "• Caso perceba algum problema em seu email, entre em contato com nossa equipe.<br />";
+
                 $("#informacoes_adicionais").html(informacoes_adicionais_texto);
                 $("#informacoes_adicionais").show();
             } else {
