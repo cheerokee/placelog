@@ -1,7 +1,7 @@
 <?php
 $link_iframe = 'http://www.datafrete.com.br/placelog/index/placelog';
 
-if(strpos($_SERVER['HTTP_HOST'],'tms') !== false){
+if(strpos($_SERVER['HTTP_HOST'],'tms') !== false || strpos($_SERVER['HTTP_HOST'],'tms-app') !== false){
     $link_iframe = 'https://openlog.com.br/sistema/novo/index.html?1555351348541&ce=74';
 }
 
