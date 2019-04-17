@@ -213,6 +213,18 @@ return array(
                     )
                 )
             ),
+            'open-log' => array(
+                'type' => 'Literal',
+                'options' => array(
+                    'route' => '/app-open-log',
+                    'defaults' => array(
+                        '__NAMESPACE__' => 'Site\Controller',
+                        'controller' => 'Index',
+                        'action' => 'open-log',
+                        //'action' => 'redirect-site'
+                    )
+                ),
+            ),
             'not-have-permission' => array(
                 'type' => 'Literal',
                 'options' => array(

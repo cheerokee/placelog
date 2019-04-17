@@ -1,14 +1,4 @@
-<?php
-$link_iframe = 'http://www.datafrete.com.br/placelog/index/placelog';
-
-if(strpos($_SERVER['HTTP_HOST'],'tms') !== false || strpos($_SERVER['HTTP_HOST'],'tmsapp') !== false){
-    $link_iframe = 'https://openlog.com.br/sistema/novo/index.html?1555351348541&ce=74';
-}
-
-?>
-
-<iframe style="width: 100%;float: left" id="data-frame" src="<?=$link_iframe?>"></iframe>
-
+<iframe style="width: 100%;float: left" id="data-frame" src="https://openlog.com.br/sistema/novo/index.html?1555351348541&ce=74"></iframe>
 <script>
     $(document).ready(function(){
         $("#data-frame").css('height',$(window).height()+"px");
