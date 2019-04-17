@@ -537,7 +537,7 @@ if(isset($db_company) && $db_company->getImage() != '' && file_exists("public/im
             if(informacoes_adicionais) {
                 var informacoes_adicionais_texto = "";
                 for (var i = 0; i < informacoes_adicionais.length; i++) {
-                    if(trim(informacoes_adicionais[i]) != ''){
+                    if(informacoes_adicionais[i].trim() != ''){
                         informacoes_adicionais_texto += "• " + informacoes_adicionais[i] + "<br />";
                     }
                 }
