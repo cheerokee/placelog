@@ -21,6 +21,7 @@ class IndexController extends AbstractActionController{
     public function openLogAction(){
         $this->layout()->setTemplate('layout/layout.phtml');
         $em = $this->getEm();
+        var_dump("TESTE");
         return new ViewModel(array('em'=>$em));
     }
 
