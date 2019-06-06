@@ -1,11 +1,28 @@
 <html>
 <head>
+    <?php
+
+    /**
+     * @var \Register\Entity\Person     $db_company
+     * @var \DataFrete\Entity\Config    $db_config
+     */
+    $db_company =   $this->company;
+    $db_config  =   $this->config;
+
+    $url_img = '';
+
+    if(isset($db_company) && $db_company->getImage() != '' && file_exists("public/img/person/".$db_company->getImage())){
+        $url_img = "/img/person/".$db_company->getImage();
+    }else{
+        $url_img = "/img/person/sem_imagem.jpg";
+    }
+    ?>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width; initial-scale=1.0">
     <meta name="robots" content="noindex, nofollow">
 
-    <title>Título</title>
+    <title><?=$db_company->getName();?></title>
     <link id="favicon" rel="shortcut icon" href="" />
 
     <link href="https://netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css"/>
@@ -149,23 +166,7 @@
     </style>
 </head>
 <body>
-<?php
 
-/**
- * @var \Register\Entity\Person     $db_company
- * @var \DataFrete\Entity\Config    $db_config
- */
-$db_company =   $this->company;
-$db_config  =   $this->config;
-
-$url_img = '';
-
-if(isset($db_company) && $db_company->getImage() != '' && file_exists("public/img/person/".$db_company->getImage())){
-    $url_img = "/img/person/".$db_company->getImage();
-}else{
-    $url_img = "/img/person/sem_imagem.jpg";
-}
-?>
 <nav class="navbar navbar-default">
     <div class="container-fluid">
         <div class="navbar-header col-md-12">
