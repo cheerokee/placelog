@@ -516,7 +516,7 @@
 
         function atualizarCampos(resposta) {
             resposta.email = "suporte@placesolucoes.com.br";
-            document.title = resposta.titulo;
+            //document.title = resposta.titulo;
             $("#imgLogo").attr("src", resposta.logo_url);
             $("#imgLogo").addClass(resposta.logo_css_classe);
             $("#emailAnchor").attr("href", "mailto:" + resposta.email);
