@@ -383,12 +383,12 @@
                     <span class="prefix bold cssPedidoStatusTextoCor" style="color: #006A96; font-size: 1.2em">Contato</span>
                 </div>
 
-                <div class="col-sm-6">
+                <div class="col-sm-12">
                     <p>E-mail: <a id="emailAnchor" href="" class="cssPedidoStatusTextoCor" style="color: #006A96;">-</a></p>
                     <p id="telefone">Telefone: -</p>
                 </div>
 
-                <div class="col-sm-6">
+                <div class="col-sm-12">
                     <p id="atendimento1"></p>
                     <p id="atendimento2"></p>
                 </div>
@@ -522,7 +522,7 @@
             $("#emailAnchor").attr("href", "mailto:" + resposta.email);
             $("#emailAnchor").text(resposta.email);
             // $("#telefone").text("Telefone: "+ resposta.telefone);
-            $("#telefone").text("Telefone: 16-99200-8045");
+            $("#telefone").text("Telefone: (16) 99200-8045");
             if(resposta.atendimento1) {
                 $("#atendimento1").text(resposta.atendimento1);
             }
