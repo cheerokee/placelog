@@ -1,15 +1,14 @@
 <?php
-//$link_iframe = 'https://www.datafrete.com.br/placelog/index/placelog';
-//
+$link_iframe = 'https://www.datafrete.com.br/placelog/index/placelog';
+
 //if(strpos($_SERVER['HTTP_HOST'],'tms') !== false || strpos($_SERVER['HTTP_HOST'],'tmsapp') !== false){
 //    $link_iframe = 'https://openlog.com.br/sistema/novo/index.html?1555351348541&ce=74';
 //}
-$html = file_get_contents('https://www.datafrete.com.br/placelog/index/placelog');
-var_dump($html);
+
 ?>
 
-<!--<iframe style="width: 100%;float: left" id="data-frame"-->
-<!--        src="--><?//=$link_iframe?><!--"></iframe>-->
+<iframe  style="width: 100%;float: left" id="data-frame"
+        src="<?=$link_iframe?>"></iframe>
 
 <script>
     $(document).ready(function(){
@@ -21,5 +20,10 @@ var_dump($html);
                 altura = $(window).height();
             }
         },1000);
+
+      setTimeout(function () {
+        $('#data-frame',window.parent.document)
+            .attr('src',$('#data-frame',window.parent.document).attr('src'));
+      },5000);
     });
 </script>
